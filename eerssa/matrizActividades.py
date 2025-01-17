@@ -1,12 +1,7 @@
 import pandas as pd
 import uuid
-import numpy as np
-from   numpy import nan
 
-import os
-from   os.path import exists
 from   os.path import basename
-from   pathlib import Path
 
 import nltk
 from nltk.probability import FreqDist
@@ -58,17 +53,19 @@ def organizarActividades( ot_df ):
   try:
 
     fInicio['solofechaI'] = fInicio['InicioEvento'].apply( lambda x: re.findall( '\d{4}-\d{2}-\d{2}', x)[0])
-    #fInicio['solofechaF'] = fInicio['FinEvento'].apply( lambda x: re.findall( '\d{4}-\d{2}-\d{2}', x)[0])
-
+    
     fechaModa = fInicio.solofechaI.mode().values[0] # fecha 'moda' en el arreglo
 
   except:
-    # Si en ningun lado existe una Fecha, toma la Fecha final, (si existe)
-    if( ot_df['fechaFinal'] != "·" ):
-      fechaModa = ot_df['fechaFinal'].split()[0]
-
+    # En aquellas OT solo informativas, que no tienen puesto una fecha en las
+    # actividades, primero intentamos tomar la fecha de inicio, sino, la fecha final
+    # sino una fecha de referencia.
+    if( ot_df['fecha'] != "·" ):
+      fechaModa = ot_df['fecha'].strftime('%Y-%m-%d %H:%M:%S').split(' ')[0]
+    elif( ot_df['fechaFinal'] != "·" ):
+      fechaModa = ot_df['fechaFinal'].split()[0] 
     else:
-      fechaModa = '16/09/1988' # no es posible obtener una fecha. TODO: Podria intentar la fechaInicio
+      fechaModa = '16/09/1988' # no es posible obtener una fecha.
 
 
   #····························································

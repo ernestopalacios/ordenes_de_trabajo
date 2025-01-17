@@ -355,6 +355,8 @@ class GestionOt:
         fechaFinal = self.getFechaFinal2( pdf[1], self.bx_fechaFin )
         if isinstance(fechaFinal, Exception):
           self.Log2Ot("REVISAR", "No se ha encontrado FECHA FINAL en la Hoja2", traceback.format_exc(fechaStr))
+        else:
+          self.data.update({"fechaFinal":fechaFinal})
 
         # 8. Sitio
         sitio = self.getSitio( pdf[0], self.bx_sitio )
@@ -505,6 +507,8 @@ class GestionOt:
               tmp_actividades = self.getActividades( pdf[x], self.bx_actividades )
               if isinstance( tmp_actividades, Exception ):
                 pass
+              elif len(tmp_actividades) == 0:
+                pass # Do not add empty arrays, empte second page
               else:
                 actividades.append( tmp_actividades )
           self.data.update({"actividades":actividades})
@@ -533,7 +537,6 @@ class GestionOt:
     except Exception as e:
       return e
     
-
   def getNumeracion( self, hoja, box ):
     try:
       texto = hoja.get_text( clip = box )
@@ -544,7 +547,6 @@ class GestionOt:
     except Exception as e:
       return e
     
-
   def getGerencia( self, hoja, box ):
     try:
       return hoja.get_text( clip = box ).strip()
@@ -808,16 +810,15 @@ class GestionOt:
     try:
       df_actividades = hoja.find_tables( clip = box, strategy = 'lines_strict' )
       df_actividades = df_actividades.tables[0].to_pandas()
-      df_actividades.columns = ['Item','Actividad','Descipcion','Ali','Alimentador','Tipo','FechaInicial','FechaFinal']
+      df_actividades.columns = ['Item','Actividad','Evento','Ali','Alimentador','Tipo','InicioEvento','FinEvento']
 
       while len(df_actividades.iloc[0,0]) > 2:
         df_actividades = df_actividades.drop(0)
         df_actividades = df_actividades.reset_index(drop=True)
 
-      df_actividades['FechaInicial'] = df_actividades['FechaInicial'].str.replace('\n', ' ')
-      df_actividades['FechaFinal']   = df_actividades['FechaFinal'].str.replace('\n', ' ')
-      df_actividades = df_actividades.replace('', np.nan).dropna(how='all')
-      df_actividades = df_actividades.replace(np.nan, "·" )
+      df_actividades['InicioEvento'] = df_actividades['InicioEvento'].str.replace('\n', ' ')
+      df_actividades['FinEvento']   = df_actividades['FinEvento'].str.replace('\n', ' ')
+      df_actividades = df_actividades.replace('', pd.NA).dropna(how='all')
       df_actividades = df_actividades.to_dict('records')
       return df_actividades
 

@@ -501,17 +501,23 @@ class GestionOt:
         if isinstance( actividades, Exception ):
           self.Log2Ot("FATAL", "No se ha podido extraer ACTIVIDADES en la Hoja 2", traceback.format_exc(actividades))
           self.data.update({"actividades":DEFAULT_EMPTY_CHAR})
+        
+        elif len(actividades)== 0:
+          self.Log2Ot("FATAL", "No se ha podido extraer ACTIVIDADES en la Hoja 2", 'No se ha llenado las actividades')
+          self.data.update({"actividades":DEFAULT_EMPTY_CHAR})
+          
         else:
-          if pdf.page_count > 2:
+          if pdf.page_count > 1:
             for x in range(2, pdf.page_count):
-              tmp_actividades = self.getActividades( pdf[x], self.bx_actividades )
-              if isinstance( tmp_actividades, Exception ):
+              extra_actividades = self.getActividades( pdf[x], self.bx_actividades )
+              if isinstance( extra_actividades, Exception ):
                 pass
-              elif len(tmp_actividades) == 0:
+              elif len(extra_actividades) == 0:
                 pass # Do not add empty arrays, empte second page
               else:
-                actividades.append( tmp_actividades )
-          self.data.update({"actividades":actividades})
+                actividades.extend(extra_actividades)
+          
+        self.data.update({"actividades":actividades})
 
         # NUMERO DE LOGS CREADOS
         self.data.update({

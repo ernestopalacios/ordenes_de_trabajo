@@ -32,15 +32,16 @@ para la revisión manual y actualización de OT.
 
 # ORGANIZAR ACTIVIDADES
 
-def organizarActividades( ot_df ):
+def organizarActividades( obj_ot ):
 
-  actividades = pd.DataFrame( ot_df['actividades'] )
-  actividades = actividades[actividades.Evento.notnull()]
 
+  ot_df = obj_ot.data
+  actividades = pd.DataFrame( obj_ot.data['actividades'] )
+  
   if len(actividades) == 0:
     return actividades
 
-
+  actividades = actividades[actividades.Evento.notnull()]
   actividades = actividades.reset_index()
 
   #····························································
@@ -48,10 +49,9 @@ def organizarActividades( ot_df ):
   #····························································
 
 
-  fInicio = actividades[['Item','InicioEvento','FinEvento']].dropna()
-
   try:
 
+    fInicio = actividades[['Item','InicioEvento','FinEvento']].dropna()
     fInicio['solofechaI'] = fInicio['InicioEvento'].apply( lambda x: re.findall( '\d{4}-\d{2}-\d{2}', x)[0])
     
     fechaModa = fInicio.solofechaI.mode().values[0] # fecha 'moda' en el arreglo
@@ -62,10 +62,13 @@ def organizarActividades( ot_df ):
     # sino una fecha de referencia.
     if( ot_df['fecha'] != "·" ):
       fechaModa = ot_df['fecha'].strftime('%Y-%m-%d %H:%M:%S').split(' ')[0]
+      obj_ot.Log2Ot("INFO", "No se encontro fecha en las actividades", "Se utiliza la fecha de Inicio en la Hoja 1")
     elif( ot_df['fechaFinal'] != "·" ):
+      obj_ot.Log2Ot("INFO", "No se encontro fecha en la Hoja 1", "Se utiliza la fecha final en la Hoja 2")
       fechaModa = ot_df['fechaFinal'].split()[0] 
     else:
       fechaModa = '16/09/1988' # no es posible obtener una fecha.
+      obj_ot.Log2Ot("FATAL", "No se encontro fecha en la ot", "No se ha podido determinar ninguna fecha en la OT")
 
 
   #····························································
@@ -98,6 +101,7 @@ def organizarActividades( ot_df ):
 
   except:
     index_labora = None
+    obj_ot.Log2Ot("REVISAR", "No se encontro SE LABORA", "No se encontro evento que al principio indique: SE LABORA")
 
 
 
@@ -129,6 +133,7 @@ def organizarActividades( ot_df ):
   if( pd.isna(actividades['InicioEvento'][0]) 
           and not pd.isna(actividades['FinEvento'][0])  ):
       actividades.at['InicioEvento'][0] = actividades.at['FinEvento'][0]
+      obj_ot.Log2Ot("REVISAR", "Falta llenar una hora", "Falta llenar la hora final de la Primera Actividad")
 
   #   |  o | o  |  =>   |  o  |  o  |
   #   | -- | o  |  =>   |  o  |  o  |
@@ -217,19 +222,48 @@ def organizarActividades( ot_df ):
     actividades.Item = actividades.Item.astype(int)
 
   except:
+
     actividades = backup
+    obj_ot.Log2Ot("ERROR", "No se consolidaron actividades", "Ocurrio un error al consolidar las actividades")
 
   return actividades
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # CONVERTIR OT A MATRIZ DE ACTIVIDADES
 
-def ConvertirOT_a_ActividadesCSV( ot_df ):
+def ConvertirOT_a_ActividadesCSV( obj_ot ):
 
   """ Convierte una fila del Dataframe que contiene las OTs y
     devuelve un nuevo dataframe exponienda cada una de las
     actividades de acuerdo al formato descrito.
   """
+
+  ot_df = obj_ot.data 
 
   if ot_df['exito'] != True:
     return False
@@ -264,8 +298,9 @@ def ConvertirOT_a_ActividadesCSV( ot_df ):
     archivo = "·"
 
   # Obtener las Actividades
-  actividades = organizarActividades( ot_df )
+  actividades = organizarActividades( obj_ot )
   if len(actividades) == 0:
+    obj_ot.Log2Ot("FATAL", "No se encontraron actividades", "Fallo al intentar obtener la matriz de actividades")
     return
 
 

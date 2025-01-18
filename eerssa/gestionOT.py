@@ -142,7 +142,7 @@ class GestionOt:
     self.n_revisar  = 0
     self.n_info     = 0
     self.data       = {}    # JSON for MongoDB
-    self.matriz     = None  # Matriz de Actividades
+    self.matriz     = None  # Matriz de Actividades Pandas Dataframe
 
     analisis_pdf    = isOT(link_to_pdf)
 

@@ -1,6 +1,7 @@
 import pandas as pd
 import uuid
-
+import unidecode
+import pickle
 from   os.path import basename
 
 import nltk
@@ -9,7 +10,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn import metrics
 
-
+import traceback
 import re
 
 """Convertimos el Dataframe multidimensional a un formato de Matriz (2D) Filas-Columnas, 
@@ -28,6 +29,86 @@ para la revisión manual y actualización de OT.
 #nltk.download('stopwords')
 #nltk.download('punkt')
 #stopword_es = nltk.corpus.stopwords.words('spanish')
+
+
+
+def limpiar_texto_actividad( actividad ):
+  palabras = {
+          "#"             : "nro",
+          "Est"           : "estructura",
+          "Est."          : "estructura",
+          "Estr"          : "estructura",
+          "est"           : "estructura",
+          "est."          : "estructura",
+          "est."          : "estructura",
+          "estructuras"   : "estructura",
+          "poste"         : "estructura",
+          "tiraf"         : "tirafusible",
+          "med."          : "medidor",
+          "med"           : "medidor",
+          "med"           : "medidor",
+          "CC"            : "Centro de Control",
+          "C.C"           : "Centro de Control",
+          "C.C."          : "Centro de Control",
+          "C C"           : "Centro de Control",
+          "trafo"         : "transformador",
+          "tranfo"        : "transformador",
+          "breiker"       : "breaker",
+          "  "            : " ",
+  }
+
+  keys = (re.escape(k) for k in palabras.keys())
+  pattern = re.compile(r'\b(' + '|'.join(keys) + r')\b')
+
+  resultado = pattern.sub(lambda x: palabras[x.group()], actividad )
+
+  return resultado
+
+
+
+def get_estimated_cuenta( actividad ):
+
+  # Operaciones
+  txt = unidecode(actividad)  # Quitar tildes y caracteres especiales
+  txt = txt.lower()           # todo a minusculas
+  txt = re.sub( r'[^\w\s]',' ', txt ) # Eliminar puntuacion
+
+  clasificador_actividad_v1 = 'NB_clasif_activ_2024_03.pkl'
+  nb_clf = pickle.load(open(clasificador_actividad_v1, 'rb'))
+
+  vect_filename = 'NB_vectorizer.pkl'
+  vectorizer = pickle.load(open(vect_filename, 'rb'))
+
+  pred = nb_clf.predict( vectorizer.transform( [txt] ) )
+
+  #proba = nb_clf.predict_proba( vectorizer.transform( [txt] ) )
+
+  return ( pred[0] )
+
+
+
+def calificar_eventos( obj_data ):
+  
+  # Leo la matriz de actividades
+  df = obj_data.matriz
+  if not ( isinstance( df , pd.DataFrame) ):
+    obj_data.Log2Ot("FATAL","Error desde calificar Eventos", "No se encuentran actividades")
+    return None
+
+  try:
+    df.loc[ df['Tipo'] == "TRANSPORTE", 'Cuenta' ] = "transporte"
+    df.loc[ df['Tipo'] == "ALIMENTACI", 'Cuenta' ] = "lunch"
+    df.loc[ df['Actividad'] == "LABORA", 'Cuenta' ] = "se_labora"
+  
+  except Exception as e:
+    obj_data.Log2Ot("ERROR","No fue posible calificar: Transporte | Alimentacion | Labora", traceback.format_exc( e ))
+  
+  # Convertir el texto:
+
+  df.loc[:,'Evento'] = df['Evento'].apply( lambda x:limpiar_texto_actividad(x) )
+
+  return df
+  
 
 
 # ORGANIZAR ACTIVIDADES
@@ -224,7 +305,7 @@ def organizarActividades( obj_ot ):
   except:
 
     actividades = backup
-    obj_ot.Log2Ot("ERROR", "No se consolidaron actividades", "Ocurrio un error al consolidar las actividades")
+    obj_ot.Log2Ot("ERROR", "No pudo consolidar la matriz de Actividades", "Ocurrio un error al consolidar las actividades")
 
   return actividades
 
@@ -345,6 +426,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
 
 
   # cambiar los valores para mejorar la lectura y visualización
-  actividades = actividades.fillna("·")
+  obj_ot.matriz =  actividades.fillna("·")
+  
 
   return( actividades )

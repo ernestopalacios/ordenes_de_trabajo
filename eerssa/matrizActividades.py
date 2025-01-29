@@ -1,6 +1,6 @@
 import pandas as pd
 import uuid
-import unidecode
+from unidecode import unidecode
 import pickle
 from   os.path import basename
 
@@ -64,54 +64,58 @@ def limpiar_texto_actividad( actividad ):
 
   return resultado
 
-
+def replace_words(text, replacements_dict):
+  for word, replacement in replacements_dict.items():
+      text = re.sub(r'\b{}\b'.format(word), replacement, text) 
+  return text
 
 def get_estimated_cuenta( actividad ):
 
-  # Operaciones
-  txt = unidecode(actividad)  # Quitar tildes y caracteres especiales
-  txt = txt.lower()           # todo a minusculas
-  txt = re.sub( r'[^\w\s]',' ', txt ) # Eliminar puntuacion
-
-  clasificador_actividad_v1 = 'NB_clasif_activ_2024_03.pkl'
-  nb_clf = pickle.load(open(clasificador_actividad_v1, 'rb'))
-
-  vect_filename = 'NB_vectorizer.pkl'
-  vectorizer = pickle.load(open(vect_filename, 'rb'))
-
-  pred = nb_clf.predict( vectorizer.transform( [txt] ) )
-
-  #proba = nb_clf.predict_proba( vectorizer.transform( [txt] ) )
-
-  return ( pred[0] )
-
-
-
-def calificar_eventos( obj_data ):
-  
-  # Leo la matriz de actividades
-  df = obj_data.matriz
-  if not ( isinstance( df , pd.DataFrame) ):
-    obj_data.Log2Ot("FATAL","Error desde calificar Eventos", "No se encuentran actividades")
-    return None
-
   try:
-    df.loc[ df['Tipo'] == "TRANSPORTE", 'Cuenta' ] = "transporte"
-    df.loc[ df['Tipo'] == "ALIMENTACI", 'Cuenta' ] = "lunch"
-    df.loc[ df['Actividad'] == "LABORA", 'Cuenta' ] = "se_labora"
-  
-  except Exception as e:
-    obj_data.Log2Ot("ERROR","No fue posible calificar: Transporte | Alimentacion | Labora", traceback.format_exc( e ))
-  
-  # Convertir el texto:
+    # Operaciones
+    txt = unidecode(actividad)  # Quitar tildes y caracteres especiales
+    txt = txt.lower()           # todo a minusculas
+    txt = re.sub( r'[^\w\s]',' ', txt ) # Eliminar puntuacion
 
-  df.loc[:,'Evento'] = df['Evento'].apply( lambda x:limpiar_texto_actividad(x) )
+    ### Mover el modelo a las constantes
+    clasificador_actividad_v1 = './models/NB_clasif_activ_2024_03.pkl'
+    nb_clf = pickle.load(open(clasificador_actividad_v1, 'rb'))
 
-  return df
-  
+    vect_filename = './models/NB_vectorizer.pkl'
+    vectorizer = pickle.load(open(vect_filename, 'rb'))
+
+    prediction = str( nb_clf.predict( vectorizer.transform( [txt] ))[0] )
+    confidence = float( nb_clf.predict_proba( vectorizer.transform( [txt] )).max() )
+
+    if confidence > 0.59:
+      respuesta = prediction
+    else:
+      respuesta = "?"
+
+    conversiones = {
+      "511.04.001"       : "Red_aerea",             
+      "511.04.002"       : "Alumbrado",             
+      "511.03.003"       : "Subtransmision",        
+      "511.05.001"       : "Acometidas",            
+      "511.05.002"       : "Medidores",             
+      "521.01.001"       : "Servicios_Ocasionales", 
+      "511.06.002"       : "Planillas",             
+      "OT-01-2022-GECOM" : "Nuevos_Servicios",      
+      "OT-07-2022-GECOM" : "Restituciones"         
+    }
+
+    respuesta = replace_words( respuesta, conversiones )
+
+  except:
+
+    respuesta = "revisar"
+
+  return ( respuesta )
 
 
-# ORGANIZAR ACTIVIDADES
+# ==================================
+#     ORGANIZAR ACTIVIDADES
+# ==================================
 
 def organizarActividades( obj_ot ):
 
@@ -301,6 +305,7 @@ def organizarActividades( obj_ot ):
         """
 
     actividades.Item = actividades.Item.astype(int)
+    actividades.insert( 3, 'Cuenta'     ,  "·" )
 
   except:
 
@@ -384,6 +389,26 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
     obj_ot.Log2Ot("FATAL", "No se encontraron actividades", "Fallo al intentar obtener la matriz de actividades")
     return
 
+  # ==========================================
+  #           CALIFICACION DE CUENTAS
+  # ==========================================
+
+  actividades.loc[ actividades['Tipo'] == "TRANSPORTE", 'Cuenta' ] = "transporte"
+  actividades.loc[ actividades['Tipo'] == "ALIMENTACI", 'Cuenta' ] = "lunch"
+  actividades.loc[ actividades['Actividad'] == "LABORA", 'Cuenta' ] = "se_labora"
+
+  actividades.loc[ actividades['Tipo'] == "CORRECTIAS", 'Tipo' ] = "CORRECTIVO"
+  actividades.loc[ actividades['Tipo'] == "PREDICTIAS", 'Tipo' ] = "PREDICTIVO"
+  actividades.loc[ actividades['Tipo'] == "PREVENTIAS", 'Tipo' ] = "PREVENTIVO"
+  actividades.loc[ actividades['Tipo'] == "ACTIVCOAS", 'Tipo'  ] = "RUTINARIA"
+  actividades.loc[ actividades['Tipo'] == "EXPANSIAS", 'Tipo'  ] = "EXPANSION"
+
+  actividades.loc[ :,'Evento'] = actividades[ 'Evento' ].apply( lambda x:limpiar_texto_actividad(x) )
+  
+  falta_calificar = actividades['Cuenta'] == "·" 
+  actividades.loc[ falta_calificar, 'Cuenta' ] = actividades.loc[ falta_calificar, 'Evento'].apply(lambda x:get_estimated_cuenta(x) )
+  
+
 
   """
     Se añaden las Columnas con los valores comunes a cada fila de Actividad
@@ -394,8 +419,6 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   """
 
   actividades['uuid'] = actividades.apply(lambda x: uuid.uuid4(), axis=1)
-  actividades.insert( 1, 'Cuenta'        , "·" )
-  actividades.insert( 2, 'Confianza'     , 0.0 )
   actividades.insert( 3, 'Cuadrilla'     , cuadrilla  )
   actividades.insert( 4, 'Primario'      , primario   )
   actividades.insert( 5, 'SIG'           , "No"   )
@@ -414,7 +437,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
     Se reorganizan las columanas
   """
 
-  actividades = actividades[['uuid','Item','Confianza','Cuenta',
+  actividades = actividades[['uuid','Item','Cuenta',
                               'Evento','Alimentador','Primario',
                               'Tipo','Actividad','Cuadrilla',
                               'InicioEvento','FinEvento','Dia','Fecha',

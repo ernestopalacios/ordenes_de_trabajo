@@ -526,9 +526,12 @@ class GestionOt:
           "n_revisar" : self.n_revisar,
           "n_info"    : self.n_info
         })
+
+        return self
         
     except Exception as e:
       self.Log2Ot( "FATAL", "Error desde la funcion load_Ot()", traceback.format_exception(e) )
+      return self
     
     # END OF load_ot()
 

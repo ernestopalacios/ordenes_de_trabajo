@@ -393,6 +393,8 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   #           CALIFICACION DE CUENTAS
   # ==========================================
 
+  falta_calificar = actividades['Cuenta'] == "·" 
+
   actividades.loc[ actividades['Tipo'] == "TRANSPORTE", 'Cuenta' ] = "transporte"
   actividades.loc[ actividades['Tipo'] == "ALIMENTACI", 'Cuenta' ] = "lunch"
   actividades.loc[ actividades['Actividad'] == "LABORA", 'Cuenta' ] = "se_labora"
@@ -403,9 +405,9 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   actividades.loc[ actividades['Tipo'] == "ACTIVCOAS", 'Tipo'  ] = "RUTINARIA"
   actividades.loc[ actividades['Tipo'] == "EXPANSIAS", 'Tipo'  ] = "EXPANSION"
 
+  # ???  TODO: Debuggear esta parte no esta funcionando.
+  actividades.loc[(actividades['Alimentador'].isnull()) & (falta_calificar), 'Cuenta'] = "informativa"
   actividades.loc[ :,'Evento'] = actividades[ 'Evento' ].apply( lambda x:limpiar_texto_actividad(x) )
-  
-  falta_calificar = actividades['Cuenta'] == "·" 
   actividades.loc[ falta_calificar, 'Cuenta' ] = actividades.loc[ falta_calificar, 'Evento'].apply(lambda x:get_estimated_cuenta(x) )
   
 

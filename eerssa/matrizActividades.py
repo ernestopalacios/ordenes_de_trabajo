@@ -3,12 +3,13 @@ import uuid
 from unidecode import unidecode
 import pickle
 from   os.path import basename
+from datetime import datetime
 
-import nltk
-from nltk.probability import FreqDist
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.naive_bayes import MultinomialNB
-from sklearn import metrics
+#import nltk
+#from nltk.probability import FreqDist
+#from sklearn.feature_extraction.text import CountVectorizer
+#from sklearn.naive_bayes import MultinomialNB
+#from sklearn import metrics
 
 import traceback
 import re
@@ -93,9 +94,10 @@ def get_estimated_cuenta( actividad ):
       respuesta = "?"
 
     conversiones = {
-      "511.04.001"       : "Red_aerea",             
-      "511.04.002"       : "Alumbrado",             
+      "511.03.001"       : "Subestaciones",        
       "511.03.003"       : "Subtransmision",        
+      "511.04.001"       : "Redes",             
+      "511.04.002"       : "Alumbrado",             
       "511.05.001"       : "Acometidas",            
       "511.05.002"       : "Medidores",             
       "521.01.001"       : "Servicios_Ocasionales", 
@@ -349,14 +351,25 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
     actividades de acuerdo al formato descrito.
   """
 
+  # En caso de que no sea un objeto valido, no hagas nada más
+  # obj_ot.matriz = None   <--- continua
+  if obj_ot.valido == False:
+    return None
+
   ot_df = obj_ot.data 
 
-  if ot_df['exito'] != True:
-    return False
 
-  if ot_df['actividades'] == "·":
-    return False
+  # Si no fue posible extraer las actividades en un paso previo
+  # no se hace nada más
+  try:
+    if ot_df['actividades'] == "·":
+      return None
+  except Exception as e:
+    print(f"Desde ConvertirActividades. No tiene actividades el archivo: {obj_ot.link}")
+    return None
+      
 
+  # Extraigo desde el objeto la información generica en todos los eventos
   # campos generales a cada una de las Actividad
   cuadrilla     = ot_df['cuadrilla']
   primario      = 'No'    # Se obtendrá del SIG (Sistema de Info Geograf)
@@ -393,10 +406,8 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   #           CALIFICACION DE CUENTAS
   # ==========================================
 
-  falta_calificar = actividades['Cuenta'] == "·" 
-
-  actividades.loc[ actividades['Tipo'] == "TRANSPORTE", 'Cuenta' ] = "transporte"
-  actividades.loc[ actividades['Tipo'] == "ALIMENTACI", 'Cuenta' ] = "lunch"
+  actividades.loc[ actividades['Tipo'] == "TRANSPORTE", 'Cuenta' ]  = "transporte"
+  actividades.loc[ actividades['Tipo'] == "ALIMENTACI", 'Cuenta' ]  = "lunch"
   actividades.loc[ actividades['Actividad'] == "LABORA", 'Cuenta' ] = "se_labora"
 
   actividades.loc[ actividades['Tipo'] == "CORRECTIAS", 'Tipo' ] = "CORRECTIVO"
@@ -405,10 +416,10 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   actividades.loc[ actividades['Tipo'] == "ACTIVCOAS", 'Tipo'  ] = "RUTINARIA"
   actividades.loc[ actividades['Tipo'] == "EXPANSIAS", 'Tipo'  ] = "EXPANSION"
 
-  # ???  TODO: Debuggear esta parte no esta funcionando.
-  actividades.loc[(actividades['Alimentador'].isnull()) & (falta_calificar), 'Cuenta'] = "informativa"
+  
+  actividades.loc[(actividades['Alimentador'].isnull()) & (actividades['Cuenta'] == "·" ), 'Cuenta'] = "informativa"
   actividades.loc[ :,'Evento'] = actividades[ 'Evento' ].apply( lambda x:limpiar_texto_actividad(x) )
-  actividades.loc[ falta_calificar, 'Cuenta' ] = actividades.loc[ falta_calificar, 'Evento'].apply(lambda x:get_estimated_cuenta(x) )
+  actividades.loc[ actividades['Cuenta'] == "·" , 'Cuenta' ] = actividades.loc[actividades['Cuenta'] == "·" , 'Evento'].apply(lambda x:get_estimated_cuenta(x) )
   
 
 
@@ -439,19 +450,20 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
     Se reorganizan las columanas
   """
 
-  actividades = actividades[['uuid','Item','Cuenta',
-                              'Evento','Alimentador','Primario',
-                              'Tipo','Actividad','Cuadrilla',
-                              'InicioEvento','FinEvento','Dia','Fecha',
-                              'HorasExtra','Desconexion','SIG',
-                              'Responsable','Colaboradores',
-                              'Vehiculo','Sitio',
-                              'id_ot','Archivo'
-                              ]]
+  actividades = actividades[
+    ['uuid',        'Item',        'Cuenta',
+     'Evento',      'Alimentador', 'Primario',
+     'Tipo',        'Actividad',   'Cuadrilla',
+     'InicioEvento','FinEvento',   'Dia','Fecha',
+     'HorasExtra',  'Desconexion',  'SIG',
+     'Responsable', 'Colaboradores',
+     'Vehiculo',    'Sitio',
+     'id_ot',       'Archivo'
+     ]]
 
 
-  # cambiar los valores para mejorar la lectura y visualización
+  # Guardo la respuesta en el objeto
   obj_ot.matriz =  actividades.fillna("·")
   
-
+  # Lo regreso al programa principal "for debuggin purposes"
   return( actividades )

@@ -160,6 +160,7 @@ class GestionOt:
       self.log.append( producer_entry )
       self.n_fallas = 1
       self.valido = False
+      self.data["exito"] = False
       return
 
     if isinstance(analisis_pdf, int):
@@ -172,6 +173,7 @@ class GestionOt:
       self.log.append( pages_entry )
       self.n_fallas = 1
       self.valido = False
+      self.data["exito"] = False
       return
 
     if isinstance( analisis_pdf, Exception ):
@@ -183,6 +185,8 @@ class GestionOt:
         }
         self.log.append(falla_entry)
         self.n_fallas = 1
+        self.valido = False
+        self.data["exito"] = False
         return
 
   def DrawBoxesOt( self ):
@@ -271,7 +275,7 @@ class GestionOt:
           # Cannot create on an invalid OT
           self.Log2Ot("INFO", "No es posible la creacion de la OT", "No se puede crear una OT que no es valida")
           self.createdAt = datetime.now().isoformat(),
-          return         # EXIT no more processing needed
+          return self        # EXIT no more processing needed
         
         else: 
           # Log the creation of the OT
@@ -377,7 +381,7 @@ class GestionOt:
         # 10. Tiempo Estimado
         tEstimado = self.getTiempoEstimado( pdf[0], self.bx_fechaInicio_Testimado )
         if isinstance( tEstimado, Exception ):
-          self.Log2Ot( "REVISAR", "No se ha encontrado NUMERO DE HORAS estimadas en la Hoja 1", traceback.format_exc(tEstimado))
+          self.Log2Ot( "REVISAR", "No se ha encontrado NUMERO DE HORAS estimadas en la Hoja 1", "TIEMPO ESTIMADO VACIO")
           self.data.update({"tEstimado":DEFAULT_EMPTY_CHAR})
         else:
           self.data.update({"tEstimado":tEstimado})

@@ -75,8 +75,10 @@ def isOT( pdf_path ):
   try: 
     with pymupdf.open( pdf_path ) as pdf:
 
-      if pdf.metadata['producer'] not in ['FPDF 1.7','PDF24']:
-        return pdf.metadata['producer']
+      # Accept all PDF producers
+
+      #if pdf.metadata['producer'] not in ['FPDF 1.7','PDF24','GPL Ghostscript 9.55.0','GPL Ghostscript 10.02.1']:
+      #  return pdf.metadata['producer']
       
       if ( pdf.page_count < 4 ):       
         return True
@@ -245,11 +247,17 @@ class GestionOt:
       return False
 
   def Log2Ot( self, level, message, detail ):
+    
+    if isinstance(detail, str):
+      detalles = detail
+    else:
+      detalles = "No se pudo capturar la Excepcion, lo mas probable campos vacios"
+    
     entry = {
       "t": datetime.now().isoformat(),
       "level"  : level,
       "message": message,
-      "detail" : detail
+      "detail" : detalles
     }
     self.log.append(entry)
 
@@ -273,7 +281,7 @@ class GestionOt:
         if self.valido == False:
 
           # Cannot create on an invalid OT
-          self.Log2Ot("INFO", "No es posible la creacion de la OT", "No se puede crear una OT que no es valida")
+          self.Log2Ot("INFO", "No es posible la creacion de la OT", "No se reconoce como OT valida 'isOt()'")
           self.createdAt = datetime.now().isoformat(),
           return self        # EXIT no more processing needed
         
@@ -286,7 +294,7 @@ class GestionOt:
         id_ot = self.getId_Ot( pdf[0], self.bx_id_ot )         
         
         if isinstance(id_ot, Exception):
-          self.Log2Ot( "ERROR", "El archivo no tiene un ID automatico del sistema Intranet", traceback.format_exc( id_ot ) )
+          self.Log2Ot( "ERROR", "El archivo no tiene un ID automatico del sistema Intranet", "|>> Desde la funcion 'getId_Ot()' <<|" )
           return
         
         self.id_ot = id_ot
@@ -299,7 +307,7 @@ class GestionOt:
         # 2. cuadrilla
         cuadrilla = self.getCuadrilla( pdf[1], self.bx_cuadrilla )
         if isinstance( cuadrilla, Exception):
-          self.Log2Ot( "REVISAR", "No se ha podido encontrar el nombre de CUADRILLA", traceback.format_exc( cuadrilla ) )
+          self.Log2Ot( "REVISAR", "No se ha podido encontrar el nombre de CUADRILLA", "|>> Desde la funcion 'getCuadrilla()' <<|" )
           self.data.update( {"cuadrilla" : DEFAULT_EMPTY_CHAR} )
         else:
           self.data.update( {"cuadrilla" : cuadrilla} )
@@ -307,7 +315,7 @@ class GestionOt:
         # 3. responsable
         responsable = self.getResponsable( pdf[0], self.bx_responsable )
         if isinstance( responsable, Exception ):
-          self.Log2Ot( "ERROR", "No se ha podido encontrar el nombre del RESPONSABLE", traceback.format_exc( responsable ) )
+          self.Log2Ot( "ERROR", "No se ha podido encontrar el nombre del RESPONSABLE", "|>> Desde la funcion 'getResponsable()' <<|" )
           self.data.update( {"responsable" : DEFAULT_EMPTY_CHAR} )
         else:
           self.data.update( {"responsable" : responsable} )
@@ -315,7 +323,7 @@ class GestionOt:
         # 4. colaboradores TODO: verificar comportamiento
         lista_colaboradores = self.getColaboradores( pdf[0], self.bx_nombresColaboradores, self.bx_cargosColaboradores )
         if isinstance( lista_colaboradores, Exception ):
-          self.Log2Ot( "REVISAR", "No se ha podido encontrar COLABORADORES", traceback.format_exc( lista_colaboradores ) )
+          self.Log2Ot( "REVISAR", "No se ha podido encontrar COLABORADORES", "|>> Desde la funcion 'getColaboradores()' <<|" )
           
           lista_colaboradores = {}
           lista_colaboradores['total'] = 0
@@ -331,18 +339,18 @@ class GestionOt:
         # 5. fecha de Inicio - Hoja 1
         fecha = self.getFechaInicio( pdf[0], self.bx_fechaInicial_1 )
         if isinstance( fecha, Exception):
-          self.Log2Ot( "ERROR", "No se ha encontrado Fecha Inicial en la Hoja 1", traceback.format_exc( fecha ) )
+          self.Log2Ot( "ERROR", "No se ha encontrado Fecha Inicial en la Hoja 1", "|>> Desde la funcion 'getFechaInicio()' <<|" )
           self.data.update({"diaSemana" : DEFAULT_EMPTY_CHAR, "fecha" : DEFAULT_EMPTY_CHAR })
         else:
           diaSemana = getDiaSemana( fecha )
           if isinstance( diaSemana, Exception ):
-            self.Log2Ot( "ERROR", "No se ha podido convertir la Fecha a DIA SEMANA", traceback.format_exc( diaSemana ) )
+            self.Log2Ot( "ERROR", "No se ha podido convertir la Fecha a DIA SEMANA", "|>> Desde la funcion 'getDiaSemana()' <<|" )
             self.data.update({"diaSemana" : DEFAULT_EMPTY_CHAR })
           else:
             self.data.update({"diaSemana" : diaSemana })
           fechaObject = toDateEcuador( fecha )
           if isinstance( fechaObject, Exception ):
-            self.Log2Ot( "ERROR", "No se ha podido convertir la Fecha a DATE-TIME", traceback.format_exc( fechaObject ) )
+            self.Log2Ot( "ERROR", "No se ha podido convertir la Fecha a DATE-TIME", "|>> Desde la funcion 'toDateEcuador()' <<|" )
             self.data.update({"fecha" : DEFAULT_EMPTY_CHAR })
           else:
             self.data.update({"fecha" : fechaObject })
@@ -350,7 +358,7 @@ class GestionOt:
         # 6. fecha de Inicio - String
         fechaStr = self.getFechaInicioHoja1( pdf[0], self.bx_firmas )
         if isinstance( fechaStr, Exception ):
-          self.Log2Ot( "ERROR", "No se ha encontrado FECHA LARGA en la Hoja1, seccion FIRMAS", traceback.format_exc(fechaStr) )
+          self.Log2Ot( "ERROR", "No se ha encontrado FECHA LARGA en la Hoja1, seccion FIRMAS", "|>> Desde la funcion 'getFechaInicioHoja1()' <<|" )
           self.data.update({"fechaInicio":DEFAULT_EMPTY_CHAR})
         else:
           self.data.update({"fechaInicio":fechaStr})
@@ -358,14 +366,14 @@ class GestionOt:
         # 7. Fecha Final - String
         fechaFinal = self.getFechaFinal2( pdf[1], self.bx_fechaFin )
         if isinstance(fechaFinal, Exception):
-          self.Log2Ot("REVISAR", "No se ha encontrado FECHA FINAL en la Hoja2", traceback.format_exc(fechaStr))
+          self.Log2Ot("REVISAR", "No se ha encontrado FECHA FINAL en la Hoja2", "|>> Desde la funcion 'getFechaFinal2()' <<|" )
         else:
           self.data.update({"fechaFinal":fechaFinal})
 
         # 8. Sitio
         sitio = self.getSitio( pdf[0], self.bx_sitio )
         if isinstance( sitio, Exception ):
-          self.Log2Ot( "REVISAR", "No se ha encontrado SITIO en la Hoja1", traceback.format_exc(sitio) )
+          self.Log2Ot( "REVISAR", "No se ha encontrado SITIO en la Hoja1", "|>> Desde la funcion 'getSitio()' <<|" )
           self.data.update({"sitio":DEFAULT_EMPTY_CHAR})
         else:
           self.data.update({"sitio":sitio})
@@ -373,7 +381,7 @@ class GestionOt:
         # 9. Descripcion
         descripcion = self.getDescripcion( pdf[0], self.bx_descripcion )
         if isinstance( descripcion, Exception ):
-          self.Log2Ot( "REVISAR", "No se ha encontrado DESCRIPCION en la Hoja 1", traceback.format_exc(descripcion) )
+          self.Log2Ot( "REVISAR", "No se ha encontrado DESCRIPCION en la Hoja 1", "|>> Desde la funcion 'getDescripcion()' <<|" )
           self.data.update({"descripcion":DEFAULT_EMPTY_CHAR})
         else:
           self.data.update({"descripcion":descripcion})
@@ -390,7 +398,7 @@ class GestionOt:
         # 11. Vehiculo
         vehiculo = self.getVehiculo( pdf[0], self.bx_vehiculoHoja1 )
         if isinstance( vehiculo,Exception ):
-          self.Log2Ot( "REVISAR", "No se ha encontrado DATOS VEHICULO en la Hoja 1", traceback.format_exc(vehiculo) )
+          self.Log2Ot( "REVISAR", "No se ha encontrado DATOS VEHICULO en la Hoja 1", "|>> Desde la funcion 'getVehiculo()' <<|" )
           self.data.update({"vehiculo":DEFAULT_EMPTY_CHAR})
         else:
           self.data.update({"vehiculo":vehiculo})
@@ -400,13 +408,13 @@ class GestionOt:
           kmInicial, kmFinal, kmRecorrido = self.getKilometraje( pdf[1], self.bx_kilometraje )
           self.data.update({"kmInicial": kmInicial, "kmFinal":kmFinal, "kmRecorrido":kmRecorrido})
         except Exception as noKm:
-          self.Log2Ot( "REVISAR", "No se ha podido obtener datos de KILOMETRAJE en la Hoja 2", traceback.format_exc(noKm))
+          self.Log2Ot( "REVISAR", "No se ha podido obtener datos de KILOMETRAJE en la Hoja 2", "|>> Desde la funcion 'getKilometraje()' <<|" )
           self.data.update({"kmInicial": DEFAULT_EMPTY_CHAR, "kmFinal":DEFAULT_EMPTY_CHAR, "kmRecorrido":DEFAULT_EMPTY_CHAR})
         
         # 13. Tipos de Trabajo
         trabajo = self.getTiposTrabajo( pdf[0], self.bx_tipos_trabajo )
         if isinstance( trabajo, Exception ):
-          self.Log2Ot( "ERROR", "No se ha podido obtener TIPOS DE TRABAJO de la Hoja 1", traceback.format_exc( trabajo ) )
+          self.Log2Ot( "ERROR", "No se ha podido obtener TIPOS DE TRABAJO de la Hoja 1", "|>> Desde la funcion 'getTiposTrabajo()' <<|" )
           self.data.update({"trabajo":DEFAULT_EMPTY_CHAR})
         else:
           self.data.update({"trabajo":trabajo})
@@ -414,7 +422,7 @@ class GestionOt:
         # 14. Riesgos del trabajo
         riesgos = self.getRiesgos( pdf[0], self.bx_riesgos_epps )
         if isinstance( riesgos, Exception ):
-          self.Log2Ot( "ERROR", "No se ha podido obtener RIGESGOS DE TRABAJO de la Hoja 1", traceback.format_exc( riesgos ) )
+          self.Log2Ot( "ERROR", "No se ha podido obtener RIGESGOS DE TRABAJO de la Hoja 1", "|>> Desde la funcion 'getRiesgos()' <<|" )
           self.data.update({"riesgos":DEFAULT_EMPTY_CHAR})
         else:
           self.data.update({"riesgos":riesgos})
@@ -422,7 +430,7 @@ class GestionOt:
         # 15. Medidas de Seguridad
         seguridad = self.getMedidasSeguridad( pdf[0], self.bx_medidas_seg )
         if isinstance( seguridad, Exception ):
-          self.Log2Ot( "ERROR", "No se ha podido obtener MEDIDAS DE SEGURIDAD de la Hoja 1", traceback.format_exc( seguridad ))
+          self.Log2Ot( "ERROR", "No se ha podido obtener MEDIDAS DE SEGURIDAD de la Hoja 1", "|>> Desde la funcion 'getMedidasSeguridad()' <<|" )
           self.data.update({"seguridad":DEFAULT_EMPTY_CHAR})
         else:
           self.data.update({"seguridad":seguridad})
@@ -431,7 +439,7 @@ class GestionOt:
 
         epps = self.getEPPs( pdf[0], self.bx_medidas_seg )
         if isinstance( epps, Exception ):
-          self.Log2Ot( "ERROR", "No se ha podido obtener EPPS de la Hoja 1", traceback.format_exc( epps ))
+          self.Log2Ot( "ERROR", "No se ha podido obtener EPPS de la Hoja 1", "|>> Desde la funcion 'getEPPs()' <<|" )
           self.data.update({"epps":DEFAULT_EMPTY_CHAR})
         else:
           self.data.update({"epps":epps})
@@ -439,7 +447,7 @@ class GestionOt:
         # 17. Precauciones
         precauciones = self.getPrecauciones( pdf[0], self.bx_precauciones )
         if isinstance( precauciones, Exception ):
-          self.Log2Ot( "REVISAR", "No se ha encontrado texto de PRECACIONES en la Hoja 1", traceback.format_exc( precauciones ))
+          self.Log2Ot( "REVISAR", "No se ha encontrado texto de PRECACIONES en la Hoja 1", "|>> Desde la funcion 'getPrecauciones()' <<|" )
           self.data.update( {"precauciones": DEFAULT_EMPTY_CHAR })
         else:
           self.data.update( {"precauciones": precauciones })
@@ -447,7 +455,7 @@ class GestionOt:
         # 18. Carencias
         carencias = self.getCarencias( pdf[0], self.bx_carencias )
         if isinstance( carencias, Exception ):
-          self.Log2Ot( "REVISAR", "No se ha encontrado texto de CARENCIAS en la Hoja 1", traceback.format_exc( carencias ) )
+          self.Log2Ot( "REVISAR", "No se ha encontrado texto de CARENCIAS en la Hoja 1", "|>> Desde la funcion 'getCarencias()' <<|" )
           self.data.update({"carencias":DEFAULT_EMPTY_CHAR})
         else:
           self.data.update({"carencias":carencias})
@@ -455,7 +463,7 @@ class GestionOt:
         # 19. Accidente
         accidente = self.getAccidentes( pdf[1], self.bx_accidentes)
         if isinstance( accidente, Exception ):
-          self.Log2Ot( "REVISAR", "No se ha encontrado texto de ACCIDENTE en la Hoja 2", traceback.format_exc(accidente))
+          self.Log2Ot( "REVISAR", "No se ha encontrado texto de ACCIDENTE en la Hoja 2", "|>> Desde la funcion 'getAccidentes()' <<|" )
           self.data.update({"accidente":DEFAULT_EMPTY_CHAR})
         else:
           self.data.update({"accidente":accidente})
@@ -463,7 +471,7 @@ class GestionOt:
         # 20. Observaciones
         observaciones = self.getObservaciones( pdf[1], self.bx_observaciones )
         if isinstance( observaciones, Exception ):
-          self.Log2Ot( "REVISAR", "No se ha encontrado texto de OBSERVACIONES en la Hoja 1", traceback.format_exc(observaciones))
+          self.Log2Ot( "REVISAR", "No se ha encontrado texto de OBSERVACIONES en la Hoja 1", "|>> Desde la funcion 'getObservaciones()' <<|" )
           self.data.update({"observaciones":DEFAULT_EMPTY_CHAR})
         else:
           self.data.update({"observaciones":observaciones})
@@ -471,7 +479,7 @@ class GestionOt:
         #21. Numeracion Manual
         numeracion = self.getNumeracion( pdf[0], self.bx_numero_ot)
         if isinstance( numeracion, Exception ):
-          self.Log2Ot("REVISAR", "No se ha encontrado NUMERACION en la Hoja 1", traceback.format_exc(numeracion))
+          self.Log2Ot("REVISAR", "No se ha encontrado NUMERACION en la Hoja 1", "|>> Desde la funcion 'getNumeracion()' <<|" )
           self.data.update({"numeracion":DEFAULT_EMPTY_CHAR} )
         else:
           self.data.update({"numeracion":numeracion} )
@@ -479,7 +487,7 @@ class GestionOt:
         #22. Gerencia
         gerencia = self.getGerencia( pdf[0], self.bx_gerencia )
         if isinstance( gerencia, Exception ):
-          self.Log2Ot("ERROR", "No se ha encontrado GERENCIA en la Hoja 1", traceback.format_exc(gerencia))
+          self.Log2Ot("ERROR", "No se ha encontrado GERENCIA en la Hoja 1", "|>> Desde la funcion 'getGerencia()' <<|" )
           self.data.update({"gerencia":DEFAULT_EMPTY_CHAR})
         else:
           self.data.update({"gerencia":gerencia})
@@ -487,7 +495,7 @@ class GestionOt:
         # 23. Estado
         estado = self.getTerminado( pdf[1], self.bx_terminado )
         if isinstance( estado, Exception ) :
-          self.Log2Ot("ERROR", "No se ha encontrado el ESTADO en la Hoja 2", traceback.format_exc(estado))
+          self.Log2Ot("ERROR", "No se ha encontrado el ESTADO en la Hoja 2", "|>> Desde la funcion 'getTerminado()' <<|" )
           self.data.update({"estado":DEFAULT_EMPTY_CHAR})
         else:
           self.data.update({"estado":estado})
@@ -495,7 +503,7 @@ class GestionOt:
         # 24. Firmas
         firmas = self.getFirmas( pdf[0], self.bx_firmas )
         if isinstance( firmas, Exception ):
-          self.Log2Ot("ERROR", "No se ha encontrado FIRMAS en la Hoja 1", traceback.format_exc(firmas))
+          self.Log2Ot("ERROR", "No se ha encontrado FIRMAS en la Hoja 1", "|>> Desde la funcion 'getFirmas()' <<|" )
           self.data.update({"firmas":DEFAULT_EMPTY_CHAR})
         else:
           self.data.update({"firmas":firmas})
@@ -503,7 +511,7 @@ class GestionOt:
         # 25. ACTIVIDADES
         actividades = self.getActividades( pdf[1], self.bx_actividades )
         if isinstance( actividades, Exception ):
-          self.Log2Ot("FATAL", "No se ha podido extraer ACTIVIDADES en la Hoja 2", traceback.format_exc(actividades))
+          self.Log2Ot("FATAL", "No se ha podido extraer ACTIVIDADES en la Hoja 2", "|>> Desde la funcion 'getActividades()' <<|" )
           self.data.update({"actividades":DEFAULT_EMPTY_CHAR})
         
         elif len(actividades)== 0:

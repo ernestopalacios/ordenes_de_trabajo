@@ -40,14 +40,15 @@ def limpiar_texto_actividad( actividad ):
           "Est."          : "estructura",
           "Estr"          : "estructura",
           "est"           : "estructura",
-          "est."          : "estructura",
+          "estr"          : "estructura",
+          "estr#"         : "estructura",
           "est."          : "estructura",
           "estructuras"   : "estructura",
           "poste"         : "estructura",
           "tiraf"         : "tirafusible",
           "med."          : "medidor",
           "med"           : "medidor",
-          "med"           : "medidor",
+          "med#"           : "medidor",
           "CC"            : "Centro de Control",
           "C.C"           : "Centro de Control",
           "C.C."          : "Centro de Control",
@@ -94,14 +95,14 @@ def get_estimated_cuenta( actividad ):
       respuesta = "?"
 
     conversiones = {
-      "511.03.001"       : "Subestaciones",        
-      "511.03.003"       : "Subtransmision",        
-      "511.04.001"       : "Redes",             
-      "511.04.002"       : "Alumbrado",             
-      "511.05.001"       : "Acometidas",            
-      "511.05.002"       : "Medidores",             
+      "511.03.001"       : "SUBESTACION",        
+      "511.03.003"       : "SUBTRANSMISION",        
+      "511.04.001"       : "REDES",             
+      "511.04.002"       : "ALUMBRADO",             
+      "511.05.001"       : "ACOMETIDAS",            
+      "511.05.002"       : "MEDIDORES",             
       "521.01.001"       : "Servicios_Ocasionales", 
-      "511.06.002"       : "Planillas",             
+      "511.06.002"       : "PLANILLAS",             
       "OT-01-2022-GECOM" : "Nuevos_Servicios",      
       "OT-07-2022-GECOM" : "Restituciones"         
     }
@@ -141,7 +142,18 @@ def organizarActividades( obj_ot ):
     fInicio = actividades[['Item','InicioEvento','FinEvento']].dropna()
     fInicio['solofechaI'] = fInicio['InicioEvento'].apply( lambda x: re.findall( '\d{4}-\d{2}-\d{2}', x)[0])
     
-    fechaModa = fInicio.solofechaI.mode().values[0] # fecha 'moda' en el arreglo
+    fechaModa = fInicio.solofechaI.mode().values[0] # fecha 'moda' en el arreglo la fecha mas común usada en actividades
+
+
+    try: #puede darse el caso de una OT sin fecha inicial en la Hoja 1.
+      fecha_hoja1 = ot_df['fecha'].strftime('%Y-%m-%d %H:%M:%S').split()[0]  # Convertir de Python Time Object a String
+
+
+      if fechaModa != fecha_hoja1:
+        obj_ot.Log2Ot("ERROR", "No coinciden las fechas", "La fecha en Hoja 1 no es la misma que en Actividades")
+    except:
+      fecha_hoja1 = fechaModa
+  
 
   except:
     # En aquellas OT solo informativas, que no tienen puesto una fecha en las
@@ -149,10 +161,12 @@ def organizarActividades( obj_ot ):
     # sino una fecha de referencia.
     if( ot_df['fecha'] != "·" ):
       fechaModa = ot_df['fecha'].strftime('%Y-%m-%d %H:%M:%S').split(' ')[0]
-      obj_ot.Log2Ot("INFO", "No se encontro fecha en las actividades", "Se utiliza la fecha de Inicio en la Hoja 1")
+      obj_ot.Log2Ot("INFO", "Desde >> Obtener fechaModa. No se encontro fecha en las actividades", "Se utiliza como fechaModa la fecha de Inicio en la Hoja 1")
+    
     elif( ot_df['fechaFinal'] != "·" ):
-      obj_ot.Log2Ot("INFO", "No se encontro fecha en la Hoja 1", "Se utiliza la fecha final en la Hoja 2")
+      obj_ot.Log2Ot("REVISAR", "Desde >> Obtener fechaModa. No se encontro fecha en la Hoja 1", "Se utiliza como fechaModa la fecha final en la Hoja 2")
       fechaModa = ot_df['fechaFinal'].split()[0] 
+    
     else:
       fechaModa = '16/09/1988' # no es posible obtener una fecha.
       obj_ot.Log2Ot("FATAL", "No se encontro fecha en la ot", "No se ha podido determinar ninguna fecha en la OT")
@@ -312,8 +326,28 @@ def organizarActividades( obj_ot ):
   except:
 
     actividades = backup
-    obj_ot.Log2Ot("ERROR", "No pudo consolidar la matriz de Actividades", "Ocurrio un error al consolidar las actividades")
+    obj_ot.Log2Ot("ERROR", "No pudo consolidar la matriz de Actividades", "Ocurrio un error al consolidar las actividades. Desde >> iteraciones while fila < totalIdx")
 
+
+  #"""····························································
+  #    CORREGIR FECHAS ERRONEAS EN LAS ACTIVIDADES DE UNA OT
+  #·······························································"""
+  backup = actividades
+  try:
+    actividades['corregir_fechaInicio'] = actividades[ 'InicioEvento' ].apply(lambda x: x.split()[0] == fechaModa )
+    actividades['corregir_fechaFin'] = actividades[ 'FinEvento' ].apply(lambda x: x.split()[0] == fechaModa )
+    actividades.loc[ actividades['corregir_fechaInicio'] == False, 'InicioEvento' ] = actividades.loc[actividades['corregir_fechaInicio'] == False, 'InicioEvento'].apply(lambda x: " ".join([ fechaModa, x.split()[1] ]) )
+    actividades.loc[ actividades['corregir_fechaFin'] == False, 'FinEvento' ] = actividades.loc[actividades['corregir_fechaFin'] == False, 'FinEvento'].apply(lambda x: " ".join([ fechaModa, x.split()[1] ]) )
+  
+    if ( not actividades['corregir_fechaInicio'].all() ) : # at leas one error
+      obj_ot.Log2Ot("REVISAR", "Se detectaron fechas inconsistentes", "En actividades, revisar las fechas de inicio actividad")
+
+    if ( not actividades['corregir_fechaFin'].all() ) : # at leas one error
+      obj_ot.Log2Ot("REVISAR", "Se detectaron fechas inconsistentes", "En actividades, revisar las fechas de fin de actividad")
+  
+  except:
+    actividades = backup
+    obj_ot.Log2Ot("ERROR", "No pudo corregir las fechas erroneas", "Ocurrio un error al corregir fechas mal digitadas. Desde >> corregir_fechaInicio/Fin")
   return actividades
 
 
@@ -381,12 +415,13 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   vehiculo      = ot_df['vehiculo']['numero']
   sitio         = ot_df['sitio']
   dia           = ot_df['diaSemana']  # solo el nombre del dia de labores: lunes, martes, ...
-  fecha         = ot_df['fecha'].strftime('%Y-%m-%d %H:%M:%S')  # Convertir a Python Time Object
+  materiales    = "·"
   archivo       = ot_df['link']   # solo el nombre de archivo PDF
 
   # obtiene el día de la semana: lunes, martes, ....
   try:
-    fecha = fecha.split(',')[0]
+    fecha = ot_df['fecha'].strftime('%Y-%m-%d %H:%M:%S')  # Convertir de Python Time Object a String
+    fecha = fecha.split()[0]
   except:
     fecha = "·"
   
@@ -415,6 +450,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   actividades.loc[ actividades['Tipo'] == "PREVENTIAS", 'Tipo' ] = "PREVENTIVO"
   actividades.loc[ actividades['Tipo'] == "ACTIVCOAS", 'Tipo'  ] = "RUTINARIA"
   actividades.loc[ actividades['Tipo'] == "EXPANSIAS", 'Tipo'  ] = "EXPANSION"
+  actividades.loc[ actividades['Tipo'] == "ALIMENTACI", 'Tipo' ] = "LUNCH"
 
   
   actividades.loc[(actividades['Alimentador'].isnull()) & (actividades['Cuenta'] == "·" ), 'Cuenta'] = "informativa"
@@ -444,26 +480,28 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   actividades.insert( 4, 'Sitio'         , sitio      )
   actividades.insert( 5, 'Dia'           , dia        )
   actividades.insert( 6, 'Fecha'         , fecha      )
-  actividades.insert( 7, 'Archivo'       , archivo    )
+  actividades.insert( 7, 'Materiales'    , materiales    )
+  actividades.insert( 8, 'Archivo'       , archivo    )
 
   """
     Se reorganizan las columanas
   """
 
   actividades = actividades[
-    ['uuid',        'Item',        'Cuenta',
-     'Evento',      'Alimentador', 'Primario',
-     'Tipo',        'Actividad',   'Cuadrilla',
-     'InicioEvento','FinEvento',   'Dia','Fecha',
-     'HorasExtra',  'Desconexion',  'SIG',
+    ['Item',        'Cuenta',
+     'Evento',      'Actividad', 
+     'Alimentador', 'Primario',    'Desconexion', 'SIG',
+     'Tipo',        'Materiales',   'Cuadrilla',
+     'Dia',  'Fecha', 'InicioEvento', 'FinEvento',   
      'Responsable', 'Colaboradores',
+     'HorasExtra',   
      'Vehiculo',    'Sitio',
-     'id_ot',       'Archivo'
+     'id_ot',       'Archivo', 'uuid'
      ]]
 
 
   # Guardo la respuesta en el objeto
-  obj_ot.matriz =  actividades.fillna("·")
+  obj_ot.matriz =  actividades.fillna("·", inplace=True)
   
-  # Lo regreso al programa principal "for debuggin purposes"
+  # Lo regreso al programa principal 
   return( actividades )

@@ -277,7 +277,7 @@ class GestionOt:
     try:
       with pymupdf.open( self.link ) as pdf:
 
-        # Is it a Valid OT ?
+        # Is it a Valid PDF ?
         if self.valido == False:
 
           # Cannot create on an invalid OT
@@ -287,15 +287,18 @@ class GestionOt:
         
         else: 
           # Log the creation of the OT
-          self.Log2Ot("INFO", "Creacion de la OT", "Ninguno")
+          self.Log2Ot("INFO", "Se encuentra un archivo PDF de al menos tres hojas ", "Ninguno")
           self.createdAt = datetime.now().isoformat(),
 
+        # VALIDATION IF THE PDF IS OF TYPE Orden de Trabajo
         # 1. id_ot
         id_ot = self.getId_Ot( pdf[0], self.bx_id_ot )         
         
         if isinstance(id_ot, Exception):
-          self.Log2Ot( "ERROR", "El archivo no tiene un ID automatico del sistema Intranet", "|>> Desde la funcion 'getId_Ot()' <<|" )
-          return
+          self.Log2Ot( "FATAL", "El archivo no tiene un ID automatico del sistema Intranet", "|>> Desde la funcion 'getId_Ot()' <<|" )
+          self.data["exito"] = False
+          self.valido = False
+          return self
         
         self.id_ot = id_ot
         

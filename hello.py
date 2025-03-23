@@ -62,10 +62,12 @@ class MyEventHandler(FileSystemEventHandler):
                 self.file_queue.task_done()
             except queue.Empty:
                 break
-
+        
+        start_time = time.time()
+        start_datetime = datetime.now()
+    
+        # For more than eight elements process them using DASAK Distributed Computing
         if len(items_to_process) > 8:
-            start_time = time.time()
-            start_datetime = datetime.now()
             print(
                 f"   Procesando {len(items_to_process)} archivos. Hora de inicio: {start_datetime.strftime('%Y-%m-%d %H:%M:%S')}"
             )
@@ -85,7 +87,12 @@ class MyEventHandler(FileSystemEventHandler):
                 f"   Procesados todos los {len(obj_lists)} items. Tiempo transcurrido: {elapsed_time:.2f} segundos.\n"
             )
 
+        # Maybe we could only use DASK, but I'll leave this code if I encounter errors with DASK in the future
         elif len(items_to_process) > 0:
+            print(
+                f"   Procesando {len(items_to_process)} archivos. Hora de inicio: {start_datetime.strftime('%Y-%m-%d %H:%M:%S')}"
+            )
+            
             obj_lists = []
             obj_data = []
             for file in items_to_process:
@@ -94,8 +101,23 @@ class MyEventHandler(FileSystemEventHandler):
                 obj_lists.append(ot)
                 obj_data.append(ot.data)
 
-            print(f"   Procesados todos los {len(obj_lists)} items.\n")
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            print(
+                f"   Procesados todos los {len(obj_lists)} items. Tiempo transcurrido: {elapsed_time:.2f} segundos.\n"
+            )
 
+        # Once i got the list of objects I send to KAFKA only those that are VALID objects
+        if obj_lists:
+            for ot in obj_lists:
+                if ot.valido:
+                    print(f"   [OK] > {ot.link} < se ha enviado a la base de datos")
+                    # send file to Kafka
+
+                else:
+                    print(f"   [x]  > {ot.link} < No es un archivo Orden de Trabajo")
+                    
+            
 
 def main(event_handler):
     """

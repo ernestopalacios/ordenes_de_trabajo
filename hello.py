@@ -76,11 +76,11 @@ class MyEventHandler(FileSystemEventHandler):
 
         # For more than eight elements process them using DASAK Distributed Computing
         if len(items_to_process) > 8:
+            items_to_process = list(set(items_to_process))
             print(
                 f"   Procesando {len(items_to_process)} archivos. Hora de inicio: {start_datetime.strftime('%Y-%m-%d %H:%M:%S')}"
             )
-            items_to_process = list(set(items_to_process))
-
+            
             futures = [
                 self.client.submit(gestionOT.GestionOt, file)
                 for file in items_to_process
@@ -116,7 +116,6 @@ class MyEventHandler(FileSystemEventHandler):
         # Once i got the list of objects I send to KAFKA only those that are VALID objects
         if obj_lists:
             with self.KafkaApp.get_producer() as producer:
-                
                 for ot in obj_lists:
                     if ot.valido:
                         print(

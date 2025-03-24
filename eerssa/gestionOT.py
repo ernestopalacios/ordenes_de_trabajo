@@ -260,6 +260,8 @@ class GestionOt:
       "detail" : detalles
     }
     self.log.append(entry)
+    self.data["log"] = self.log
+    
 
     match level:
       case "FATAL":

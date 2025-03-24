@@ -53,8 +53,8 @@ def toDateEcuador( fecha ):
     date_object = datetime.strptime(respuesta, '%d/%m/%Y')
     ecuador = timezone("America/Guayaquil")
     local_datetime = ecuador.localize(date_object)
-    return local_datetime
-
+    return local_datetime.isoformat() # Changed line
+    
   except Exception as e:
       return e
       
@@ -131,7 +131,7 @@ class GestionOt:
   bx_accidentes             = Rect( BoxesValues.ACCIDENTES.value)
 
 
-  # init method or constructor
+  
   def __init__(self, link_to_pdf):
     self.link       = link_to_pdf
     self.version    = self.VERSION 
@@ -575,8 +575,7 @@ class GestionOt:
     try:
       return hoja.get_text( clip = box ).strip()
     except Exception as e:
-      return e
-      
+      return e   
 
   def getSitio( self, hoja, box ):
     try:

@@ -12,21 +12,25 @@ import time
 from datetime import datetime
 
 from eerssa import gestionOT
-from eerssa import matrizActividades
 from pathlib import Path
-import pandas as pd
 
 from dask.distributed import Client, LocalCluster, get_client
+
+
+import json
+from quixstreams import Application
+
 
 class MyEventHandler(FileSystemEventHandler):
     """
     Custom event handler that appends created and modified files to a queue.
     """
 
-    def __init__(self, client):
+    def __init__(self, client, KafkaApp):
         super().__init__()
         self.file_queue = queue.Queue()
-        self.client = client # DASK LocalClient
+        self.client = client  # DASK LocalClient
+        self.KafkaApp = KafkaApp  # KAFKA Application
 
     def on_created(self, event):
         """
@@ -55,17 +59,21 @@ class MyEventHandler(FileSystemEventHandler):
         Removes and processes all items from the queue at once.
         """
         items_to_process = []
+        obj_lists = []
+
         while not self.file_queue.empty():
-            try:
-                item = self.file_queue.get_nowait()
-                items_to_process.append(item)
-                self.file_queue.task_done()
-            except queue.Empty:
-                break
-        
+            item = self.file_queue.get_nowait()
+            items_to_process.append(item)
+            self.file_queue.task_done()
+
+        # Filter only PDF files
+        items_to_process = [
+            file for file in items_to_process if file.lower().endswith(".pdf")
+        ]
+
         start_time = time.time()
         start_datetime = datetime.now()
-    
+
         # For more than eight elements process them using DASAK Distributed Computing
         if len(items_to_process) > 8:
             print(
@@ -74,12 +82,12 @@ class MyEventHandler(FileSystemEventHandler):
             items_to_process = list(set(items_to_process))
 
             futures = [
-                self.client.submit(gestionOT.GestionOt, file, actor=True)
+                self.client.submit(gestionOT.GestionOt, file)
                 for file in items_to_process
             ]
             ot_array = [future.result() for future in futures]
             ot_cargada = [ot.load_ot() for ot in ot_array]
-            obj_lists = [future.result() for future in ot_cargada]
+            obj_lists = [ot for ot in ot_cargada]
 
             end_time = time.time()
             elapsed_time = end_time - start_time
@@ -92,14 +100,12 @@ class MyEventHandler(FileSystemEventHandler):
             print(
                 f"   Procesando {len(items_to_process)} archivos. Hora de inicio: {start_datetime.strftime('%Y-%m-%d %H:%M:%S')}"
             )
-            
+
             obj_lists = []
-            obj_data = []
             for file in items_to_process:
                 ot = gestionOT.GestionOt(file)
                 ot.load_ot()
                 obj_lists.append(ot)
-                obj_data.append(ot.data)
 
             end_time = time.time()
             elapsed_time = end_time - start_time
@@ -109,15 +115,25 @@ class MyEventHandler(FileSystemEventHandler):
 
         # Once i got the list of objects I send to KAFKA only those that are VALID objects
         if obj_lists:
-            for ot in obj_lists:
-                if ot.valido:
-                    print(f"   [OK] > {ot.link} < se ha enviado a la base de datos")
-                    # send file to Kafka
+            with self.KafkaApp.get_producer() as producer:
+                
+                for ot in obj_lists:
+                    if ot.valido:
+                        print(
+                            f"   [OK] > {ot.link} < se ha enviado a la base de datos"
+                        )
+                        producer.produce(
+                            topic="json_ot",
+                            key="Development",
+                            value=json.dumps(ot.data),
+                            
+                        )
+                    else:
+                        print(
+                            f"   [x]  > {ot.link} < No es un archivo Orden de Trabajo"
+                        )
+                producer.flush()
 
-                else:
-                    print(f"   [x]  > {ot.link} < No es un archivo Orden de Trabajo")
-                    
-            
 
 def main(event_handler):
     """
@@ -157,7 +173,13 @@ if __name__ == "__main__":
     client = get_or_create_client()
 
     # Object creation
-    event_handler = MyEventHandler(client)
+    KafkaApp = Application(
+        broker_address="localhost:29092",
+        loglevel="DEBUG",
+    )
+
+    # Watchdog configuration
+    event_handler = MyEventHandler(client, KafkaApp)
     observer = Observer()
 
     print("\n   === Monitor de Ordenes de trabajo ====")

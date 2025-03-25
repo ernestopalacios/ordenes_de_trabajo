@@ -361,12 +361,14 @@ class GestionOt:
             self.data.update({"fecha" : fechaObject })
         
         # 6. fecha de Inicio - String
-        fechaStr = self.getFechaInicioHoja1( pdf[0], self.bx_firmas )
+        fechaStr = self.getFechaInicioHoja1( pdf[0], self.bx_firmas ) ## TODO: Cambiar de donde viene la Fecha inicial
         if isinstance( fechaStr, Exception ):
           self.Log2Ot( "ERROR", "No se ha encontrado FECHA LARGA en la Hoja1, seccion FIRMAS", "|>> Desde la funcion 'getFechaInicioHoja1()' <<|" )
           self.data.update({"fechaInicio":DEFAULT_EMPTY_CHAR})
         else:
           self.data.update({"fechaInicio":fechaStr})
+          if fecha != fechaStr:
+            self.Log2Ot( "ERROR", f"No coincide la Fecha de la OT {fecha} con la Fecha de Inicio de Actividades {fechaStr}", "|>> Comparando las dos fechas de Hoja Uno <<|" )
 
         # 7. Fecha Final - String
         fechaFinal = self.getFechaFinal2( pdf[1], self.bx_fechaFin )
@@ -374,7 +376,28 @@ class GestionOt:
           self.Log2Ot("REVISAR", "No se ha encontrado FECHA FINAL en la Hoja2", "|>> Desde la funcion 'getFechaFinal2()' <<|" )
         else:
           self.data.update({"fechaFinal":fechaFinal})
+          try:
+            datetime_object = datetime.strptime(fechaFinal, '%d/%m/%Y %H:%M:%S')
+            ecuador = timezone("America/Guayaquil")
+            local_datetime = ecuador.localize(datetime_object)
+            fechaFinalISO = local_datetime.isoformat()
+            self.data.update({"fechaFinal":fechaFinalISO})
 
+            solofechaFinal = fechaFinalISO.split('T')[0]
+            solofechaInicial = fechaObject.split('T')[0]
+            if solofechaFinal != solofechaInicial:
+              self.Log2Ot("REVISAR", f"La FECHA FINAL en la Hoja dos {solofechaFinal} y la FECHA de la Ot en Hoja Uno {solofechaInicial} NO COINCIDEN", "|>> Revisar la Fecha Final en la Hoja Dos <<|" )
+          except:
+            self.Log2Ot( "ERROR", "No se ha podido convertir la Fecha Final HOJA DOS a DATE-TIME", "|>> Desde la funcion Linea 383 gestionOT.py <<|" )
+
+          try:
+            HoraFinal = fechaFinal.split(' ')[1]
+            if HoraFinal == '00:00:00':
+              self.Log2Ot("REVISAR","No se ha colocado la HORA FINAL en la Segunda Hoja", "|>> Revisar la Fecha Final en la Hoja Dos <<|")
+          except:
+            self.Log2Ot("ERROR","No se ha podido obtener la HORA FINAL en la Segunda Hoja", "|>> Revisar si existe Fecha Final en la Hoja Dos <<|")
+            
+          
         # 8. Sitio
         sitio = self.getSitio( pdf[0], self.bx_sitio )
         if isinstance( sitio, Exception ):

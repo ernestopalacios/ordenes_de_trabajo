@@ -289,7 +289,7 @@ class GestionOt:
         
         else: 
           # Log the creation of the OT
-          self.Log2Ot("INFO", "Se encuentra un archivo PDF de al menos tres hojas ", "Ninguno")
+          self.Log2Ot("INFO", "CREACIÓN DE LA OT, se encuentra un archivo PDF de al menos tres hojas ", "Ninguno")
           self.createdAt = datetime.now().isoformat(),
 
         # VALIDATION IF THE PDF IS OF TYPE Orden de Trabajo
@@ -325,7 +325,7 @@ class GestionOt:
         else:
           self.data.update( {"responsable" : responsable} )
 
-        # 4. colaboradores TODO: verificar comportamiento
+        # 4. colaboradores 
         lista_colaboradores = self.getColaboradores( pdf[0], self.bx_nombresColaboradores, self.bx_cargosColaboradores )
         if isinstance( lista_colaboradores, Exception ):
           self.Log2Ot( "REVISAR", "No se ha podido encontrar COLABORADORES", "|>> Desde la funcion 'getColaboradores()' <<|" )
@@ -361,14 +361,15 @@ class GestionOt:
             self.data.update({"fecha" : fechaObject })
         
         # 6. fecha de Inicio - String
-        fechaStr = self.getFechaInicioHoja1( pdf[0], self.bx_firmas ) ## TODO: Cambiar de donde viene la Fecha inicial
-        if isinstance( fechaStr, Exception ):
-          self.Log2Ot( "ERROR", "No se ha encontrado FECHA LARGA en la Hoja1, seccion FIRMAS", "|>> Desde la funcion 'getFechaInicioHoja1()' <<|" )
+        fechaHojaUno = self.getFechaInicioHojaUno( pdf[0], self.bx_fechaInicio_Testimado )
+        if isinstance( fechaHojaUno, Exception ):
+          self.Log2Ot( "ERROR", "No se ha podido obtener la Fecha Hoja Uno edsde el Box tEstimado","|>> Desde la funcion 'getFechaInicioHojaUno()' <<|" )
           self.data.update({"fechaInicio":DEFAULT_EMPTY_CHAR})
         else:
-          self.data.update({"fechaInicio":fechaStr})
-          if fecha != fechaStr:
-            self.Log2Ot( "ERROR", f"No coincide la Fecha de la OT {fecha} con la Fecha de Inicio de Actividades {fechaStr}", "|>> Comparando las dos fechas de Hoja Uno <<|" )
+          self.data.update({"fechaInicio":fechaHojaUno})
+          if fecha != fechaHojaUno:
+            self.Log2Ot( "ERROR", f"No coinciden la Fecha de la OT {fecha} con Fecha de Inicio: {fechaHojaUno}", "|>> Comparando las dos fechas de Hoja Uno <<|" )
+        
 
         # 7. Fecha Final - String
         fechaFinal = self.getFechaFinal2( pdf[1], self.bx_fechaFin )
@@ -393,7 +394,7 @@ class GestionOt:
           try:
             HoraFinal = fechaFinal.split(' ')[1]
             if HoraFinal == '00:00:00':
-              self.Log2Ot("REVISAR","No se ha colocado la HORA FINAL en la Segunda Hoja", "|>> Revisar la Fecha Final en la Hoja Dos <<|")
+              self.Log2Ot("REVISAR", f"No se ha colocado la HORA FINAL en la Segunda Hoja. Texto: {HoraFinal}", "|>> Revisar la Fecha Final en la Hoja Dos <<|")
           except:
             self.Log2Ot("ERROR","No se ha podido obtener la HORA FINAL en la Segunda Hoja", "|>> Revisar si existe Fecha Final en la Hoja Dos <<|")
             
@@ -709,24 +710,27 @@ class GestionOt:
       return e
       
 
-  def getFechaInicio2( self, hoja, box ):
+  def getFechaInicioHojaUno( self, hoja, box ):
 
     find_word_index = lambda word_list, target_word: word_list.index(target_word) if target_word in word_list else -1
 
     try:
       texto = hoja.get_text( clip = box ).strip().split('\n')
+      print(f"TEXTO: {texto}")
       fechaInicio2 = texto
       index = find_word_index(fechaInicio2, 'TIEMPO ESTIMADO DE DURACIÓN (HORAS):')
 
       if index != -1:
         fechaInicio2 = fechaInicio2[index - 1]
+        print(f"FECHA INICIO HOJA UNO: {fechaInicio2}")
       else:
         fechaInicio2 = "·"
       return fechaInicio2
 
     except Exception as e:
       return e
-      
+  
+    
 
   def getTiempoEstimado( self, hoja, box ):
 

@@ -12,6 +12,7 @@ import time
 from datetime import datetime
 
 from eerssa import gestionOT
+from eerssa import matrizActividades
 from pathlib import Path
 
 from dask.distributed import Client, LocalCluster, get_client
@@ -88,6 +89,7 @@ class MyEventHandler(FileSystemEventHandler):
             ot_array = [future.result() for future in futures]
             ot_cargada = [ot.load_ot() for ot in ot_array]
             obj_lists = [ot for ot in ot_cargada]
+            matriz_list = [ matrizActividades.ConvertirOT_a_ActividadesCSV(ot) for ot in obj_lists ]
 
             end_time = time.time()
             elapsed_time = end_time - start_time

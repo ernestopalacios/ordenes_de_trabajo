@@ -146,7 +146,7 @@ def organizarActividades( obj_ot ):
 
 
     try: #puede darse el caso de una OT sin fecha inicial en la Hoja 1.
-      fecha_hoja1 = ot_df['fecha'].strftime('%Y-%m-%d %H:%M:%S').split()[0]  # Convertir de Python Time Object a String
+      fecha_hoja1 = ot_df['fecha'].split()[0]  # Convertir de Python Time Object a String
 
 
       if fechaModa != fecha_hoja1:
@@ -160,7 +160,7 @@ def organizarActividades( obj_ot ):
     # actividades, primero intentamos tomar la fecha de inicio, sino, la fecha final
     # sino una fecha de referencia.
     if( ot_df['fecha'] != "·" ):
-      fechaModa = ot_df['fecha'].strftime('%Y-%m-%d %H:%M:%S').split(' ')[0]
+      fechaModa = ot_df['fecha'].split(' ')[0]
       obj_ot.Log2Ot("INFO", "Desde >> Obtener fechaModa. No se encontro fecha en las actividades", "Se utiliza como fechaModa la fecha de Inicio en la Hoja 1")
     
     elif( ot_df['fechaFinal'] != "·" ):
@@ -420,7 +420,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
 
   # obtiene el día de la semana: lunes, martes, ....
   try:
-    fecha = ot_df['fecha'].strftime('%Y-%m-%d %H:%M:%S')  # Convertir de Python Time Object a String
+    fecha = ot_df['fecha']
     fecha = fecha.split()[0]
   except:
     fecha = "·"

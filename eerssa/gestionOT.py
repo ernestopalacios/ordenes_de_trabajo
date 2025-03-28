@@ -376,7 +376,6 @@ class GestionOt:
         if isinstance(fechaFinal, Exception):
           self.Log2Ot("REVISAR", "No se ha encontrado FECHA FINAL en la Hoja2", "|>> Desde la funcion 'getFechaFinal2()' <<|" )
         else:
-          self.data.update({"fechaFinal":fechaFinal})
           try:
             datetime_object = datetime.strptime(fechaFinal, '%d/%m/%Y %H:%M:%S')
             ecuador = timezone("America/Guayaquil")
@@ -389,6 +388,7 @@ class GestionOt:
             if solofechaFinal != solofechaInicial:
               self.Log2Ot("REVISAR", f"La FECHA FINAL en la Hoja dos {solofechaFinal} y la FECHA de la Ot en Hoja Uno {solofechaInicial} NO COINCIDEN", "|>> Revisar la Fecha Final en la Hoja Dos <<|" )
           except:
+            self.data.update({"fechaFinal":fechaFinal}) # Se guarda el texto devuelto por la función con un mensaje de ERROR
             self.Log2Ot( "ERROR", "No se ha podido convertir la Fecha Final HOJA DOS a DATE-TIME", "|>> Desde la funcion Linea 383 gestionOT.py <<|" )
 
           try:
@@ -716,13 +716,11 @@ class GestionOt:
 
     try:
       texto = hoja.get_text( clip = box ).strip().split('\n')
-      print(f"TEXTO: {texto}")
       fechaInicio2 = texto
       index = find_word_index(fechaInicio2, 'TIEMPO ESTIMADO DE DURACIÓN (HORAS):')
 
       if index != -1:
         fechaInicio2 = fechaInicio2[index - 1]
-        print(f"FECHA INICIO HOJA UNO: {fechaInicio2}")
       else:
         fechaInicio2 = "·"
       return fechaInicio2

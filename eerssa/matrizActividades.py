@@ -31,6 +31,8 @@ para la revisión manual y actualización de OT.
 #nltk.download('punkt')
 #stopword_es = nltk.corpus.stopwords.words('spanish')
 
+DEFAULT_EMPTY_CHAR = "·"
+
 
 
 def limpiar_texto_actividad( actividad ):
@@ -66,10 +68,12 @@ def limpiar_texto_actividad( actividad ):
 
   return resultado
 
+
 def replace_words(text, replacements_dict):
   for word, replacement in replacements_dict.items():
       text = re.sub(r'\b{}\b'.format(word), replacement, text) 
   return text
+
 
 def get_estimated_cuenta( actividad ):
 
@@ -114,6 +118,39 @@ def get_estimated_cuenta( actividad ):
     respuesta = "revisar"
 
   return ( respuesta )
+
+
+def calcular_minutos_transcurridos( fecha_inicio, fecha_fin ):
+  """
+  Converts two datetime strings to datetime objects and calculates the elapsed time in minutes.
+
+  Args:
+    datetime_str1: The first datetime string (e.g., "2025-03-05 09:00:00").
+    datetime_str2: The second datetime string (e.g., "2025-03-05 10:30:00").
+
+  Returns:
+    The elapsed time in minutes as an integer, or None if there's an error.
+  """
+  try:
+    # Define the format of the datetime string
+    datetime_format = "%Y-%m-%d %H:%M:%S"
+
+    # Convert the strings to datetime objects
+    datetime_obj1 = datetime.strptime(fecha_inicio, datetime_format)
+    datetime_obj2 = datetime.strptime(fecha_fin, datetime_format)
+
+    # Calculate the difference between the two datetime objects
+    time_difference = datetime_obj2 - datetime_obj1
+
+    # Calculate the elapsed time in minutes
+    elapsed_minutes = int(time_difference.total_seconds() / 60)
+
+    return elapsed_minutes
+
+  except:
+    print( f"\nError: al intentar calcular el tiempo transcurrido para una actividad . texto de inicio {fecha_inicio} texto de fin {fecha_fin}\n")
+    return -1
+
 
 
 # ==================================
@@ -399,7 +436,8 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
     if ot_df['actividades'] == "·":
       return None
   except Exception as e:
-    print(f"Desde ConvertirActividades. No tiene actividades el archivo: {obj_ot.link}")
+    print(f"Desde ConvertirOT_a_ActividadesCSV. No tiene actividades el archivo: {obj_ot.link}")
+    obj_ot.Log2Ot("ERROR","Desde ConvertirOT_a_ActividadesCSV. No tiene actividades el archivo: {obj_ot.link}","Error de excepcion" )
     return None
       
 
@@ -424,18 +462,26 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
     fecha = fecha.split()[0]
   except:
     fecha = "·"
-  
+
+
   # Obtiene nombre del archivo a PDF
   try:
     archivo = basename(archivo)
   except:
     archivo = "·"
 
+
   # Obtener las Actividades
   actividades = organizarActividades( obj_ot )
   if len(actividades) == 0:
     obj_ot.Log2Ot("FATAL", "No se encontraron actividades", "Fallo al intentar obtener la matriz de actividades")
     return
+
+
+  # Calcular los minutos transcurridos en cada actividad.
+  actividades['Duracion'] = actividades.apply( lambda x: calcular_minutos_transcurridos( x['InicioEvento'], x['FinEvento'] ), axis=1 )
+
+
 
   # ==========================================
   #           CALIFICACION DE CUENTAS
@@ -492,7 +538,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
      'Evento',      'Actividad', 
      'Alimentador', 'Primario',    'Desconexion', 'SIG',
      'Tipo',        'Materiales',   'Cuadrilla',
-     'Dia',  'Fecha', 'InicioEvento', 'FinEvento',   
+     'Dia',  'Fecha', 'InicioEvento', 'FinEvento', 'Duracion',
      'Responsable', 'Colaboradores',
      'HorasExtra',   
      'Vehiculo',    'Sitio',

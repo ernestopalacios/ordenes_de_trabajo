@@ -403,13 +403,22 @@ def organizarActividades( obj_ot ):
 
 
 
+def convert_to_time(time_string):
+    """
+    Converts a time string in the format "HH:MM:SS" to a Python time object.
 
+    Args:
+        time_string: The time string to convert.
 
-
-
-
-
-
+    Returns:
+        A Python time object, or None if the string is invalid.
+    """
+    try:
+        only_time = time_string.split()[1]
+        time_obj = datetime.strptime(only_time, "%H:%M:%S").time()
+        return time_obj
+    except:
+        return None
 
 
 
@@ -503,6 +512,29 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   actividades.loc[ :,'Evento'] = actividades[ 'Evento' ].apply( lambda x:limpiar_texto_actividad(x) )
   actividades.loc[ actividades['Cuenta'] == "·" , 'Cuenta' ] = actividades.loc[actividades['Cuenta'] == "·" , 'Evento'].apply(lambda x:get_estimated_cuenta(x) )
   
+  # ==========================================
+  #           IDENTIFICACIÓN DE HORAS EXTRA
+  # ==========================================
+  
+
+  
+  actividades['inicio'] = actividades['InicioEvento'].apply( lambda x: convert_to_time(x) )
+  actividades ['fin'] = actividades['FinEvento'].apply( lambda x: convert_to_time(x) )
+  
+  corte_he_inicio = convert_to_time("h 07:55:00")
+  corte_he_fin    = convert_to_time("h 17:55:00")
+
+
+  # Fin de semana
+  if dia == "sábado" or dia == "domingo":
+    actividades.insert( 6, 'HorasExtra'    , 'Si' )
+  else:
+    actividades.insert( 6, 'HorasExtra'    , 'No' )
+    actividades.loc[ actividades['inicio'] < corte_he_inicio, 'HorasExtra' ] = 'Si' 
+    actividades.loc[ actividades['fin'] > corte_he_fin, 'HorasExtra' ] = 'Si' 
+     
+  
+
 
 
   """
@@ -517,7 +549,6 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   actividades.insert( 3, 'Cuadrilla'     , cuadrilla  )
   actividades.insert( 4, 'Primario'      , primario   )
   actividades.insert( 5, 'SIG'           , "No"   )
-  actividades.insert( 6, 'HorasExtra'    , horasExtra )
   actividades.insert( 8, 'Desconexion'   , desconexion)
   actividades.insert( 9, 'id_ot'         , id_ot      )
   actividades.insert( 1, 'Responsable'   , responsable)

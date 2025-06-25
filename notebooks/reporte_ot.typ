@@ -1,17 +1,17 @@
-#import "@preview/dvdtyp:1.0.1": *
+#import "templateReporte.typ": *
 
 #show: dvdtyp.with(
   title: "Reporte de Orden de Trabajo",
-  subtitle: [Cuadrilla Zamora del domingo, 23 de febrero de 2025],
-  author: "version 0.12",
-  abstract: lorem(50),
+  subtitle: [ ],
+  author: "EN CURSO",
+  abstract: "Zamora Z1 (Cuadrilla. Nro. 6) \n sábado, 26 de abril del 2025 \n SILVA ARMIJOS ROMEL EDUARDO",
 )
 
 #outline()
 
-== N0vedades Encontradas
+= Errores Falatales
 
-#problem[
+#problema[
   Tipo FATAL. 
   $
     "no contiene Fecha Inicial"
@@ -19,19 +19,33 @@
 
 ]
 
-#theorem("Euclid")[
+#error("Euclid")[
   infinite primes what???
 ]
 
-#definition("Creacion")[
+
+#revisar[
+  Algo para revisar. posiblemente cambiar
+]
+
+#informativo("Creacion")[
   Datos generales
 ]
+
+
 
 #proof[
   $ "hi"="hello"="greeting" $
 ]
 
-= Making own theorem enviorments
+= Novedades en actividades.
+
+
+#error("SE LABORA")[
+  No se ha enconetrado el ITEM Se Labora.
+
+]
+
 
 to make your own theorem enviorments, you can use the `builder-thmbox` and `builder-thmline` functions to generate _theorem styles_ and then use those to make theorems (idk if this is too convoluted or not, make an issue on github if you have a better idea).
 

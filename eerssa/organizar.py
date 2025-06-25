@@ -1,5 +1,6 @@
 import os
 import gspread
+import shutil
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 
@@ -205,3 +206,39 @@ def get_nombre_archivo( obj, df = "vacio" ):
     print(f"[ X ]  No fue posible renombrar la OT Error: {e}")
     obj.Log2Ot("ERROR", "No fue posible renombrar la OT", "No se pudo extraer la información de la Orden de Trabajo para ser renombrada")
     return os.path.basename(obj.link)
+  
+
+# Esta es la función que será utilizada en el archivo principal
+
+def renombrar_ot( current_file_path, nombre_nuevo ):
+
+  carpeta_procesados = os.path.join(
+    os.path.dirname(current_file_path), 
+    "ot_procesados"
+  )
+
+  if not os.path.exists(carpeta_procesados):
+    os.makedirs(carpeta_procesados)
+
+  new_file_path = os.path.join( carpeta_procesados, nombre_nuevo)
+
+  try:
+    # shutil.move will overwrite an existing file at the destination.
+    # If new_file_path is an existing directory, current_file_path will be moved into it.
+    # To ensure it replaces a file if it exists with the same name,
+    # and doesn't move into a directory if new_file_path accidentally points to one:
+    if os.path.isdir(new_file_path):
+      print(f"Error: Destination '{new_file_path}' is a directory. Cannot overwrite with a file.")
+      return "Failed"
+
+    shutil.move(current_file_path, new_file_path)
+    print(f"[OK] Archivo: '{os.path.basename(current_file_path)}' reubicado a: '{new_file_path}' correctamente.")
+    return new_file_path
+  
+  except FileNotFoundError:
+    print(f"Error: The file '{current_file_path}' was not found.")
+    return "Failed"
+  
+  except shutil.Error as e:
+    print(f"Error moving/renaming file: {e}")
+    return "Failed"

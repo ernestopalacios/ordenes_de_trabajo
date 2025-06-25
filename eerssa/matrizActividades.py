@@ -183,7 +183,7 @@ def organizarActividades( obj_ot ):
 
 
     try: #puede darse el caso de una OT sin fecha inicial en la Hoja 1.
-      fecha_hoja1 = ot_df['fecha'].split()[0]  # Convertir de Python Time Object a String
+      fecha_hoja1 = ot_df['fecha'].split('T')[0]  # Convertir de Python Time Object a String
 
 
       if fechaModa != fecha_hoja1:

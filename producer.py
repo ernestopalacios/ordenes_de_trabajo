@@ -1,26 +1,29 @@
 import sys
-import os.path
+import os
 import logging
 import queue
+import time
+
 from watchdog.observers import Observer
 from watchdog.events import (
     FileSystemEventHandler,
     FileCreatedEvent,
     FileModifiedEvent,
 )
-import time
 from datetime import datetime
-
-from eerssa import gestionOT
-from eerssa import matrizActividades
 from pathlib import Path
-
 from dask.distributed import Client, LocalCluster, get_client
-
 
 import json
 from quixstreams import Application
 
+from eerssa import gestionOT              # Convert from PDF_ot to obj_ot
+from eerssa import matrizActividades      # process ot.data["actividades"]
+from eerssa import organizar as gdrive    # download sheet from Google Drive
+
+# get the data table from Google Sheets
+# If this is not possible, df_datos_cuadrilla will be just a 'Failed' String
+df_datos_cudarilla = gdrive.get_gsheet_df() 
 
 class MyEventHandler(FileSystemEventHandler):
     """
@@ -30,8 +33,8 @@ class MyEventHandler(FileSystemEventHandler):
     def __init__(self, client, KafkaApp):
         super().__init__()
         self.file_queue = queue.Queue()
-        self.client = client  # DASK LocalClient
-        self.KafkaApp = KafkaApp  # KAFKA Application
+        self.client = client               # DASK LocalClient
+        self.KafkaApp = KafkaApp           # KAFKA Application
 
     def on_created(self, event):
         """
@@ -39,7 +42,7 @@ class MyEventHandler(FileSystemEventHandler):
         """
         if isinstance(event, FileCreatedEvent):
             self.file_queue.put(event.src_path)
-            logging.info(f"File created: {event.src_path}")
+            logging.info(f"Nuevo archivo Creado:      '{event.src_path}'")
 
     def on_modified(self, event):
         """
@@ -47,7 +50,7 @@ class MyEventHandler(FileSystemEventHandler):
         """
         if isinstance(event, FileModifiedEvent):
             self.file_queue.put(event.src_path)
-            logging.info(f"File modified: {event.src_path}")
+            logging.info(f"[*] Nuevo archivo Modificado: '{event.src_path}'")
 
     def get_queue(self):
         """
@@ -59,13 +62,15 @@ class MyEventHandler(FileSystemEventHandler):
         """
         Removes and processes all items from the queue at once.
         """
-        items_to_process = []
+        items_to_process = set()
         obj_lists = []
 
         while not self.file_queue.empty():
             item = self.file_queue.get_nowait()
-            items_to_process.append(item)
+            items_to_process.add(item)
             self.file_queue.task_done()
+
+        items_to_process = list(items_to_process)
 
         # Filter only PDF files
         items_to_process = [
@@ -122,18 +127,28 @@ class MyEventHandler(FileSystemEventHandler):
             with self.KafkaApp.get_producer() as producer:
                 for ot in obj_lists:
                     if ot.valido:
-                        print(
-                            f"   [OK] > {ot.link} < se ha enviado a la base de datos"
+                        
+                        nuevo_path = gdrive.renombrar_ot(
+                            ot.link,
+                            gdrive.get_nombre_archivo( ot, df_datos_cudarilla )
                         )
+
+                        print(f"\n\n Nombre de la Cuadrilla en OT: {ot.data['cuadrilla']}")
+                        print(f"\n\n Nombre de la Cuadrilla corto: {os.path.basename(nuevo_path)}\n\n")
+
+                        if nuevo_path != "Failed":
+                          ot.link = nuevo_path
+                        
                         producer.produce(
                             topic="json_ot",
                             key="Development",
-                            value=json.dumps(ot.data),
-                            
+                            value=json.dumps(ot.data),    
                         )
+                        print(f"   [OK] > {os.path.basename(ot.link)} < se ha enviado a la base de datos")
+                        
                     else:
                         print(
-                            f"   [x]  > {ot.link} < No es un archivo Orden de Trabajo"
+                            f"   [X]  > {ot.link} < No es un archivo Orden de Trabajo"
                         )
                 producer.flush()
 
@@ -147,7 +162,7 @@ def main(event_handler):
         time.sleep(0.5)
 
 
-def get_or_create_client():
+def get_or_create_DASK_client():
     """
     Checks if a Dask client is already running. If so, connects to it.
     Otherwise, creates a new LocalCluster and client.
@@ -171,19 +186,18 @@ if __name__ == "__main__":
         format="%(asctime)s - %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
+        
+    client = get_or_create_DASK_client()
 
-    # Get or create the Dask client
-    client = get_or_create_client()
-
-    # Object creation
     KafkaApp = Application(
         broker_address="localhost:29092",
         loglevel="DEBUG",
     )
 
-    # Watchdog configuration
+
     event_handler = MyEventHandler(client, KafkaApp)
     observer = Observer()
+
 
     print("\n   === Monitor de Ordenes de trabajo ====")
 

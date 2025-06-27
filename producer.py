@@ -21,6 +21,11 @@ from eerssa import gestionOT              # Convert from PDF_ot to obj_ot
 from eerssa import matrizActividades      # process ot.data["actividades"]
 from eerssa import organizar as gdrive    # download sheet from Google Drive
 
+from eerssa import reporte_ot as reporte_pdf # Para generar el reporte del PDF
+import typst
+import pypst
+
+
 # get the data table from Google Sheets
 # If this is not possible, df_datos_cuadrilla will be just a 'Failed' String
 df_datos_cudarilla = gdrive.get_gsheet_df() 
@@ -95,7 +100,8 @@ class MyEventHandler(FileSystemEventHandler):
             ot_cargada = [ot.load_ot() for ot in ot_array]
             obj_lists = [ot for ot in ot_cargada]
             
-            # Hago este paso principalmente para que se analicen las actividades y generen los LOGS 
+            # Hago este paso principalmente para que se analicen las actividades y generen los LOGS
+            # Estos LOGS se guardan en el objeto OT es decir en obj_lists 
             matriz_list = [ matrizActividades.ConvertirOT_a_ActividadesCSV(ot) for ot in obj_lists ]
 
             end_time = time.time()
@@ -139,6 +145,18 @@ class MyEventHandler(FileSystemEventHandler):
                         if nuevo_path != "Failed":
                           ot.link = nuevo_path
                         
+                        #GENERACION DEL REPORTE
+                        for ot in obj_lists:
+                            reporte_typst = reporte_pdf.create_typst_doc( ot )
+                            with open("reporte_code.typ", mode="wt") as f:
+                                f.write(reporte_typst.render())
+                                print(" ::: Creado el archivo de reporte")
+                            report_filename = "REPORTE_"+os.path.basename(ot.link)
+                            report_filename = os.path.join(os.path.dirname(ot.link),report_filename)
+                            print(f" ::: Se guardará en {report_filename}")
+                            typst.compile("reporte_code.typ",  output= report_filename )
+
+
                         producer.produce(
                             topic="json_ot",
                             key="Development",

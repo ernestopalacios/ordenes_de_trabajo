@@ -29,7 +29,7 @@ app = Application(
     broker_address="localhost:29092",
     consumer_group="my-group",
     auto_create_topics=True,
-    consumer_extra_config={"auto.offset.reset": "earliest"}
+    auto_offset_reset="earliest"
 )
 
 topic = app.topic( "json_ot", value_serializer = JSONSerializer() )

@@ -133,41 +133,46 @@ class MyEventHandler(FileSystemEventHandler):
             with self.KafkaApp.get_producer() as producer:
                 for ot in obj_lists:
                     if ot.valido:
-                        
+                        # Aqui estoy reubicando el archivo.
                         nuevo_path = gdrive.renombrar_ot(
-                            ot.link,
-                            gdrive.get_nombre_archivo( ot, df_datos_cudarilla )
+                                        ot.link,
+                                        gdrive.get_nombre_archivo( ot, df_datos_cudarilla )
                         )
-
-                        print(f"\n\n Nombre de la Cuadrilla en OT: {ot.data['cuadrilla']}")
-                        print(f"\n\n Nombre de la Cuadrilla corto: {os.path.basename(nuevo_path)}\n\n")
 
                         if nuevo_path != "Failed":
                           ot.link = nuevo_path
                         
                         #GENERACION DEL REPORTE
-                        for ot in obj_lists:
-                            reporte_typst = reporte_pdf.create_typst_doc( ot )
+                        reporte_typst = reporte_pdf.create_typst_doc( ot )
+
+                        if reporte_typst != "todo_ok":
                             with open("reporte_code.typ", mode="wt") as f:
                                 f.write(reporte_typst.render())
                                 print(" ::: Creado el archivo de reporte")
-                            report_filename = "REPORTE_"+os.path.basename(ot.link)
-                            report_filename = os.path.join(os.path.dirname(ot.link),report_filename)
+                            
+                            if nuevo_path != "Failed":
+                                report_filename = "REPORTE_"+os.path.basename(ot.link)
+                                report_filename = os.path.join(os.path.dirname(ot.link),report_filename)
+                            else:
+                                report_filename = "REPORTE_"+os.path.basename(ot.link)
+                                report_filename = os.path.join("ot_procesados",os.path.dirname(ot.link),report_filename)
+
                             print(f" ::: Se guardará en {report_filename}")
                             typst.compile("reporte_code.typ",  output= report_filename )
 
-
-                        producer.produce(
-                            topic="json_ot",
-                            key="Development",
-                            value=json.dumps(ot.data),    
-                        )
-                        print(f"   [OK] > {os.path.basename(ot.link)} < se ha enviado a la base de datos")
-                        
+                        #SE ENVIAN LAS OT QUE SE ENCUENTRAN TERMINADAS Y SIN FALLAS
+                        if ot.data["estado"] == "TERMINADO" and ot.data["n_fallas"] == 0:
+                            producer.produce(
+                                topic="json_ot",
+                                key="Development",
+                                value=json.dumps(ot.data),    
+                            )
+                            print(f"   [OK] > {os.path.basename(ot.link)} < se ha enviado a la base de datos")
+                        else:
+                            #TODO: Este mensaje lo deberia hacer conocer a Kafka como parte de la reporteria
+                            print(f"   [?]  > {os.path.basename(ot.link)} < REVISAR: No se ha enviado a la base de datos")    
                     else:
-                        print(
-                            f"   [X]  > {ot.link} < No es un archivo Orden de Trabajo"
-                        )
+                        print(f"   [X]  > {ot.link} < No es un archivo Orden de Trabajo")
                 producer.flush()
 
 
@@ -177,7 +182,7 @@ def main(event_handler):
     """
     while True:
         event_handler.process_all_items()
-        time.sleep(0.5)
+        time.sleep(1.5)
 
 
 def get_or_create_DASK_client():

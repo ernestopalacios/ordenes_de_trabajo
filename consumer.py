@@ -29,7 +29,8 @@ app = Application(
     broker_address="localhost:29092",
     consumer_group="my-group",
     auto_create_topics=True,
-    auto_offset_reset="earliest"
+    auto_offset_reset="earliest",
+    loglevel="DEBUG"
 )
 
 topic = app.topic( "json_ot", value_serializer = JSONSerializer() )
@@ -48,13 +49,13 @@ def process_row(row: Row):
 
         # Check if there already exist a document in CurrentCollection with the same `id_ot`
         if CurrentCollection.find_one({"id_ot": ot_id}):
-            pass
+            #Keep the newest message, tell the user an ot has been replaced
+            print(f"\n\n ><><> Ya existe una Orden de Trabajo con este ID: {ot_id}. Se ha reemplazado")
         else:
             #upload the ot to the CurrentCollection
             CurrentCollection.insert_one(ot)
             logging.info(f"\n ~~~ (2) Guardado en MongoDB Orden de Trabajo con ID: {ot_id}")
 
-        # Add your processing logic here
     except Exception as e:
         logging.info(f"No se ha podido procesar el mensaje:\n>| {row} |<")
         logging.error(f"\n\nError: {e}")
@@ -72,8 +73,12 @@ sdf = sdf.apply(process_row)
 def run_app():
     """Starts the Quix Streams application."""
     print("\n\n = = = =   Iniciando CONSUMIDOR [Quix Streams application] ...  = = = =")
-    app.run(sdf)
-    print("\n\n = = = =   Se ha detenido [Quix Streams application] = = = =")
+    try:
+        app.run(sdf)
+    except Exception as e:
+        logging.error(f"\n\n [X] Error: {e}")
+    finally:
+        print("\n\n = = = =   Se ha detenido [Quix Streams application] = = = =")
 
 
 if __name__ == "__main__":

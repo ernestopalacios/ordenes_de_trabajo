@@ -202,6 +202,7 @@ def get_nombre_archivo( obj, df = "vacio" ):
       fecha_ot = obj.data["fecha"]
     
     return f"OT [{num_cudarilla}] {cuadrilla_corto} {fecha_ot} ({num_responsable}) {iniciales}.pdf"
+  
   except Exception as e:
     print(f"[ X ]  No fue posible renombrar la OT Error: {e}")
     obj.Log2Ot("ERROR", "No fue posible renombrar la OT", "No se pudo extraer la información de la Orden de Trabajo para ser renombrada")

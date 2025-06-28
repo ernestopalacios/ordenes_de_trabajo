@@ -1,0 +1,1367 @@
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+   Creando un nuevo cluster local.
+
+   === Monitor de Ordenes de trabajo ====
+   Se ha iniciado a monitorear el directorio:
+   ==>: '/home/vlad/Documents/temp_borrar/aTest/'
+
+   Procesando 324 archivos. Hora de inicio: 2025-06-27 17:28:22
+
+Error: al intentar calcular el tiempo transcurrido para una actividad . texto de inicio 2025-01-01T00:00:00-05:00 00:00:01 texto de fin 2025-01-01T00:00:00-05:00 00:00:02
+
+
+Error: al intentar calcular el tiempo transcurrido para una actividad . texto de inicio 2025-01-01T00:00:00-05:00 00:00:01 texto de fin 2025-01-01T00:00:00-05:00 00:00:02
+
+
+Error: al intentar calcular el tiempo transcurrido para una actividad . texto de inicio 2025-01-02T00:00:00-05:00 00:00:01 texto de fin 2025-01-02T00:00:00-05:00 00:00:02
+
+
+Error: al intentar calcular el tiempo transcurrido para una actividad . texto de inicio 2025-01-02T00:00:00-05:00 00:00:01 texto de fin 2025-01-02T00:00:00-05:00 00:00:02
+
+
+Error: al intentar calcular el tiempo transcurrido para una actividad . texto de inicio 2025-01-01T00:00:00-05:00 00:00:01 texto de fin 2025-01-01T00:00:00-05:00 00:00:02
+
+
+Error: al intentar calcular el tiempo transcurrido para una actividad . texto de inicio 2025-01-01T00:00:00-05:00 00:00:01 texto de fin 2025-01-01T00:00:00-05:00 00:00:02
+
+   Procesados todos los 324 items. Tiempo transcurrido: 176.49 segundos.
+
+[OK] Archivo: 'Orden de trabajo Paquisha 27-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-27 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-27 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-27 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 07-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-07 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-07 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-07 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 24-01-2025 (CB - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [24] Agencia Gualaquiza 2025-01-24 (052) CB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [24] Agencia Gualaquiza 2025-01-24 (052) CB.pdf
+   [OK] > OT [24] Agencia Gualaquiza 2025-01-24 (052) CB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 27-01-2025 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-27 (007) RS.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-27 (007) RS.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-27 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 22-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-22 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-22 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-22 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 22-01-2025 (JL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-22 (034) JL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-22 (034) JL.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-22 (034) JL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 19-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-19 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-19 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-19 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 14-01-2025 (PCH - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-14 (046) PCH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-14 (046) PCH.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-14 (046) PCH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 07-01-2025 (VZH).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-07 (023) VZH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-07 (023) VZH.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-07 (023) VZH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 09-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-09 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-09 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-09 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Jefe Zonal Zamora 31-01-2025 (EP).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [00] 00_Jefe Zonal 2025-01-31 (004) EP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [00] 00_Jefe Zonal 2025-01-31 (004) EP.pdf
+   [OK] > OT [00] 00_Jefe Zonal 2025-01-31 (004) EP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 06-01-2025 (CB - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [24] Agencia Gualaquiza 2025-01-06 (052) CB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [24] Agencia Gualaquiza 2025-01-06 (052) CB.pdf
+   [OK] > OT [24] Agencia Gualaquiza 2025-01-06 (052) CB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 31-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-31 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-31 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-31 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 15-01-2025 (LP - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-15 (047) LP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-15 (047) LP.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-15 (047) LP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 24-01-2025 (LP - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-24 (047) LP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-24 (047) LP.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-24 (047) LP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 27-01-2025 (CB - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [24] Agencia Gualaquiza 2025-01-27 (052) CB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [24] Agencia Gualaquiza 2025-01-27 (052) CB.pdf
+   [OK] > OT [24] Agencia Gualaquiza 2025-01-27 (052) CB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 22-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-22 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-22 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-22 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 28-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-28 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-28 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-28 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 23-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-23 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-23 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-23 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 25-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-25 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-25 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-25 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 25-01-2025 (HM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-01-25 (036) HM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [08] Cuadrilla El Pangui 2025-01-25 (036) HM.pdf
+   [OK] > OT [08] Cuadrilla El Pangui 2025-01-25 (036) HM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 15-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-15 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-15 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-15 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 10-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-10 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-10 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-10 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 31-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-31 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-31 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-31 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 10-01-2025 (VZH).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-10 (023) VZH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-10 (023) VZH.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-10 (023) VZH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 20-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-20 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-20 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-20 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 17-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-17 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-17 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-17 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 20-01-2025 (LP - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-20 (047) LP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-20 (047) LP.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-20 (047) LP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  21-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-21 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-21 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-21 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 31-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-31 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-31 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-31 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 09-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-09 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-09 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-09 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  29-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-29 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-29 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-29 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 13-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-13 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-13 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-13 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 09-01-2025 (RCL - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-09 (045) RCL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-09 (045) RCL.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-09 (045) RCL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 25-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-25 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-25 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-25 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 07-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-07 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-07 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-07 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 31-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-31 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-31 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-31 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 24-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-24 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-24 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-24 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 30-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-30 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-30 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-30 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 05-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-05 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-05 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-05 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 14-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-14 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-14 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-14 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 13-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-13 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-13 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-13 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 02-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-02 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-02 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-02 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  09-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-09 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-09 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-09 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 09-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-09 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-09 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-09 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 19-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-19 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-19 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-19 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 07-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-07 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-07 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-07 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 16-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-16 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-16 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-16 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 01-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-01 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-01 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-01 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 09-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-09 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-09 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-09 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 29-01-2025 (LV).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-01-29 (037) LV.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [08] Cuadrilla El Pangui 2025-01-29 (037) LV.pdf
+   [OK] > OT [08] Cuadrilla El Pangui 2025-01-29 (037) LV.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 24-01-2025 (EL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-24 (009) EL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-24 (009) EL.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-24 (009) EL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 20-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-20 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-20 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-20 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 10-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-10 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-10 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-10 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 14-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-14 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-14 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-14 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 09-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-09 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-09 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-09 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 21-01-2025 (CB - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [24] Agencia Gualaquiza 2025-01-21 (052) CB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [24] Agencia Gualaquiza 2025-01-21 (052) CB.pdf
+   [OK] > OT [24] Agencia Gualaquiza 2025-01-21 (052) CB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 13-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-13 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-13 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-13 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 14-01-2025 (LP - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-14 (047) LP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-14 (047) LP.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-14 (047) LP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 21-01-2025 (HM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-01-21 (036) HM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [08] Cuadrilla El Pangui 2025-01-21 (036) HM.pdf
+   [OK] > OT [08] Cuadrilla El Pangui 2025-01-21 (036) HM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  13-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-13 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-13 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-13 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 31-01-2025 (PCH - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-31 (046) PCH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-31 (046) PCH.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-31 (046) PCH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 31-01-2025 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-31 (007) RS.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-31 (007) RS.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-31 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 28-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-28 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-28 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-28 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 06-01-2025 (VZH).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-06 (023) VZH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-06 (023) VZH.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-06 (023) VZH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 15-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-15 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-15 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-15 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 30-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-30 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-30 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-30 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 22-01-2025 (CB - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [24] Agencia Gualaquiza 2025-01-22 (052) CB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [24] Agencia Gualaquiza 2025-01-22 (052) CB.pdf
+   [OK] > OT [24] Agencia Gualaquiza 2025-01-22 (052) CB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 24-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-24 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-24 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-24 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  24-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-24 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-24 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-24 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 16-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-16 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-16 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-16 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 31-01-2025 (CB - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [24] Agencia Gualaquiza 2025-01-31 (052) CB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [24] Agencia Gualaquiza 2025-01-31 (052) CB.pdf
+   [OK] > OT [24] Agencia Gualaquiza 2025-01-31 (052) CB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 06-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-06 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-06 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-06 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 30-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-30 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-30 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-30 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  15-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-15 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-15 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-15 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Jefe Zonal Zamora 16-01-2025 (EP).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [00] 00_Jefe Zonal 2025-01-16 (004) EP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [00] 00_Jefe Zonal 2025-01-16 (004) EP.pdf
+   [OK] > OT [00] 00_Jefe Zonal 2025-01-16 (004) EP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 17-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-17 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-17 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-17 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 20-01-2025 (CB - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [24] Agencia Gualaquiza 2025-01-20 (052) CB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [24] Agencia Gualaquiza 2025-01-20 (052) CB.pdf
+   [OK] > OT [24] Agencia Gualaquiza 2025-01-20 (052) CB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Jefe Zonal Zamora 30-01-2025 (EP).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [00] 00_Jefe Zonal 2025-01-30 (004) EP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [00] 00_Jefe Zonal 2025-01-30 (004) EP.pdf
+   [OK] > OT [00] 00_Jefe Zonal 2025-01-30 (004) EP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  28-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-28 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-28 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-28 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 23-01-2025 (LP - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-23 (047) LP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-23 (047) LP.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-23 (047) LP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 29-01-2025 (CB - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [24] Agencia Gualaquiza 2025-01-29 (052) CB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [24] Agencia Gualaquiza 2025-01-29 (052) CB.pdf
+   [OK] > OT [24] Agencia Gualaquiza 2025-01-29 (052) CB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  22-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-22 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-22 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-22 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 07-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-07 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-07 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-07 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  16-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-16 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-16 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-16 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 16-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-16 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-16 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-16 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 07-01-2025 (LP - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-07 (047) LP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-07 (047) LP.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-07 (047) LP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 02-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-02 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-02 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-02 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 12-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-12 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-12 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-12 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 03-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-03 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-03 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-03 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 05-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-05 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-05 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-05 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 02-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-02 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-02 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-02 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 01-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-01 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-01 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-01 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 08-01-2025 (PCH - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-08 (046) PCH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-08 (046) PCH.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-08 (046) PCH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 27-01-2025 (PCH - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-27 (046) PCH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-27 (046) PCH.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-27 (046) PCH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 09-01-2025 (LP - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-09 (047) LP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-09 (047) LP.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-09 (047) LP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 17-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-17 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-17 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-17 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 29-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-29 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-29 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-29 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 07-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-07 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-07 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-07 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 13-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-13 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-13 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-13 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 15-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-15 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-15 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-15 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 19-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-19 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-19 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-19 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 02-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-02 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-02 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-02 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 16-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-16 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-16 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-16 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 24-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-24 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-24 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-24 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 28-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-28 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-28 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-28 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 20-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-20 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-20 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-20 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 21-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-21 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-21 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-21 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 24-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-24 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-24 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-24 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 10-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-10 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-10 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-10 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 28-01-2025 (CB - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [24] Agencia Gualaquiza 2025-01-28 (052) CB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [24] Agencia Gualaquiza 2025-01-28 (052) CB.pdf
+   [OK] > OT [24] Agencia Gualaquiza 2025-01-28 (052) CB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 14-01-2025 (AC).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-14 (033) AC.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-14 (033) AC.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-14 (033) AC.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 23-01-2025 (HM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-01-23 (036) HM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [08] Cuadrilla El Pangui 2025-01-23 (036) HM.pdf
+   [OK] > OT [08] Cuadrilla El Pangui 2025-01-23 (036) HM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 08-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-08 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-08 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-08 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 20-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-20 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-20 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-20 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 04-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-04 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-04 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-04 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 28-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-28 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-28 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-28 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 28-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-28 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-28 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-28 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 08-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-08 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-08 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-08 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 20-01-2025 (HM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-01-20 (036) HM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [08] Cuadrilla El Pangui 2025-01-20 (036) HM.pdf
+   [OK] > OT [08] Cuadrilla El Pangui 2025-01-20 (036) HM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 12-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-12 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-12 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-12 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 19-01-2025 (HM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-01-19 (036) HM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [08] Cuadrilla El Pangui 2025-01-19 (036) HM.pdf
+   [OK] > OT [08] Cuadrilla El Pangui 2025-01-19 (036) HM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 08-01-2025 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-08 (007) RS.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-08 (007) RS.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-08 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 31-01-2025 (LV).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-01-31 (037) LV.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [08] Cuadrilla El Pangui 2025-01-31 (037) LV.pdf
+   [OK] > OT [08] Cuadrilla El Pangui 2025-01-31 (037) LV.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 27-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-27 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-27 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-27 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 29-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-29 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-29 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-29 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 08-01-2025 (CB - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [24] Agencia Gualaquiza 2025-01-08 (052) CB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [24] Agencia Gualaquiza 2025-01-08 (052) CB.pdf
+   [OK] > OT [24] Agencia Gualaquiza 2025-01-08 (052) CB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 15-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-15 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-15 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-15 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 06-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-06 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-06 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-06 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 07-01-2025 (JA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-07 (029) JA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-07 (029) JA.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-07 (029) JA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 27-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-27 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-27 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-27 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 31-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-31 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-31 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-31 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 14-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-14 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-14 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-14 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 08-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-08 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-08 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-08 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  06-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-06 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-06 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-06 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Jefe Zonal Zamora 29-01-2025 (EP).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [00] 00_Jefe Zonal 2025-01-29 (004) EP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [00] 00_Jefe Zonal 2025-01-29 (004) EP.pdf
+   [OK] > OT [00] 00_Jefe Zonal 2025-01-29 (004) EP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 13-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-13 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-13 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-13 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 14-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-14 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-14 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-14 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 06-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-06 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-06 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-06 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 06-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-06 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-06 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-06 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 09-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-09 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-09 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-09 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 03-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-03 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-03 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-03 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 06-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-06 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-06 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-06 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 24-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-24 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-24 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-24 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 29-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-29 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-29 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-29 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 30-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-30 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-30 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-30 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 30-01-2025 (LV).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-01-30 (037) LV.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [08] Cuadrilla El Pangui 2025-01-30 (037) LV.pdf
+   [OK] > OT [08] Cuadrilla El Pangui 2025-01-30 (037) LV.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 28-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-28 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-28 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-28 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 10-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-10 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-10 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-10 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Jefe Zonal Zamora 10-01-2025 (EP).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [00] 00_Jefe Zonal 2025-01-10 (004) EP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [00] 00_Jefe Zonal 2025-01-10 (004) EP.pdf
+   [OK] > OT [00] 00_Jefe Zonal 2025-01-10 (004) EP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 13-01-2025 (AC).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-13 (033) AC.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-13 (033) AC.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-13 (033) AC.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 27-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-27 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-27 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-27 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 18-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-18 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-18 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-18 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 10-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-10 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-10 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-10 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 21-01-2025 (PCH - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-21 (046) PCH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-21 (046) PCH.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-21 (046) PCH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 22-01-2025 (HM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-01-22 (036) HM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [08] Cuadrilla El Pangui 2025-01-22 (036) HM.pdf
+   [OK] > OT [08] Cuadrilla El Pangui 2025-01-22 (036) HM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 26-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-26 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-26 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-26 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 23-01-2025 (AC).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-23 (033) AC.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-23 (033) AC.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-23 (033) AC.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 29-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-29 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-29 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-29 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  17-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-17 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-17 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-17 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 10-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-10 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-10 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-10 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 11-01-2025 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-11 (007) RS.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-11 (007) RS.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-11 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 17-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-17 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-17 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-17 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 08-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-08 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-08 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-08 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 06-01-2025 (JA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-06 (029) JA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-06 (029) JA.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-06 (029) JA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  20-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-20 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-20 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-20 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 29-01-2025 (VZH).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-29 (023) VZH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-29 (023) VZH.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-29 (023) VZH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 09-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-09 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-09 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-09 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 13-01-2025 (LP - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-13 (047) LP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-13 (047) LP.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-13 (047) LP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 30-01-2025 (HM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-01-30 (036) HM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [08] Cuadrilla El Pangui 2025-01-30 (036) HM.pdf
+   [OK] > OT [08] Cuadrilla El Pangui 2025-01-30 (036) HM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 21-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-21 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-21 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-21 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  08-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-08 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-08 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-08 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 24-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-24 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-24 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-24 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 24-01-2025 (JR - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [23] Agencia El Pangui 2025-01-24 (060) JR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [23] Agencia El Pangui 2025-01-24 (060) JR.pdf
+   [OK] > OT [23] Agencia El Pangui 2025-01-24 (060) JR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 20-01-2025 (JL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-20 (034) JL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-20 (034) JL.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-20 (034) JL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 07-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-07 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-07 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-07 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 04-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-04 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-04 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-04 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 29-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-29 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-29 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-29 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 23-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-23 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-23 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-23 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 27-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-27 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-27 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-27 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 22-01-2025 (JA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-22 (029) JA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-22 (029) JA.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-22 (029) JA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 21-01-2025 (JL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-21 (034) JL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-21 (034) JL.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-21 (034) JL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 26-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-26 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-26 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-26 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 06-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-06 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-06 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-06 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 23-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-23 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-23 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-23 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 30-01-2025 (JR - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [23] Agencia El Pangui 2025-01-30 (060) JR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [23] Agencia El Pangui 2025-01-30 (060) JR.pdf
+   [OK] > OT [23] Agencia El Pangui 2025-01-30 (060) JR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 03-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-03 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-03 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-03 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 16-01-2025 (LP - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-16 (047) LP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-16 (047) LP.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-16 (047) LP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 29-01-2025 (PCH - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-29 (046) PCH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-29 (046) PCH.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-29 (046) PCH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 08-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-08 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-08 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-08 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 24-01-2025 (HM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-01-24 (036) HM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [08] Cuadrilla El Pangui 2025-01-24 (036) HM.pdf
+   [OK] > OT [08] Cuadrilla El Pangui 2025-01-24 (036) HM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 13-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-13 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-13 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-13 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 28-01-2025 (JR - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [23] Agencia El Pangui 2025-01-28 (060) JR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [23] Agencia El Pangui 2025-01-28 (060) JR.pdf
+   [OK] > OT [23] Agencia El Pangui 2025-01-28 (060) JR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 03-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-03 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-03 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-03 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  23-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-23 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-23 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-23 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 02-01-2025 (JA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-02 (029) JA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-02 (029) JA.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-02 (029) JA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  10-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-10 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-10 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-10 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 22-01-2025 (LP - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-22 (047) LP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-22 (047) LP.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-22 (047) LP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 30-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-30 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-30 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-30 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 20-01-2025 (PCH - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-20 (046) PCH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-20 (046) PCH.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-20 (046) PCH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 10-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-10 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-10 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-10 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 08-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-08 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-08 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-08 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 28-01-2025 (HM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-01-28 (036) HM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [08] Cuadrilla El Pangui 2025-01-28 (036) HM.pdf
+   [OK] > OT [08] Cuadrilla El Pangui 2025-01-28 (036) HM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 21-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-21 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-21 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-21 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Jefe Zonal Zamora 07-01-2025 (EP).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [00] 00_Jefe Zonal 2025-01-07 (004) EP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [00] 00_Jefe Zonal 2025-01-07 (004) EP.pdf
+   [OK] > OT [00] 00_Jefe Zonal 2025-01-07 (004) EP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 21-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-21 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-21 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-21 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 31-01-2025 (JR - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [23] Agencia El Pangui 2025-01-31 (060) JR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [23] Agencia El Pangui 2025-01-31 (060) JR.pdf
+   [OK] > OT [23] Agencia El Pangui 2025-01-31 (060) JR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 30-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-30 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-30 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-30 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 05-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-05 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-05 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-05 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 27-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-27 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-27 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-27 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 08-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-08 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-08 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-08 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 26-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-26 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-26 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-26 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 22-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-22 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-22 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-22 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 15-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-15 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-15 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-15 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 10-01-2025 (RCL - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-10 (045) RCL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-10 (045) RCL.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-10 (045) RCL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 14-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-14 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-14 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-14 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 29-01-2025 (HM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-01-29 (036) HM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [08] Cuadrilla El Pangui 2025-01-29 (036) HM.pdf
+   [OK] > OT [08] Cuadrilla El Pangui 2025-01-29 (036) HM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 16-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-16 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-16 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-16 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 24-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-24 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-24 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-24 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 14-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-14 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-14 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-14 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 01-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-01 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-01 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-01 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 27-01-2025 (HM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-01-27 (036) HM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [08] Cuadrilla El Pangui 2025-01-27 (036) HM.pdf
+   [OK] > OT [08] Cuadrilla El Pangui 2025-01-27 (036) HM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 21-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-21 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-21 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-21 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 30-01-2025 (CB - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [24] Agencia Gualaquiza 2025-01-30 (052) CB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [24] Agencia Gualaquiza 2025-01-30 (052) CB.pdf
+   [OK] > OT [24] Agencia Gualaquiza 2025-01-30 (052) CB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 28-01-2025 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-28 (007) RS.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-28 (007) RS.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-28 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 02-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-02 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-02 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-02 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 15-01-2025 (AC).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-15 (033) AC.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-15 (033) AC.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-15 (033) AC.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 12-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-12 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-12 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-12 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 07-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-07 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-07 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-07 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 31-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-31 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-31 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-31 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 23-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-23 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-23 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-23 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 21-01-2025 (LP - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-21 (047) LP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-21 (047) LP.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-21 (047) LP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 22-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-22 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-22 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-22 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  27-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-27 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-27 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-27 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 23-01-2025 (EL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-23 (009) EL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-23 (009) EL.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-23 (009) EL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 04-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-04 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-04 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-04 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 22-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-22 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-22 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-22 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 03-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-03 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-03 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-03 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 29-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-29 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-29 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-29 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 06-01-2025 (RCL - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-06 (045) RCL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-06 (045) RCL.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-06 (045) RCL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 15-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-15 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-15 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-15 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 31-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-31 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-31 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-31 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 30-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-30 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-30 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-30 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 16-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-16 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-16 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-16 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 10-01-2025 (LP - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-10 (047) LP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-10 (047) LP.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-10 (047) LP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 20-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-20 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-20 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-20 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 30-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-30 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-30 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-30 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 23-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-23 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-23 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-23 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 09-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-09 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-09 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-09 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 31-01-2025 (RCL - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-31 (045) RCL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-31 (045) RCL.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-31 (045) RCL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 29-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-29 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-29 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-29 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 16-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-16 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-16 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-16 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 17-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-17 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-17 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-17 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 22-01-2025 (PCH - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-22 (046) PCH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-22 (046) PCH.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-22 (046) PCH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 22-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-22 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-22 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-22 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 14-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-14 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-14 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-14 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 28-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-28 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-28 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-28 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 23-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-23 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-23 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-23 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 25-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-25 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-25 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-25 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 31-01-2025 (VZH).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-31 (023) VZH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-31 (023) VZH.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-31 (023) VZH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 21-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-21 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-21 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-21 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 20-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-20 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-20 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-20 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 06-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-06 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-06 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-06 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 28-01-2025 (PCH - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-28 (046) PCH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-28 (046) PCH.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-28 (046) PCH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 21-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-21 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-21 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-21 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 22-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-22 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-22 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-22 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 14-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-14 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-14 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-14 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 28-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-28 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-28 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-28 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 22-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-22 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-22 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-22 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 30-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-30 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-30 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-30 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 11-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-11 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-11 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-11 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 07-01-2025 (CB - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [24] Agencia Gualaquiza 2025-01-07 (052) CB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [24] Agencia Gualaquiza 2025-01-07 (052) CB.pdf
+   [OK] > OT [24] Agencia Gualaquiza 2025-01-07 (052) CB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 05-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-05 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-05 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-05 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 23-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-23 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-23 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-23 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 01-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-01 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-01 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-01 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 06-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-06 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-06 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-06 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 24-01-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-24 (030) AO.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-24 (030) AO.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-24 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 21-01-2025 (JA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-21 (029) JA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-21 (029) JA.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-21 (029) JA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 08-01-2025 (VZH).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-08 (023) VZH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-08 (023) VZH.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-08 (023) VZH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 11-01-2025 (VZH).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-11 (023) VZH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-11 (023) VZH.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-11 (023) VZH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 29-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-29 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-29 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-29 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 20-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-20 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-20 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-20 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 27-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-27 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-27 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-27 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 21-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-21 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-21 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-21 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 16-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-16 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-16 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-16 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  30-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-30 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-30 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-30 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 13-01-2025 (PCH - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-13 (046) PCH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-13 (046) PCH.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-13 (046) PCH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 01-01-2025 (JA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-01 (029) JA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-01 (029) JA.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-01 (029) JA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 09-01-2025 (AC).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-09 (033) AC.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-09 (033) AC.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-09 (033) AC.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  14-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-14 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-14 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-14 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 29-01-2025 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-29 (007) RS.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-29 (007) RS.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-29 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 10-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-10 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-10 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-10 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 15-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-15 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-15 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-15 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 31-01-2025 (HM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-01-31 (036) HM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [08] Cuadrilla El Pangui 2025-01-31 (036) HM.pdf
+   [OK] > OT [08] Cuadrilla El Pangui 2025-01-31 (036) HM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 16-01-2025 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-16 (007) RS.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-16 (007) RS.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-16 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 08-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-08 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-08 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-08 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  31-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-31 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-31 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-31 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 30-01-2025 (VZH).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-30 (023) VZH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-30 (023) VZH.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-30 (023) VZH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 06-01-2025 (LP - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-06 (047) LP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-06 (047) LP.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-06 (047) LP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 30-01-2025 (RCL - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [23] Agencia El Pangui 2025-01-30 (045) RCL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [23] Agencia El Pangui 2025-01-30 (045) RCL.pdf
+   [OK] > OT [23] Agencia El Pangui 2025-01-30 (045) RCL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 01-01-2025 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2025-01-01 (017) NL.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2025-01-01 (017) NL.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2025-01-01 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 18-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-18 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-18 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-18 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 31-01-2025 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-31 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-31 (021) SB.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-31 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 12-01-2025 (JA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-12 (029) JA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-12 (029) JA.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-12 (029) JA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 20-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-20 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-20 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-20 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 17-01-2025 (LP - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-17 (047) LP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-17 (047) LP.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-17 (047) LP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Jefe Zonal Zamora 14-01-2025 (EP).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [00] 00_Jefe Zonal 2025-01-14 (004) EP.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [00] 00_Jefe Zonal 2025-01-14 (004) EP.pdf
+   [OK] > OT [00] 00_Jefe Zonal 2025-01-14 (004) EP.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 17-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-17 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-17 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-17 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 15-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-15 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-15 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-15 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 30-01-2025 (PCH - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [22] Agencia Yantzaza 2025-01-30 (046) PCH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [22] Agencia Yantzaza 2025-01-30 (046) PCH.pdf
+   [OK] > OT [22] Agencia Yantzaza 2025-01-30 (046) PCH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 17-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-17 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-17 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-17 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  07-01-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-01-07 (042) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2025-01-07 (042) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2025-01-07 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 13-01-2025 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-01-13 (032) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2025-01-13 (032) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-01-13 (032) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 17-01-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-01-17 (039) FG.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [09] Cuadrilla Gualaquiza 2025-01-17 (039) FG.pdf
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-01-17 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 27-01-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-27 (010) SR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-27 (010) SR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-27 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 18-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-18 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-18 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-18 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 24-01-2025 (JA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-24 (029) JA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-24 (029) JA.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-24 (029) JA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Energizada Yantzaza 13-01-2025 (RM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [05] Energizados Yantzaza 2025-01-13 (026) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [05] Energizados Yantzaza 2025-01-13 (026) RM.pdf
+   [OK] > OT [05] Energizados Yantzaza 2025-01-13 (026) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 08-01-2025 (JA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-01-08 (029) JA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [06] Cuadrilla Paquisha 2025-01-08 (029) JA.pdf
+   [OK] > OT [06] Cuadrilla Paquisha 2025-01-08 (029) JA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 07-01-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-07 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-07 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-07 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 23-01-2025 (CB - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [24] Agencia Gualaquiza 2025-01-23 (052) CB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [24] Agencia Gualaquiza 2025-01-23 (052) CB.pdf
+   [OK] > OT [24] Agencia Gualaquiza 2025-01-23 (052) CB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 12-01-2025 (VZH).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-01-12 (023) VZH.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-01-12 (023) VZH.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-01-12 (023) VZH.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo El Pangui 27-01-2025 (JR - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [23] Agencia El Pangui 2025-01-27 (060) JR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [23] Agencia El Pangui 2025-01-27 (060) JR.pdf
+   [OK] > OT [23] Agencia El Pangui 2025-01-27 (060) JR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 15-01-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-01-15 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-01-15 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-01-15 (006) FR.pdf < se ha enviado a la base de datos
+
+   === Monitor de Ordenes de trabajo detenido ====
+
+
+
+   === Fin del proceso ===
+
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+   Creando un nuevo cluster local.

@@ -13,7 +13,7 @@ def generate_comment( doc, log_item ):
   message = log_item["message"]
   
   if level_msg == 'FATAL':
-    color = f"#problem(\"FATAL - {time_msg}\")"
+    color = f"#problema(\"FATAL - {time_msg}\")"
   elif level_msg == 'ERROR':
     color = f"#error(\"ERROR - {time_msg}\")"
   elif level_msg == 'REVISAR':
@@ -33,6 +33,7 @@ def generate_comment( doc, log_item ):
 
 
 def create_typst_doc( ot ):
+
   try:
     estado = ot.data["estado"]
   except:
@@ -49,6 +50,11 @@ def create_typst_doc( ot ):
     responsable = ot.data["responsable"][0]
   except:
     responsable = "Sin Responsable"
+
+  # No generar Reporte para OT finalizadas en caso de no haber novedades.
+  if len(ot.log) == 1 and ot.log[0]["level"] == "INFO" and estado == "TERMINADO":
+      return "todo_ok"
+
 
   doc = pypst.Document()
   doc.add_import("eerssa/templateReporte.typ", ['*']) # Import all Modules

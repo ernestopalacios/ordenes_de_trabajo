@@ -758,6 +758,7 @@ class GestionOt:
       for _, row in df_riesgos.iterrows():
         key = row['RIESGOS EXISTENTES:']
         value = [row[col] for col in df_riesgos.columns if col != 'RIESGOS EXISTENTES:']
+        value = [item for item in value if item != np.nan]
         riesgos_dict[key] = value
 
       return riesgos_dict

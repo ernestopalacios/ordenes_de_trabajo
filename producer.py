@@ -161,7 +161,7 @@ class MyEventHandler(FileSystemEventHandler):
                             typst.compile("reporte_code.typ",  output= report_filename )
 
                         #SE ENVIAN LAS OT QUE SE ENCUENTRAN TERMINADAS Y SIN FALLAS
-                        if ot.data["estado"] == "TERMINADO" and ot.data["n_fallas"] == 0:
+                        if ot.data["estado"] != "ECURSO" and ot.data["n_fallas"] == 0:
                             producer.produce(
                                 topic="json_ot",
                                 key="Development",

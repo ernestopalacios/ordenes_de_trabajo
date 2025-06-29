@@ -578,7 +578,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
 
 
   # Guardo la respuesta en el objeto
-  obj_ot.matriz =  actividades.fillna("·", inplace=True)
+  obj_ot.matriz = actividades.fillna("·")
   
   # Lo regreso al programa principal 
   return( actividades )

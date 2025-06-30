@@ -524,8 +524,11 @@ class GestionOt:
         # 23. Estado
         estado = self.getTerminado( pdf[1], self.bx_terminado )
         if isinstance( estado, Exception ) :
-          self.Log2Ot("ERROR", "No se ha encontrado el ESTADO en la Hoja 2", "|>> Desde la funcion 'getTerminado()' <<|" )
+          self.Log2Ot("FATAL", "No se ha encontrado el ESTADO en la Hoja 2", "|>> Desde la funcion 'getTerminado()' <<|" )
           self.data.update({"estado":DEFAULT_EMPTY_CHAR})
+        elif estado != 'TERMINADO':
+          self.Log2Ot("FATAL", "No es posible enviar al servidor esta Orden de Trabajo", f"[x] Estado Actual: {estado}")
+          self.data.update({"estado":estado})
         else:
           self.data.update({"estado":estado})
 

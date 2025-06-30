@@ -4770,3 +4770,108 @@ Error: al intentar calcular el tiempo transcurrido para una actividad . texto de
    [OK] > OT [07] Cuadrilla Guayzimi 2025-04-29 (032) CQ.pdf < se ha enviado a la base de datos
 [OK] Archivo: 'Orden de trabajo Gualaquiza 03-04-2025 (CB - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [24] Agencia Gualaquiza 2025-04-03 (052) CB.pdf' correctamente.
    [OK] > OT [24] Agencia Gualaquiza 2025-04-03 (052) CB.pdf < se ha enviado a la base de datos
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+[OK] Archivo: 'Orden de trabajo Gualaquiza 07-04-2025 (MT).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-04-07 (0) MT.pdf' correctamente.
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-04-07 (0) MT.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 10-04-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-04-10 (030) AO.pdf' correctamente.
+   [OK] > OT [06] Cuadrilla Paquisha 2025-04-10 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 08-04-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-04-08 (039) FG.pdf' correctamente.
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-04-08 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 04-04-2025 (CB - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [24] Agencia Gualaquiza 2025-04-04 (052) CB.pdf' correctamente.
+   [OK] > OT [24] Agencia Gualaquiza 2025-04-04 (052) CB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora  25-04-2025 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2025-04-25 (042) GJ.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2025-04-25 (042) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 20-04-2025 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-04-20 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2025-04-20 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2025-04-20 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 29-04-2025 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2025-04-29 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2025-04-29 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yantzaza 28-04-2025 (AA).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-04-28 (022) AA.pdf' correctamente.
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-04-28 (022) AA.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Paquisha 07-04-2025 (AO).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [06] Cuadrilla Paquisha 2025-04-07 (030) AO.pdf' correctamente.
+   [OK] > OT [06] Cuadrilla Paquisha 2025-04-07 (030) AO.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 22-04-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-04-22 (039) FG.pdf' correctamente.
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-04-22 (039) FG.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Gualaquiza 07-04-2025 (FG).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [09] Cuadrilla Gualaquiza 2025-04-07 (039) FG.pdf' correctamente.
+   [OK] > OT [09] Cuadrilla Gualaquiza 2025-04-07 (039) FG.pdf < se ha enviado a la base de datos
+   Procesando 1 archivos. Hora de inicio: 2025-06-29 08:52:33
+   Procesados todos los 1 items. Tiempo transcurrido: 0.54 segundos.
+
+[OK] Archivo: 'sc_pdf_20250629085216_573_pdfreport_ordenesTrabajoVisualizar.pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [04] Cuadrilla Yantzaza 2025-05-16 (022) AA.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [04] Cuadrilla Yantzaza 2025-05-16 (022) AA.pdf
+   [OK] > OT [04] Cuadrilla Yantzaza 2025-05-16 (022) AA.pdf < se ha enviado a la base de datos
+
+   === Monitor de Ordenes de trabajo detenido ====
+
+
+
+   === Fin del proceso ===
+
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+   Creando un nuevo cluster local.
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+
+   === Monitor de Ordenes de trabajo ====
+   Se ha iniciado a monitorear el directorio:
+   ==>: '/home/vlad/Documents/temp_borrar/aTest/'
+
+
+   === Monitor de Ordenes de trabajo detenido ====
+
+
+
+   === Fin del proceso ===
+

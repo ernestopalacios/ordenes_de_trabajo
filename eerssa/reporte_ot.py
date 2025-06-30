@@ -35,6 +35,10 @@ def generate_comment( doc, log_item ):
 def create_typst_doc( ot ):
 
   try:
+    id_ot = ot.data["id_ot"]
+  except:
+    id_ot = "SIN ID"
+  try:
     estado = ot.data["estado"]
   except:
     estado = "SIN ESTADO"
@@ -64,7 +68,7 @@ def create_typst_doc( ot ):
     title: "Reporte de Orden de Trabajo",
     subtitle: [ ],
     author: "{estado}",
-    abstract: "{cuadrilla} \n {fecha} \n {responsable}",
+    abstract: "{cuadrilla} \n {fecha} \n {responsable} \n id_ot : {id_ot}",
   )""")
 
   doc.add("= Novedades encontradas")

@@ -3,25 +3,25 @@
 #show: dvdtyp.with(
     title: "Reporte de Orden de Trabajo",
     subtitle: [ ],
-    author: "ECURSO",
-    abstract: "Zamora Z1 (Cuadrilla. Nro. 6) 
- viernes, 27 de junio del 2025 
- RIOS RIOS FRANCISCO FERNANDO 
- id_ot : 155976",
+    author: "TERMINADO",
+    abstract: "Pangui Z1 (Cuadrilla. Nro. 4) 
+ miércoles, 16 de febrero del 2022 
+ AMARI ORDONEZ JUNIOR IVAN 
+ id_ot : 81238",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2025-06-29 23:21:07")[
+#informativo("Informativo - 2025-07-03 12:53:23")[
   CREACIÓN DE LA OT, se encuentra un archivo PDF de al menos tres hojas 
   $
     "Ninguno"
   $
 ]
 
-#problema("FATAL - 2025-06-29 23:21:08")[
-  No es posible enviar al servidor esta Orden de Trabajo
+#revisar("Revisar - 2025-07-03 12:54:24")[
+  Se detectaron fechas inconsistentes
   $
-    "[x] Estado Actual: ECURSO"
+    "En actividades, revisar las fechas de fin de actividad"
   $
 ]

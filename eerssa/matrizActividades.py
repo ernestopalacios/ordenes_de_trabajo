@@ -369,12 +369,12 @@ def organizarActividades( obj_ot ):
   #"""····························································
   #    CORREGIR FECHAS ERRONEAS EN LAS ACTIVIDADES DE UNA OT
   #·······························································"""
-  backup = actividades
+  backup = actividades.copy()
   try:
     actividades['corregir_fechaInicio'] = actividades[ 'InicioEvento' ].apply(lambda x: x.split()[0] == fechaModa )
     actividades['corregir_fechaFin'] = actividades[ 'FinEvento' ].apply(lambda x: x.split()[0] == fechaModa )
-    actividades.loc[ actividades['corregir_fechaInicio'] == False, 'InicioEvento' ] = actividades.loc[actividades['corregir_fechaInicio'] == False, 'InicioEvento'].apply(lambda x: " ".join([ fechaModa, x.split()[1] ]) )
-    actividades.loc[ actividades['corregir_fechaFin'] == False, 'FinEvento' ] = actividades.loc[actividades['corregir_fechaFin'] == False, 'FinEvento'].apply(lambda x: " ".join([ fechaModa, x.split()[1] ]) )
+    actividades.loc[ actividades['corregir_fechaInicio'] == False, 'InicioEvento' ] = actividades.loc[actividades['corregir_fechaInicio'] == False, 'InicioEvento'].apply(lambda x: " ".join([ fechaModa, x.split()[1] ]) if isinstance(x, str) and len(x.split()) > 1 else x )
+    actividades.loc[ actividades['corregir_fechaFin'] == False, 'FinEvento' ] = actividades.loc[actividades['corregir_fechaFin'] == False, 'FinEvento'].apply(lambda x: " ".join([ fechaModa, x.split()[1] ]) if isinstance(x, str) and len(x.split()) > 1 else x )
   
     if ( not actividades['corregir_fechaInicio'].all() ) : # at leas one error
       obj_ot.Log2Ot("REVISAR", "Se detectaron fechas inconsistentes", "En actividades, revisar las fechas de inicio actividad")

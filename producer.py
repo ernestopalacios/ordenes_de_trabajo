@@ -214,7 +214,7 @@ if __name__ == "__main__":
 
     KafkaApp = Application(
         broker_address="localhost:29092",
-        loglevel="DEBUG",
+        loglevel="INFO"
     )
 
 
@@ -239,6 +239,18 @@ if __name__ == "__main__":
             f"   Se ha iniciado a monitorear el directorio:\n   ==>: '{base_dir}'\n"
         )
 
+
+
+        # En caso de que existan Documentos PDF en el directorio, procesarlos primero,
+        # antes de iniciar el monitor
+        initial_pdfs = [str(p) for p in Path(base_dir).glob("*.pdf")]
+        if initial_pdfs:
+            print(
+                f"   Se encontraron {len(initial_pdfs)} archivos PDF para procesar inicialmente."
+            )
+            for pdf_path in initial_pdfs:
+                event_handler.file_queue.put(pdf_path)
+ 
         observer.schedule(event_handler, base_dir, recursive=False)
         observer.start()
 

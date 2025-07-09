@@ -38,15 +38,19 @@ uri = Keys.MONGO_KEY.value
 client = None  # Initialize client to None
 db_eerssa = None
 CurrentCollection = None
+ReloadCollection = None
+
 
 try:
     # Add a timeout to avoid blocking indefinitely
     client = pymongo.MongoClient(uri, serverSelectionTimeoutMS=5000)
     # The ping command is cheap and does not require auth.
     client.admin.command('ping')
-    db_eerssa = client.eerssa               # Base de datos EERSSA
-    CurrentCollection = db_eerssa.ot_v22    # Coleccion actual
+    db_eerssa = client.eerssa                   # Base de datos EERSSA
+    CurrentCollection = db_eerssa.ot_v22        # Coleccion actual
+    ReloadCollection  = db_eerssa.ot_reemplazo  # Aqui se cargan OTs repetidas
     logging.info(":::: Conexion exitosa con MongoDB ::::")
+    
 except ConnectionFailure as e:
     logging.error(f"\n\n ><><> Error de conexion a MongoDB: {e}")
     sys.exit(1) # Exit the script if we can't connect to MongoDB, as it's a critical dependency.
@@ -63,27 +67,50 @@ app = Application(
     on_consumer_error=on_consumer_error_handler,
 )
 
-topic = app.topic("json_ot", value_serializer=JSONSerializer())
-sdf = app.dataframe(topic)
+input_topic = app.topic("json_ot", value_serializer = JSONSerializer())
+output_topic = app.topic("new_id", key_serializer   = "str", value_serializer="json")
+reload_topic = app.topic("reload_id", key_serializer   = "str", value_serializer="json")
+sdf = app.dataframe(input_topic)
 
 def process_row(row: Row):
     """
     Processes a single message (Row) from the Kafka topic.
-    Converts the Row value to a dictionary and logs the 'ot_id'.
-    Inserts the document into MongoDB, replaces it if already exists.
+    If a document with the same 'id_ot' exists, it is moved to the
+    'ot_reemplazo' collection before being replaced. Otherwise, the new
+    document is inserted. Produces the 'id_ot' to the 'new_id' or
+    'reload_id' topic.
     """
     try:
         
         ot = row
+        reload = False
         ot_id = ot["id_ot"]
         logging.info(f"\n ~~~ (1) Recibido el mensaje Orden de Trabajo con ID: {ot_id}")
 
-        result = CurrentCollection.replace_one({"id_ot": ot_id}, ot, upsert=True)
+        # Check if the document already exists
+        existing_doc = CurrentCollection.find_one({"id_ot": ot_id})
 
-        if result.upserted_id:
+        if existing_doc:
+            # If it exists, insert the new version into the replacement collection
+            ReloadCollection.insert_one(ot)
+            logging.info(f" ~~~ (2a) Reubicada OT nueva con ID: {ot_id} en '{ReloadCollection.name}'")
+            reload = True
+        else:
+            # If it doesn't exist, insert the new document
+            CurrentCollection.insert_one(ot)
             logging.info(f" ~~~ (2) Guardado en MongoDB nueva Orden de Trabajo con ID: {ot_id}")
-        elif result.modified_count > 0:
-            logging.info(f" ~~~ (2) Actualizada en MongoDB la Orden de Trabajo con ID: {ot_id}")
+
+        # The RowProducer is part of the app's processing context and is safe to use here.
+        message = output_topic.serialize(key=str(ot_id), value={"id_ot": ot_id})
+        topic = output_topic.name if not reload else reload_topic.name
+
+        app._producer.produce(
+            topic = topic,
+            key = message.key,
+            value=message.value,
+        )
+
+        logging.info(f" ~~~ (3) Enviado a Kafka la OT con ID: {ot_id} a: >> '{topic}'")
     
     except Exception as e:
         logging.info(f"No se ha podido procesar el mensaje:\n>| {row} |<")

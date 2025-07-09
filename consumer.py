@@ -75,34 +75,34 @@ sdf = app.dataframe(input_topic)
 def process_row(row: Row):
     """
     Processes a single message (Row) from the Kafka topic.
-    If a document with the same 'id_ot' exists, it is moved to the
-    'ot_reemplazo' collection before being replaced. Otherwise, the new
-    document is inserted. Produces the 'id_ot' to the 'new_id' or
-    'reload_id' topic.
+    Checks if a document with the same 'id_ot' exists in the main collection.
+    - If it exists, the new document is sent to the 'ot_reemplazo' collection
+      for later processing. The original document in the main collection is
+      left untouched.
+    - If it does not exist, the new document is inserted into the main collection.
+    Produces the 'id_ot' to the appropriate Kafka topic.
     """
     try:
         
         ot = row
-        reload = False
+        is_replacement = False
         ot_id = ot["id_ot"]
         logging.info(f"\n ~~~ (1) Recibido el mensaje Orden de Trabajo con ID: {ot_id}")
 
-        # Check if the document already exists
-        existing_doc = CurrentCollection.find_one({"id_ot": ot_id})
-
-        if existing_doc:
-            # If it exists, insert the new version into the replacement collection
-            ReloadCollection.insert_one(ot)
-            logging.info(f" ~~~ (2a) Reubicada OT nueva con ID: {ot_id} en '{ReloadCollection.name}'")
-            reload = True
+        # Check if a document with this ID already exists in the main collection
+        if CurrentCollection.find_one({"id_ot": ot_id}, {"_id": 1}):
+            # If it exists, this is a replacement. Send to ReloadCollection.
+            is_replacement = True
+            ReloadCollection.replace_one({"id_ot": ot_id}, ot, upsert=True)
+            logging.info(f" ~~~ (2a) OT ya existe. Enviando reemplazo con ID: {ot_id} a la colección '{ReloadCollection.name}'")
         else:
-            # If it doesn't exist, insert the new document
+            # If it's a new OT, insert into the main collection.
             CurrentCollection.insert_one(ot)
-            logging.info(f" ~~~ (2) Guardado en MongoDB nueva Orden de Trabajo con ID: {ot_id}")
+            logging.info(f" ~~~ (2) Guardada en MongoDB nueva Orden de Trabajo con ID: {ot_id}")
 
         # The RowProducer is part of the app's processing context and is safe to use here.
         message = output_topic.serialize(key=str(ot_id), value={"id_ot": ot_id})
-        topic = output_topic.name if not reload else reload_topic.name
+        topic = reload_topic.name if is_replacement else output_topic.name
 
         app._producer.produce(
             topic = topic,

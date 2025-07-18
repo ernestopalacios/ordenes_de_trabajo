@@ -1313,3 +1313,415 @@ Authentication successful!
 
    === Fin del proceso ===
 
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+   Creando un nuevo cluster local.
+
+   === Monitor de Ordenes de trabajo ====
+   Se ha iniciado a monitorear el directorio:
+   ==>: '/home/vlad/Documents/temp_borrar/aTest/'
+
+   Procesando 1 archivos. Hora de inicio: 2025-07-18 14:44:21
+   Procesados todos los 1 items. Tiempo transcurrido: 0.60 segundos.
+
+[OK] Archivo: 'sc_pdf_20250718144358_403_pdfreport_ordenesTrabajoVisualizar.pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-07-17 (039) HM.pdf' correctamente.
+   [OK] > OT [08] Cuadrilla El Pangui 2025-07-17 (039) HM.pdf < se ha enviado a la base de datos
+   Procesando 1 archivos. Hora de inicio: 2025-07-18 14:47:32
+   Procesados todos los 1 items. Tiempo transcurrido: 0.62 segundos.
+
+[OK] Archivo: 'sc_pdf_20250718144647_595_pdfreport_ordenesTrabajoVisualizar.pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [08] Cuadrilla El Pangui 2025-07-16 (039) HM.pdf' correctamente.
+   [OK] > OT [08] Cuadrilla El Pangui 2025-07-16 (039) HM.pdf < se ha enviado a la base de datos
+   Procesando 1 archivos. Hora de inicio: 2025-07-18 15:59:21
+   Procesados todos los 1 items. Tiempo transcurrido: 0.61 segundos.
+
+[OK] Archivo: 'sc_pdf_20250718155859_371_pdfreport_ordenesTrabajoVisualizar.pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-07-17 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-07-17 (035) CQ.pdf < se ha enviado a la base de datos
+   Procesando 1 archivos. Hora de inicio: 2025-07-18 15:59:50
+   Procesados todos los 1 items. Tiempo transcurrido: 0.55 segundos.
+
+[OK] Archivo: 'sc_pdf_20250718155929_107_pdfreport_ordenesTrabajoVisualizar.pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2025-07-16 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2025-07-16 (035) CQ.pdf < se ha enviado a la base de datos
+   Procesando 103 archivos. Hora de inicio: 2025-07-18 16:10:46
+   Procesados todos los 103 items. Tiempo transcurrido: 59.11 segundos.
+
+[OK] Archivo: 'Orden de trabajo Zamora 15-01-2021 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-15 (007) RS.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2021-01-15 (007) RS.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-15 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 29-01-2021 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-29 (047) GJ.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-29 (047) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 12-01-2021 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-12 (047) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2021-01-12 (047) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2021-01-12 (047) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 15-01-2021 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-15 (047) GJ.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-15 (047) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 08-01-2021 (RM - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-08 (027) RM.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-08 (027) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 22-01-2021 (RM - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-22 (027) RM.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-22 (027) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 05-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-05 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-05 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 12-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-12 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-12 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 11-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-11 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-11 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 26-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-26 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-26 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 01-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-01 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-01 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 29-01-2021 (RM - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-29 (027) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2021-01-29 (027) RM.pdf
+   [OK] > OT [21] Agencia Zamora 2021-01-29 (027) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 15-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-15 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-15 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 28-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-28 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-28 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 11-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-11 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-11 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 25-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-25 (012) LM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2021-01-25 (012) LM.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-25 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 06-01-2021 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-06 (047) GJ.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-06 (047) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 21-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-21 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-21 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 04-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-04 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-04 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 07-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-07 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-07 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 20-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-20 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-20 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 25-01-2021 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-25 (047) GJ.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-25 (047) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 10-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-10 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-10 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 07-01-2021 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-07 (047) GJ.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-07 (047) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 14-01-2021 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-14 (047) GJ.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-14 (047) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 21-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-21 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-21 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 02-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-02 (012) LM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2021-01-02 (012) LM.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-02 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 04-01-2021 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-04 (007) RS.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2021-01-04 (007) RS.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-04 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 26-01-2021 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-26 (047) GJ.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-26 (047) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 20-01-2021 (RM - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-20 (027) RM.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-20 (027) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 22-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-22 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-22 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 19-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-19 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-19 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 04-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-04 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-04 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 13-01-2021 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-13 (007) RS.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2021-01-13 (007) RS.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-13 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 06-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-06 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-06 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 16-01-2021 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-16 (007) RS.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-16 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 27-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-27 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-27 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 18-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-18 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-18 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 08-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-08 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-08 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 04-01-2021 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-04 (047) GJ.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-04 (047) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 27-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-27 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-27 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 09-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-09 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-09 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 19-01-2021 (RM - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-19 (027) RM.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-19 (027) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 05-01-2021 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-05 (007) RS.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-05 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 20-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-20 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-20 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 13-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-13 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-13 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 18-01-2021 (RM - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-18 (027) RM.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-18 (027) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 14-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-14 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-14 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 12-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-12 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-12 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 07-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-07 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-07 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 15-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-15 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-15 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 18-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-18 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-18 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 18-01-2021 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-18 (007) RS.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-18 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 05-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-05 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-05 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 21-01-2021 (RM - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-21 (027) RM.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-21 (027) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 27-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-27 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-27 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 11-01-2021 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-11 (047) GJ.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-11 (047) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 12-01-2021 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-12 (007) RS.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-12 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 07-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-07 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-07 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 16-01-2021 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-16 (047) GJ.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-16 (047) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 14-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-14 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-14 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 29-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-29 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-29 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 03-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-03 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-03 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 14-01-2021 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-14 (007) RS.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-14 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 28-01-2021 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-28 (007) RS.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-28 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 06-01-2021 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-06 (007) RS.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-06 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 19-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-19 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-19 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 08-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-08 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-08 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 11-01-2021 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-11 (007) RS.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-11 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 05-01-2021 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-05 (047) GJ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2021-01-05 (047) GJ.pdf
+   [OK] > OT [21] Agencia Zamora 2021-01-05 (047) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 14-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-14 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-14 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 13-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-13 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-13 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 28-01-2021 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-28 (047) GJ.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-28 (047) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 07-01-2021 (RM - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-07 (027) RM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [21] Agencia Zamora 2021-01-07 (027) RM.pdf
+   [OK] > OT [21] Agencia Zamora 2021-01-07 (027) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 20-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-20 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-20 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 04-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-04 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-04 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 26-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-26 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-26 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 06-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-06 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-06 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 25-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-25 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-25 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 08-01-2021 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-08 (007) RS.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2021-01-08 (007) RS.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-08 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 23-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-23 (012) LM.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2021-01-23 (012) LM.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-23 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 19-01-2021 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-19 (007) RS.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-19 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 21-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-21 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-21 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 07-01-2021 (RS).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-07 (007) RS.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-07 (007) RS.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 08-01-2021 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-08 (047) GJ.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-08 (047) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 27-01-2021 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-27 (047) GJ.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-27 (047) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 25-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-25 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-25 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 30-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-30 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-30 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 29-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-29 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-29 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 22-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-22 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-22 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 18-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-18 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-18 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 23-01-2021 (RM - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-23 (027) RM.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-23 (027) RM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 12-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-12 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2021-01-12 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-12 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 06-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-06 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2021-01-06 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-06 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 28-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-28 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-28 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 05-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-05 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-05 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 19-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-19 (006) FR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-19 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 29-01-2021 (FR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-29 (006) FR.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [01] Cuadrilla Zamora 2021-01-29 (006) FR.pdf
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-29 (006) FR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 26-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-26 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-26 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 13-01-2021 (GJ - Electricistas).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [21] Agencia Zamora 2021-01-13 (047) GJ.pdf' correctamente.
+   [OK] > OT [21] Agencia Zamora 2021-01-13 (047) GJ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 22-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-22 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-22 (012) LM.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 15-01-2021 (SR).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-15 (010) SR.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-15 (010) SR.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Zamora 13-01-2021 (LM).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [01] Cuadrilla Zamora 2021-01-13 (012) LM.pdf' correctamente.
+   [OK] > OT [01] Cuadrilla Zamora 2021-01-13 (012) LM.pdf < se ha enviado a la base de datos
+   Procesando 27 archivos. Hora de inicio: 2025-07-18 16:53:42
+   Procesados todos los 27 items. Tiempo transcurrido: 15.43 segundos.
+
+[OK] Archivo: 'Orden de trabajo Yacuambi 19-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-19 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-19 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 13-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-13 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-13 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 08-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-08 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-08 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 01-01-2021 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-01 (017) NL.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-01 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 26-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-26 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-26 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 29-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-29 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-29 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 05-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-05 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-05 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 27-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-27 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-27 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 04-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-04 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-04 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 18-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-18 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-18 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 25-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-25 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-25 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 06-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-06 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2021-01-06 (021) SB.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-06 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 22-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-22 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2021-01-22 (021) SB.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-22 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 05-01-2021 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-05 (017) NL.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-05 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 07-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-07 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-07 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 16-01-2021 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-16 (017) NL.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-16 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 12-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-12 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-12 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 10-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-10 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-10 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 17-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-17 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-17 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 09-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-09 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-09 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 15-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-15 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-15 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 14-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-14 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-14 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 24-01-2021 (NL).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-24 (017) NL.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-24 (017) NL.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 28-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-28 (021) SB.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [03] Cuadrilla Yacuambi 2021-01-28 (021) SB.pdf
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-28 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 11-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-11 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-11 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 21-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-21 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-21 (021) SB.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Yacuambi 20-01-2021 (SB).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [03] Cuadrilla Yacuambi 2021-01-20 (021) SB.pdf' correctamente.
+   [OK] > OT [03] Cuadrilla Yacuambi 2021-01-20 (021) SB.pdf < se ha enviado a la base de datos
+   Procesando 27 archivos. Hora de inicio: 2025-07-18 17:20:49
+   Procesados todos los 27 items. Tiempo transcurrido: 15.28 segundos.
+
+[OK] Archivo: 'Orden de trabajo Guayzimi 26-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-26 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-26 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 28-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-28 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-28 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 04-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-04 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-04 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 13-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-13 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-13 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 18-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-18 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-18 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 01-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-01 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-01 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 27-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-27 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-27 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 19-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-19 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-19 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 29-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-29 (035) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2021-01-29 (035) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-29 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 20-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-20 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-20 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 17-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-17 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-17 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 05-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-05 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-05 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 03-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-03 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-03 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 16-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-16 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-16 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 25-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-25 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-25 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 14-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-14 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-14 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 06-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-06 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-06 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 07-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-07 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-07 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 15-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-15 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-15 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 12-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-12 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-12 (035) CQ.pdf < se ha enviado a la base de datos
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+[OK] Archivo: 'Orden de trabajo Guayzimi 22-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-22 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-22 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 26-01-2021 (AC).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-26 (036) AC.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-26 (036) AC.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 09-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-09 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-09 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 11-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-11 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-11 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 23-01-2021 (AC).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-23 (036) AC.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-23 (036) AC.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 08-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-08 (035) CQ.pdf' correctamente.
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-08 (035) CQ.pdf < se ha enviado a la base de datos
+[OK] Archivo: 'Orden de trabajo Guayzimi 21-01-2021 (CQ).pdf' reubicado a: '/home/vlad/Documents/temp_borrar/aTest/ot_procesados/OT [07] Cuadrilla Guayzimi 2021-01-21 (035) CQ.pdf' correctamente.
+ ::: Creado el archivo de reporte
+ ::: Se guardará en /home/vlad/Documents/temp_borrar/aTest/ot_procesados/REPORTE_OT [07] Cuadrilla Guayzimi 2021-01-21 (035) CQ.pdf
+   [OK] > OT [07] Cuadrilla Guayzimi 2021-01-21 (035) CQ.pdf < se ha enviado a la base de datos
+
+   === Monitor de Ordenes de trabajo detenido ====
+
+
+
+   === Fin del proceso ===
+

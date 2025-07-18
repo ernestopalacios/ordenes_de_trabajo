@@ -7,9 +7,11 @@ wheels/
 secrets/
 *.egg-info
 
+reporte_code.typ
+
 # Virtual environments
 .venv
 test
-
+state
 # Private Keys
 eerssa/secret.py

@@ -12,7 +12,7 @@ from pymongo.errors import ConnectionFailure
 
 
 logging.basicConfig(level=logging.INFO)
-
+KAFKA_KEY = "MBID"
 
 def on_consumer_error_handler(
     exc: Exception,
@@ -47,8 +47,8 @@ try:
     # The ping command is cheap and does not require auth.
     client.admin.command('ping')
     db_eerssa = client.eerssa                   # Base de datos EERSSA
-    CurrentCollection = db_eerssa.ot_v22        # Coleccion actual
-    ReloadCollection  = db_eerssa.ot_reemplazo  # Aqui se cargan OTs repetidas
+    CurrentCollection = db_eerssa.ot_v23        # Coleccion actual
+    ReloadCollection  = db_eerssa.ot_reload  # Aqui se cargan OTs repetidas
     logging.info(":::: Conexion exitosa con MongoDB ::::")
     
 except ConnectionFailure as e:
@@ -60,16 +60,16 @@ except ConnectionFailure as e:
 
 app = Application(
     broker_address="localhost:29092",
-    consumer_group="my-group",
+    consumer_group="dev_consumer_group",
     auto_create_topics=True,
     auto_offset_reset="earliest",
     loglevel="INFO",
     on_consumer_error=on_consumer_error_handler,
 )
 
-input_topic = app.topic("json_ot", value_serializer = JSONSerializer())
-output_topic = app.topic("new_id", key_serializer   = "str", value_serializer="json")
-reload_topic = app.topic("reload_id", key_serializer   = "str", value_serializer="json")
+input_topic = app.topic("json_ot_v23", value_serializer = JSONSerializer())
+output_topic = app.topic("new_id_v23", key_serializer   = "str", value_serializer="json")
+reload_topic = app.topic("stage_id", key_serializer   = "str", value_serializer="json")
 sdf = app.dataframe(input_topic)
 
 def process_row(row: Row):
@@ -101,7 +101,7 @@ def process_row(row: Row):
             logging.info(f" ~~~ (2) Guardada en MongoDB nueva Orden de Trabajo con ID: {ot_id}")
 
         # The RowProducer is part of the app's processing context and is safe to use here.
-        message = output_topic.serialize(key=str(ot_id), value={"id_ot": ot_id})
+        message = output_topic.serialize(key = KAFKA_KEY, value={"id_ot": ot_id})
         topic = reload_topic.name if is_replacement else output_topic.name
 
         app._producer.produce(

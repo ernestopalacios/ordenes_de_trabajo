@@ -4,24 +4,24 @@
     title: "Reporte de Orden de Trabajo",
     subtitle: [ ],
     author: "TERMINADO",
-    abstract: "Zamora Z1 (Cuadrilla. Nro. 6) 
- jueves, 10 de julio del 2025 
- RIVERA GUAMAN SEGUNDO PATRICIO 
- id_ot : 156896",
+    abstract: "Guaysimi Z1 (Cuadrilla. Nro. 7) 
+ jueves, 21 de enero del 2021 
+ QUIROGA ORDONEZ CARLOS HERNAN 
+ id_ot : 59707",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2025-07-15 12:12:58")[
+#informativo("Informativo - 2025-07-18 17:21:03")[
   CREACIÓN DE LA OT, se encuentra un archivo PDF de al menos tres hojas 
   $
     "Ninguno"
   $
 ]
 
-#error("ERROR - 2025-07-15 12:12:58")[
-  No coinciden la Fecha de la OT viernes, 11 de julio del 2025 con Fecha de Inicio: jueves, 10 de julio del 2025
+#revisar("Revisar - 2025-07-18 17:21:04")[
+  Se detectaron fechas inconsistentes
   $
-    "|>> Comparando las dos fechas de Hoja Uno <<|"
+    "En actividades, revisar las fechas de fin de actividad"
   $
 ]

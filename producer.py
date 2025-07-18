@@ -163,7 +163,7 @@ class MyEventHandler(FileSystemEventHandler):
                         #SE ENVIAN LAS OT QUE SE ENCUENTRAN TERMINADAS Y SIN FALLAS
                         if ot.data["estado"] != "ECURSO" and ot.data["n_fallas"] == 0:
                             producer.produce(
-                                topic="json_ot",
+                                topic="json_ot_v23",
                                 key="Development",
                                 value=json.dumps(ot.data),    
                             )

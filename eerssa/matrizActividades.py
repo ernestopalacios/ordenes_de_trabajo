@@ -1,5 +1,4 @@
 import pandas as pd
-import uuid
 from unidecode import unidecode
 import pickle
 from   os.path import basename
@@ -545,7 +544,6 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
 
   """
 
-  actividades['uuid'] = actividades.apply(lambda x: uuid.uuid4(), axis=1)
   actividades.insert( 3, 'Cuadrilla'     , cuadrilla  )
   actividades.insert( 4, 'Primario'      , primario   )
   actividades.insert( 5, 'SIG'           , "No"   )
@@ -573,7 +571,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
      'Responsable', 'Colaboradores',
      'HorasExtra',   
      'Vehiculo',    'Sitio',
-     'id_ot',       'Archivo', 'uuid'
+     'id_ot',       'Archivo'
      ]]
 
 

@@ -1,0 +1,7 @@
+Success!!!
+Authentication successful!
+|->> Successfully opened Google Sheet: 'DB_calificar_ot'
+|->> Selected worksheet by name: 'Iniciales'
+
+|->> Data successfully imported into DataFrame
+   Creando un nuevo cluster local.

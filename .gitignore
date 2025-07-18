@@ -9,6 +9,7 @@ secrets/
 
 # Virtual environments
 .venv
+test
 
 # Private Keys
 eerssa/secret.py

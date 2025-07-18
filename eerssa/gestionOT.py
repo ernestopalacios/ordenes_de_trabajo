@@ -145,7 +145,14 @@ class GestionOt:
     self.n_info     = 0
     self.data       = {}    # JSON for MongoDB
     self.matriz     = None  # Matriz de Actividades Pandas Dataframe
+    self.valido     = False # Initialize as invalid by default
 
+    if link_to_pdf is None:
+      # Allows creating an empty instance for alternative constructors like from_dict.
+      # The factory method is responsible for setting the state correctly.
+      return
+
+    
     analisis_pdf    = isOT(link_to_pdf)
 
     if analisis_pdf == True:
@@ -190,6 +197,35 @@ class GestionOt:
         self.valido = False
         self.data["exito"] = False
         return
+
+  @classmethod
+  def from_dict(cls, data_dict: dict):
+      """
+      Alternative constructor to create a GestionOt instance from a dictionary.
+
+      This is useful for deserializing from a format like JSON, where the object
+      data has already been extracted.
+
+      :param data_dict: A dictionary containing the OT data, typically from `ot.data`.
+      :return: A new instance of GestionOt.
+      """
+      # We pass None to __init__ to create a "blank" instance without PDF processing.
+      instance = cls(link_to_pdf=None)
+
+      # Populate instance attributes from the dictionary.
+      instance.data = data_dict
+      instance.link = data_dict.get('link', 'loaded_from_dict')
+      instance.version = data_dict.get('version', cls.VERSION)
+      instance.id_ot = data_dict.get('id_ot', 0)
+      instance.log = data_dict.get('log', [])
+      instance.valido = data_dict.get('exito', True)
+
+      # These attributes are on the instance itself and might not be in the data dict.
+      # We get them if available, otherwise set a default.
+      instance.createdAt = data_dict.get('createdAt', datetime.now().isoformat())
+
+      return instance
+
 
   def DrawBoxesOt( self ):
     """ 

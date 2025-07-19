@@ -30,6 +30,10 @@ import pypst
 # If this is not possible, df_datos_cuadrilla will be just a 'Failed' String
 df_datos_cudarilla = gdrive.get_gsheet_df() 
 
+# Global timer to track the time since the last message was produced.
+LAST_MESSAGE_TIMESTAMP = None
+IS_FIRST_MESSAGE_SENT = False
+
 class MyEventHandler(FileSystemEventHandler):
     """
     Custom event handler that appends created and modified files to a queue.
@@ -167,6 +171,11 @@ class MyEventHandler(FileSystemEventHandler):
                                 key="Development",
                                 value=json.dumps(ot.data),    
                             )
+                            # Reset the global timer every time a message is produced
+                            global LAST_MESSAGE_TIMESTAMP
+                            global IS_FIRST_MESSAGE_SENT
+                            LAST_MESSAGE_TIMESTAMP = time.time()
+                            IS_FIRST_MESSAGE_SENT = True
                             print(f"   [OK] > {os.path.basename(ot.link)} < se ha enviado a la base de datos")
                         else:
                             #TODO: Este mensaje lo deberia hacer conocer a Kafka como parte de la reporteria
@@ -182,6 +191,18 @@ def main(event_handler):
     """
     while True:
         event_handler.process_all_items()
+        # Check the elapsed time and act on it.
+        global IS_FIRST_MESSAGE_SENT
+        global LAST_MESSAGE_TIMESTAMP
+
+        if IS_FIRST_MESSAGE_SENT and (time.time() - LAST_MESSAGE_TIMESTAMP > 5):
+        #     logging.warning("No messages produced to 'json_ot' in the last 30 seconds.")
+        #     # Reset timer to avoid repeated warnings, or maybe send a heartbeat message.
+            logging.info(" <3 Es momento de enviar un HeartBeat al Topic 'new_id_v22'")
+            LAST_MESSAGE_TIMESTAMP = time.time()
+            
+            IS_FIRST_MESSAGE_SENT = False
+        
         time.sleep(1.5)
 
 
@@ -209,6 +230,9 @@ if __name__ == "__main__":
         format="%(asctime)s - %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
+
+    # Initialize the global timer when the script starts
+    LAST_MESSAGE_TIMESTAMP = time.time()
         
     client = get_or_create_DASK_client()
 

@@ -4,23 +4,23 @@
     title: "Reporte de Orden de Trabajo",
     subtitle: [ ],
     author: "TERMINADO",
-    abstract: "Yacuambi Z1 (Cuadrilla. Nro. 8) 
- martes, 15 de julio del 2025 
- LOZANO SIGCHO NAUN ENRIQUE 
- id_ot : 157253",
+    abstract: "El Pangui (Agencia) 
+ sábado, 27 de febrero del 2021 
+ VERA SANCHEZ LIVIO STALIN 
+ id_ot : 60278",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2025-07-18 22:51:24")[
+#informativo("Informativo - 2025-07-19 00:45:40")[
   CREACIÓN DE LA OT, se encuentra un archivo PDF de al menos tres hojas 
   $
     "Ninguno"
   $
 ]
 
-#error("ERROR - 2025-07-18 22:51:24")[
-  No coinciden la Fecha de la OT miércoles, 16 de julio del 2025 con Fecha de Inicio: martes, 15 de julio del 2025
+#error("ERROR - 2025-07-19 00:45:40")[
+  No coinciden la Fecha de la OT sábado, 30 de enero del 2021 con Fecha de Inicio: sábado, 27 de febrero del 2021
   $
     "|>> Comparando las dos fechas de Hoja Uno <<|"
   $

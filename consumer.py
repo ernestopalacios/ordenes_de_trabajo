@@ -1,7 +1,8 @@
 import time
 import sys
+import threading
 from quixstreams import Application
-from quixstreams.models.serializers import JSONSerializer, SerializationError
+from quixstreams.models.serializers import JSONSerializer
 from quixstreams.models.rows import Row
 import logging
 from eerssa.secret import Keys
@@ -9,9 +10,12 @@ import pymongo
 from confluent_kafka import Message
 from pymongo.errors import ConnectionFailure
 
+# --- Global State & Configuration ---
 # Global timer to track the time since the last message was produced.
 LAST_MESSAGE_TIMESTAMP = None
 IS_FIRST_MESSAGE_SENT = False
+# Event to signal the heartbeat thread to stop
+SHUTDOWN_EVENT = threading.Event()
 
 #Setup Logging
 logging.basicConfig(level=logging.INFO)
@@ -35,32 +39,24 @@ def on_consumer_error_handler(
     return True
 
 # --- MongoDB Connection ---
-# It's better to establish the connection once and keep it open for the app's lifetime.
-# We will also exit if the connection fails, as the consumer can't do its job without it.
 uri = Keys.MONGO_KEY.value
-client = None  # Initialize client to None
+client = None
 db_eerssa = None
 CurrentCollection = None
 ReloadCollection = None
 
-
 try:
-    # Add a timeout to avoid blocking indefinitely
     client = pymongo.MongoClient(uri, serverSelectionTimeoutMS=5000)
-    # The ping command is cheap and does not require auth.
     client.admin.command('ping')
-    db_eerssa = client.eerssa                   # Base de datos EERSSA
-    CurrentCollection = db_eerssa.ot_v22        # Coleccion actual
-    ReloadCollection  = db_eerssa.ot_reload  # Aqui se cargan OTs repetidas
+    db_eerssa = client.eerssa
+    CurrentCollection = db_eerssa.ot_v22
+    ReloadCollection  = db_eerssa.ot_reload
     logging.info(":::: Conexion exitosa con MongoDB ::::")
-    
 except ConnectionFailure as e:
     logging.error(f"\n\n ><><> Error de conexion a MongoDB: {e}")
-    sys.exit(1) # Exit the script if we can't connect to MongoDB, as it's a critical dependency.
+    sys.exit(1)
 
-
-# Quix Stream app configuration
-
+# --- Quix Stream App Configuration ---
 app = Application(
     broker_address="localhost:29092",
     consumer_group="dev_consumer_group",
@@ -70,122 +66,135 @@ app = Application(
     on_consumer_error=on_consumer_error_handler,
 )
 
-input_topic = app.topic("json_ot", value_serializer = JSONSerializer())
-output_topic = app.topic("new_id_v22", key_serializer   = "str", value_serializer="json")
-reload_topic = app.topic("stage_id", key_serializer   = "str", value_serializer="json")
+input_topic = app.topic("json_ot", value_serializer=JSONSerializer())
+output_topic = app.topic("new_id_v22", key_serializer="str", value_serializer="json")
+reload_topic = app.topic("stage_id", key_serializer="str", value_serializer="json")
 sdf = app.dataframe(input_topic)
 
 def process_row(row: Row):
     """
     Processes a single message (Row) from the Kafka topic.
-    Checks if a document with the same 'id_ot' exists in the main collection.
-    - If it exists, the new document is sent to the 'ot_reemplazo' collection
-      for later processing. The original document in the main collection is
-      left untouched.
-    - If it does not exist, the new document is inserted into the main collection.
-    Produces the 'id_ot' to the appropriate Kafka topic.
     """
     try:
-        
         ot = row
         is_replacement = False
         ot_id = ot["id_ot"]
         logging.info(f"\n ~~~ (1) Recibido el mensaje Orden de Trabajo con ID: {ot_id}")
 
-        # Check if a document with this ID already exists in the main collection
         if CurrentCollection.find_one({"id_ot": ot_id}, {"_id": 1}):
-            # If it exists, this is a replacement. Send to ReloadCollection.
             is_replacement = True
             ReloadCollection.replace_one({"id_ot": ot_id}, ot, upsert=True)
             logging.info(f" ~~~ (2a) OT ya existe. Enviando reemplazo con ID: {ot_id} a la colección '{ReloadCollection.name}'")
         else:
-            # If it's a new OT, insert into the main collection.
             CurrentCollection.insert_one(ot)
             logging.info(f" ~~~ (2) Guardada en MongoDB nueva Orden de Trabajo con ID: {ot_id}")
 
-        # The RowProducer is part of the app's processing context and is safe to use here.
-        message = output_topic.serialize(key = KAFKA_KEY, value={"id_ot": ot_id})
-        topic = reload_topic.name if is_replacement else output_topic.name
+        # Use the public get_producer() method for safety outside stream context
+        with app.get_producer() as producer:
+            message = output_topic.serialize(key=KAFKA_KEY, value={"id_ot": ot_id})
+            topic = reload_topic.name if is_replacement else output_topic.name
 
-        app._producer.produce(
-            topic = topic,
-            key = message.key,
-            value=message.value,
-        )
+            producer.produce(
+                topic=topic,
+                key=message.key,
+                value=message.value,
+            )
+            producer.flush()
 
-        #Reset the global TIMER
-        global LAST_MESSAGE_TIMESTAMP
-        global IS_FIRST_MESSAGE_SENT
+
+        global LAST_MESSAGE_TIMESTAMP, IS_FIRST_MESSAGE_SENT
         LAST_MESSAGE_TIMESTAMP = time.time()
         IS_FIRST_MESSAGE_SENT = True
 
-
         logging.info(f" ~~~ (3) Enviado a Kafka la OT con ID: {ot_id} a: >> '{topic}'")
-    
     except Exception as e:
         logging.info(f"No se ha podido procesar el mensaje:\n>| {row} |<")
         logging.error(f"\n\nError: {e}")
-    
-    
-
-
-
-
-
 
 sdf = sdf.apply(process_row)
 
-# Define a function to run the application (good practice)
+# = = = =   H E A R T B E A T   = = = = #
+# Esta porcion del codigo monitorea cuanto tiempo ha transcurrido.
+# desde la ultima vez que se envio un mensaje al topic 'new_id_v22'
+# El objetivo es asegurarse de que se complete la ventana de 5 segundos
+# asegurandose la ejecucion de la ultima ventana y evitando llenar el
+# topic Kafka de mensajes de <3 
+def heartbeat_loop():
+    """
+    Continuously checks for inactivity and sends a heartbeat message if needed.
+    This function is designed to run in a loop until the SHUTDOWN_EVENT is set.
+    """
+    # Get a thread-safe producer instance for this thread
+    producer = app.get_producer()
+    
+    while not SHUTDOWN_EVENT.is_set():
+        global LAST_MESSAGE_TIMESTAMP, IS_FIRST_MESSAGE_SENT, KAFKA_KEY
+        
+        # Check if a message has been sent and if 5 seconds have passed
+        if IS_FIRST_MESSAGE_SENT and (time.time() - LAST_MESSAGE_TIMESTAMP > 5.5):
+            logging.info(" <3 Inactivity detected. Sending heartbeat to 'new_id_v22'")
+            try:
+                heartbeat_payload = {
+                    "type": "heartbeat",
+                    "timestamp": time.time(),
+                    "source": "ot_processor_v22"
+                }
+                heartbeat_message = output_topic.serialize(key=KAFKA_KEY, value=heartbeat_payload)
+                
+                producer.produce(
+                    topic=output_topic.name,
+                    key=heartbeat_message.key,
+                    value=heartbeat_message.value,
+                )
+                logging.info(" <3 Heartbeat sent.")
+                
+                # Reset the flag to prevent repeated heartbeats for the same inactivity period
+                IS_FIRST_MESSAGE_SENT = False
+                
+            except Exception as e:
+                logging.error(f"Error sending heartbeat: {e}")
+        
+        # Wait for 1 second before checking again, or until shutdown is triggered
+        SHUTDOWN_EVENT.wait(1.0)
+    
+    logging.info("Heartbeat thread is shutting down.")
+
+
+# --- Main Application Execution ---
 def run_app():
     """Starts the Quix Streams application."""
     print("\n\n = = = =   Iniciando CONSUMIDOR [Quix Streams application] ...  = = = =")
-    try:
-        app.run()
-
-        # = = = =   H E A R T B E A T   = = = = #
-        # Esta porcion del codigo monitorea cuanto tiempo ha transcurrido.
-        # desde la ultima vez que se envio un mensaje al topic 'new_id_v22'
-        # El objetivo es asegurarse de que se complete la ventana de 5 segundos
-        # asegurandose la ejecucion de la ultima ventana y evitando llenar el
-        # topic Kafka de mensajes de <3 
-        global IS_FIRST_MESSAGE_SENT
-        global LAST_MESSAGE_TIMESTAMP
-
-        if IS_FIRST_MESSAGE_SENT and (time.time() - LAST_MESSAGE_TIMESTAMP > 5.5):
-        #     logging.warning("No messages produced to 'json_ot' in the last 30 seconds.")
-        #     # Reset timer to avoid repeated warnings, or maybe send a heartbeat message.
-            logging.info(" <3 Es momento de enviar un HeartBeat al Topic 'new_id_v22'")
-
-            heartbeat_message = output_topic.serialize(key=KAFKA_KEY, value={"type": "heartbeat", "timestamp": time.time()})
-            app._producer.produce(
-                topic=output_topic.name,
-                key=heartbeat_message.key,
-                value=heartbeat_message.value,
-            )
-
-            LAST_MESSAGE_TIMESTAMP = time.time()
-            IS_FIRST_MESSAGE_SENT = False
-
-
-    except Exception as e:
-        logging.error(f"\n\n [X] Error: {e}")
-    finally:
-        print("\n\n = = = =   Se ha detenido [Quix Streams application] = = = =")
-
+    app.run()
+    print("\n\n = = = =   Se ha detenido [Quix Streams application] = = = =")
 
 if __name__ == "__main__":
+    heartbeat_thread = None
     try:
-        # Initialize the global timer when the script starts
+        # Initialize the global timer
         LAST_MESSAGE_TIMESTAMP = time.time()
         
+        # Create and start the heartbeat thread
+        print("... Iniciando Heartbeat thread ...")
+        heartbeat_thread = threading.Thread(target=heartbeat_loop)
+        heartbeat_thread.daemon = True  # Allows main program to exit even if thread is running
+        heartbeat_thread.start()
+        
+        # Run the main Quix application (this is a blocking call)
         run_app()
         
-
-
     except KeyboardInterrupt:
-        print("\nSe ha detenido el consumidor manualmente.\n\n")
+        print("\nSe ha detenido el consumidor manualmente.\n")
+    except Exception as e:
+        logging.error(f"\n\n [X] An unexpected error occurred: {e}")
     finally:
-        # Clean up resources if needed, e.g., close DB connection
+        # Signal the heartbeat thread to shut down
+        if heartbeat_thread:
+            print("... Deteniendo Heartbeat thread ...")
+            SHUTDOWN_EVENT.set()
+            # Wait for the thread to finish its current loop
+            heartbeat_thread.join(timeout=2)
+
+        # Clean up other resources
         if client:
             client.close()
-            print("\nCerrada la conexion con MongoDB.\n\n")
+            print("\nCerrada la conexion con MongoDB.\n")

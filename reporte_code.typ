@@ -4,24 +4,24 @@
     title: "Reporte de Orden de Trabajo",
     subtitle: [ ],
     author: "TERMINADO",
-    abstract: "Zamora Z1 (Cuadrilla. AP Nro. 4) 
- viernes, 31 de enero del 2025 
- MORALES RIVERA LUIS ALBERTO 
- id_ot : 146353",
+    abstract: "Yacuambi Z1 (Cuadrilla. Nro. 8) 
+ martes, 15 de julio del 2025 
+ LOZANO SIGCHO NAUN ENRIQUE 
+ id_ot : 157253",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2025-07-18 17:54:02")[
+#informativo("Informativo - 2025-07-18 22:51:24")[
   CREACIÓN DE LA OT, se encuentra un archivo PDF de al menos tres hojas 
   $
     "Ninguno"
   $
 ]
 
-#revisar("Revisar - 2025-07-18 17:54:04")[
-  Se detectaron fechas inconsistentes
+#error("ERROR - 2025-07-18 22:51:24")[
+  No coinciden la Fecha de la OT miércoles, 16 de julio del 2025 con Fecha de Inicio: martes, 15 de julio del 2025
   $
-    "En actividades, revisar las fechas de fin de actividad"
+    "|>> Comparando las dos fechas de Hoja Uno <<|"
   $
 ]

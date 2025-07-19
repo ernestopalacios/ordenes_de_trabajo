@@ -1,4 +1,4 @@
-import json
+import time
 import sys
 from quixstreams import Application
 from quixstreams.models.serializers import JSONSerializer, SerializationError
@@ -9,8 +9,11 @@ import pymongo
 from confluent_kafka import Message
 from pymongo.errors import ConnectionFailure
 
+# Global timer to track the time since the last message was produced.
+LAST_MESSAGE_TIMESTAMP = None
+IS_FIRST_MESSAGE_SENT = False
 
-
+#Setup Logging
 logging.basicConfig(level=logging.INFO)
 KAFKA_KEY = "MBID"
 
@@ -110,6 +113,13 @@ def process_row(row: Row):
             value=message.value,
         )
 
+        #Reset the global TIMER
+        global LAST_MESSAGE_TIMESTAMP
+        global IS_FIRST_MESSAGE_SENT
+        LAST_MESSAGE_TIMESTAMP = time.time()
+        IS_FIRST_MESSAGE_SENT = True
+
+
         logging.info(f" ~~~ (3) Enviado a Kafka la OT con ID: {ot_id} a: >> '{topic}'")
     
     except Exception as e:
@@ -131,6 +141,32 @@ def run_app():
     print("\n\n = = = =   Iniciando CONSUMIDOR [Quix Streams application] ...  = = = =")
     try:
         app.run()
+
+        # = = = =   H E A R T B E A T   = = = = #
+        # Esta porcion del codigo monitorea cuanto tiempo ha transcurrido.
+        # desde la ultima vez que se envio un mensaje al topic 'new_id_v22'
+        # El objetivo es asegurarse de que se complete la ventana de 5 segundos
+        # asegurandose la ejecucion de la ultima ventana y evitando llenar el
+        # topic Kafka de mensajes de <3 
+        global IS_FIRST_MESSAGE_SENT
+        global LAST_MESSAGE_TIMESTAMP
+
+        if IS_FIRST_MESSAGE_SENT and (time.time() - LAST_MESSAGE_TIMESTAMP > 5.5):
+        #     logging.warning("No messages produced to 'json_ot' in the last 30 seconds.")
+        #     # Reset timer to avoid repeated warnings, or maybe send a heartbeat message.
+            logging.info(" <3 Es momento de enviar un HeartBeat al Topic 'new_id_v22'")
+
+            heartbeat_message = output_topic.serialize(key=KAFKA_KEY, value={"type": "heartbeat", "timestamp": time.time()})
+            app._producer.produce(
+                topic=output_topic.name,
+                key=heartbeat_message.key,
+                value=heartbeat_message.value,
+            )
+
+            LAST_MESSAGE_TIMESTAMP = time.time()
+            IS_FIRST_MESSAGE_SENT = False
+
+
     except Exception as e:
         logging.error(f"\n\n [X] Error: {e}")
     finally:
@@ -139,7 +175,13 @@ def run_app():
 
 if __name__ == "__main__":
     try:
+        # Initialize the global timer when the script starts
+        LAST_MESSAGE_TIMESTAMP = time.time()
+        
         run_app()
+        
+
+
     except KeyboardInterrupt:
         print("\nSe ha detenido el consumidor manualmente.\n\n")
     finally:

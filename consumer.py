@@ -16,10 +16,17 @@ LAST_MESSAGE_TIMESTAMP = None
 IS_FIRST_MESSAGE_SENT = False
 # Event to signal the heartbeat thread to stop
 SHUTDOWN_EVENT = threading.Event()
+# Kafka Topic Name with json format documents
+KAFKA_JSON = "json_ot"
+# Kafka Topic Name for concatenating to Delta Laje
+KAFKA_TO_DELTA = "to_delta"
+# Karka KEY for the Delta Topic
+KAFKA_KEY = "MBID"
+
 
 #Setup Logging
 logging.basicConfig(level=logging.INFO)
-KAFKA_KEY = "MBID"
+
 
 def on_consumer_error_handler(
     exc: Exception,
@@ -66,9 +73,9 @@ app = Application(
     on_consumer_error=on_consumer_error_handler,
 )
 
-input_topic = app.topic("json_ot", value_serializer=JSONSerializer())
-output_topic = app.topic("new_id_v22", key_serializer="str", value_serializer="json")
-reload_topic = app.topic("stage_id", key_serializer="str", value_serializer="json")
+input_topic = app.topic(KAFKA_JSON, value_serializer=JSONSerializer())
+output_topic = app.topic(KAFKA_TO_DELTA, key_serializer="str", value_serializer="json")
+
 sdf = app.dataframe(input_topic)
 
 def process_row(row: Row):
@@ -91,11 +98,12 @@ def process_row(row: Row):
 
         # Use the public get_producer() method for safety outside stream context
         with app.get_producer() as producer:
-            message = output_topic.serialize(key=KAFKA_KEY, value={"id_ot": ot_id})
-            topic = reload_topic.name if is_replacement else output_topic.name
-
+            message = output_topic.serialize(
+                key = KAFKA_KEY, 
+                value = {"id_ot": ot_id, "is_replacement": int(is_replacement)})
+            
             producer.produce(
-                topic=topic,
+                topic=output_topic.name,
                 key=message.key,
                 value=message.value,
             )

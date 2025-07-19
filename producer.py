@@ -34,6 +34,10 @@ df_datos_cudarilla = gdrive.get_gsheet_df()
 LAST_MESSAGE_TIMESTAMP = None
 IS_FIRST_MESSAGE_SENT = False
 
+# Kafka Topic Name with json format documents
+KAFKA_JSON = "json_ot"
+
+
 class MyEventHandler(FileSystemEventHandler):
     """
     Custom event handler that appends created and modified files to a queue.
@@ -167,7 +171,7 @@ class MyEventHandler(FileSystemEventHandler):
                         #SE ENVIAN LAS OT QUE SE ENCUENTRAN TERMINADAS Y SIN FALLAS
                         if ot.data["estado"] != "ECURSO" and ot.data["n_fallas"] == 0:
                             producer.produce(
-                                topic="json_ot",
+                                topic=KAFKA_JSON,
                                 key="Development",
                                 value=json.dumps(ot.data),    
                             )
@@ -198,7 +202,7 @@ def main(event_handler):
         if IS_FIRST_MESSAGE_SENT and (time.time() - LAST_MESSAGE_TIMESTAMP > 5):
         #     logging.warning("No messages produced to 'json_ot' in the last 30 seconds.")
         #     # Reset timer to avoid repeated warnings, or maybe send a heartbeat message.
-            logging.info(" <3 Es momento de enviar un HeartBeat al Topic 'new_id_v22'")
+            logging.info(" <3 Es momento de enviar un HeartBeat han transcurrido 5 segundos. desde la ultima vez que se envio un mensaje al topic 'json_ot'")
             LAST_MESSAGE_TIMESTAMP = time.time()
             
             IS_FIRST_MESSAGE_SENT = False

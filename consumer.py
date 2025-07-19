@@ -102,8 +102,10 @@ def process_row(row: Row):
                 key = KAFKA_KEY, 
                 value = {"id_ot": ot_id, "is_replacement": int(is_replacement)})
             
+            topic = output_topic.name
+            
             producer.produce(
-                topic=output_topic.name,
+                topic=topic,
                 key=message.key,
                 value=message.value,
             )

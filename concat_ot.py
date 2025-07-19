@@ -4,11 +4,11 @@ import logging
 import sys
 from quixstreams import Application
 from quixstreams.models import StringDeserializer
-#from quixstreams.models.serializers import JSONSerializer, JSONDeserializer
 from confluent_kafka import Message
+
 from eerssa.secret import Keys
-from eerssa import gestionOT as OrdenTrabajo             # Convert from PDF_ot to obj_ot
-from eerssa import matrizActividades as Actividades     # process ot.data["actividades"]
+from eerssa import gestionOT as OrdenTrabajo            
+from eerssa import matrizActividades as Actividades  
 import pymongo
 from pymongo.errors import ConnectionFailure
 import pandas as pd
@@ -69,7 +69,7 @@ try:
     # The ping command is cheap and does not require auth.
     client.admin.command('ping')
     db_eerssa = client.eerssa                   # Base de datos EERSSA
-    CurrentCollection = db_eerssa.ot_v23        # Coleccion actual
+    CurrentCollection = db_eerssa.ot_v22        # Coleccion actual
     ReloadCollection  = db_eerssa.ot_reload  # Aqui se cargan OTs repetidas
     logging.info(":::: Conexion exitosa con MongoDB ::::")
 
@@ -88,7 +88,7 @@ app = Application(
     on_consumer_error=on_consumer_error_handler,
 )
 
-input_topic = app.topic("new_id_v23", value_deserializer=StringDeserializer())
+input_topic = app.topic("new_id_v22", value_deserializer=StringDeserializer())
 
 sdf = app.dataframe(input_topic)
 
@@ -161,7 +161,7 @@ sdf = sdf.tumbling_window(duration_ms=5000)
 # The initializer for reduce receives the first value of the window
 # and must return the initial state of the aggregate.
 def initializer(first_value):
-    logger.debug(f" > I N I T: Initializing window with: {first_value}")
+    logger.debug(f" > INIT: Initializing window with: {first_value}")
     return [first_value]
 
 sdf = sdf.reduce(reducer=reducer, initializer=initializer)

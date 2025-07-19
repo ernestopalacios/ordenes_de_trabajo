@@ -47,7 +47,7 @@ try:
     # The ping command is cheap and does not require auth.
     client.admin.command('ping')
     db_eerssa = client.eerssa                   # Base de datos EERSSA
-    CurrentCollection = db_eerssa.ot_v23        # Coleccion actual
+    CurrentCollection = db_eerssa.ot_v22        # Coleccion actual
     ReloadCollection  = db_eerssa.ot_reload  # Aqui se cargan OTs repetidas
     logging.info(":::: Conexion exitosa con MongoDB ::::")
     
@@ -67,8 +67,8 @@ app = Application(
     on_consumer_error=on_consumer_error_handler,
 )
 
-input_topic = app.topic("json_ot_v23", value_serializer = JSONSerializer())
-output_topic = app.topic("new_id_v23", key_serializer   = "str", value_serializer="json")
+input_topic = app.topic("json_ot", value_serializer = JSONSerializer())
+output_topic = app.topic("new_id_v22", key_serializer   = "str", value_serializer="json")
 reload_topic = app.topic("stage_id", key_serializer   = "str", value_serializer="json")
 sdf = app.dataframe(input_topic)
 

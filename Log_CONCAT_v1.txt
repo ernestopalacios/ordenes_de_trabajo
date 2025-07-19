@@ -88,3 +88,25 @@ Success!!!
 Cerrada la conexion con MongoDB.
 
 
+Success!!!
+
+
+ = = = =   Iniciando BATCH CONSUMER [Quix Streams application] ...  = = = =
+
+
+ = = = =   Se ha detenido [Quix Streams application] = = = =
+
+Cerrada la conexion con MongoDB.
+
+
+Success!!!
+
+
+ = = = =   Iniciando BATCH CONSUMER [Quix Streams application] ...  = = = =
+
+
+ = = = =   Se ha detenido [Quix Streams application] = = = =
+
+Cerrada la conexion con MongoDB.
+
+

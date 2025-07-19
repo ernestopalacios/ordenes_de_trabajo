@@ -10,7 +10,7 @@ producer_app = Application(
     auto_create_topics=True
 )
 
-output_topic = producer_app.topic("new_id_23", value_serializer=JSONSerializer()) # Same topic as your consumer
+output_topic = producer_app.topic("new_id_v22", value_serializer=JSONSerializer()) # Same topic as your consumer
 
 print("Starting heartbeat producer...")
 with producer_app.get_producer() as producer:

@@ -91,7 +91,7 @@ app = Application(
     consumer_group="delta_writer_group",
     auto_create_topics=True,
     auto_offset_reset="earliest",
-    loglevel="DEBUG",
+    loglevel="INFO",
     on_consumer_error=on_consumer_error_handler,
 )
 
@@ -223,7 +223,7 @@ def process_batch(window_values):
                     source_alias="source",
                     target_alias="target"
                 ).when_matched_update_all().execute())
-                logging.info(f" [OK] DELTA LAKE Successfully merged updates for OT '{id_ot_value}' into Delta Lake table at '{table_path}' ")
+                logging.info(f" [EXITO] DELTA LAKE Successfully merged updates for OT '{id_ot_value}' into Delta Lake table at '{table_path}' ")
 
             except Exception as e:
                 logger.error(f"Fallo al procesar el item {value}. Error: {e}")

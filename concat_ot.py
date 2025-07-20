@@ -211,7 +211,7 @@ def process_batch(window_values):
                 logging.info(f" [OK] Successfully updated OT '{id_ot_value}' in MongoDB collection '{CurrentCollection.name}'.")
 
             # 4. Apply atomic updates to Delta Lake
-                updated_ot_doc = CurrentCollection.find_one({"id_ot": id_ot})
+                updated_ot_doc = CurrentCollection.find_one({"id_ot": id_ot_value})
                 obj_ot = OrdenTrabajo.GestionOt.from_dict(updated_ot_doc)
                 new_activities_df = Actividades.ConvertirOT_a_ActividadesCSV(obj_ot)
 

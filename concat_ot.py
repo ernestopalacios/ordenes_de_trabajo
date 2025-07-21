@@ -179,7 +179,7 @@ def process_batch(window_values):
         try:
             new_df = pd.concat(new_data_frames, ignore_index=True)
             write_deltalake(table_path, new_df, mode='append')
-            logger.info(f" [EXITO] Se han añadido {len(new_df)} filas a la tabla Delta en '{table_path}'.")
+            logger.info(f" [ EXITO ] DELTA LAKE Se han añadido {len(new_df)} filas a la tabla Delta en '{table_path}'.")
         except Exception as e:
             logger.error(f"Fallo al escribir en la tabla Delta: {e}")
     
@@ -201,14 +201,14 @@ def process_batch(window_values):
                 updates = find_differences(json_old, json_new)
                 if not updates:
                     logging.info(f" [=] No changes detected for OT '{id_ot_value}'. Skipping update.")
+                    #Delete the document from ReloadCollection
+                    ReloadCollection.delete_one({"id_ot": id_ot_value})
                     return
 
-            # 3. Apply atomic updates to MongoDB
-                result = CurrentCollection.update_one({"id_ot": id_ot_value}, {"$set": updates})
-                if result.modified_count == 0:
-                    logging.warning(f" [!] MongoDB update for OT '{id_ot_value}' reported 0 documents modified.")
-                    return
-                logging.info(f" [OK] Successfully updated OT '{id_ot_value}' in MongoDB collection '{CurrentCollection.name}'.")
+            # 3. Replace the document from ReloadCollection to Current Collection.
+                CurrentCollection.replace_one({"id_ot": id_ot_value}, json_new, upsert=True)
+                ReloadCollection.delete_one({"id_ot": id_ot_value})
+                logging.info(f" [ MONGODB ] Successfully updated OT '{id_ot_value}' in MongoDB collection '{CurrentCollection.name}'.")
 
             # 4. Apply atomic updates to Delta Lake
                 updated_ot_doc = CurrentCollection.find_one({"id_ot": id_ot_value})
@@ -223,7 +223,7 @@ def process_batch(window_values):
                     source_alias="source",
                     target_alias="target"
                 ).when_matched_update_all().execute())
-                logging.info(f" [EXITO] DELTA LAKE Successfully merged updates for OT '{id_ot_value}' into Delta Lake table at '{table_path}' ")
+                logging.info(f" [EXITO] DELTA LAKE Se ha Actualizado toda la OT: '{id_ot_value}' a la table at '{table_path}' ")
 
             except Exception as e:
                 logger.error(f"Fallo al procesar el item {value}. Error: {e}")

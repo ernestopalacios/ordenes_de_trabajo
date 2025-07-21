@@ -139,17 +139,17 @@ def process_batch(window_values):
             # Parse the JSON string
             json_data = json.loads(value)
 
-            # --- FILTER HEARTBEAT MESSAGES HERE ---
+            # --- FILTRA HEARTBEAT ---
             if json_data.get('type') == 'heartbeat':
                 logger.debug(f"  <3 Heartbeat : {value}")
                 continue
-            # --- END FILTER ---
-
-            is_replacement = json_data.get('is_replacement')
             
+            
+            # --- CLASIFICA MENSAJES  NUEVOS | REEMPLAZO  ---
+            is_replacement = json_data.get('is_replacement')
             logger.info(f"  - Item {i}: <| {value} |> REPLACEMENT: {is_replacement}")
             
-            if not is_replacement: # this is a new Ot fresh on the MongoDB Server                
+            if not is_replacement: # Se trata de una OT nueva en el servidor MongoDB
                 id_ot_value = json_data.get('id_ot')
                 if id_ot_value is None:
                     logger.warning(f" [X] El mensaje no contiene 'id_ot'. Saltado: {value}")
@@ -256,7 +256,7 @@ if __name__ == "__main__":
     try:
         run_app()
     except KeyboardInterrupt:
-        print("\nApplication stopped manually.")
+        print("\nLa aplicación se ha detenido manualmente.")
     finally:
         # Clean up resources, e.g., close DB connection
         if client:

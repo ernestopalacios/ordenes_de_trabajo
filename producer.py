@@ -25,6 +25,10 @@ from eerssa import reporte_ot as reporte_pdf # Para generar el reporte del PDF
 import typst
 import pypst
 
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 
 # get the data table from Google Sheets
 # If this is not possible, df_datos_cuadrilla will be just a 'Failed' String
@@ -36,6 +40,15 @@ IS_FIRST_MESSAGE_SENT = False
 
 # Kafka Topic Name with json format documents
 KAFKA_JSON = "json_ot"
+
+
+# Dask Helper function to call the method on the result of a future
+def call_load_ot(orden_trabajo_object):
+    """
+    Takes the result of the first task (an OrdenTrabajo object) 
+    and calls the load_ot() method on it.
+    """
+    return orden_trabajo_object.load_ot()
 
 
 class MyEventHandler(FileSystemEventHandler):
@@ -95,32 +108,49 @@ class MyEventHandler(FileSystemEventHandler):
 
         # For more than eight elements process them using DASAK Distributed Computing
         if len(items_to_process) > 8:
+
             items_to_process = list(set(items_to_process))
-            print(
+            logger.info(
                 f"   Procesando {len(items_to_process)} archivos. Hora de inicio: {start_datetime.strftime('%Y-%m-%d %H:%M:%S')}"
             )
             
-            futures = [
+            futures_step_1 = [
                 self.client.submit(gestionOT.GestionOt, file)
                 for file in items_to_process
             ]
-            ot_array = [future.result() for future in futures]
-            ot_cargada = [ot.load_ot() for ot in ot_array]
-            obj_lists = [ot for ot in ot_cargada]
             
-            # Hago este paso principalmente para que se analicen las actividades y generen los LOGS
-            # Estos LOGS se guardan en el objeto OT es decir en obj_lists 
-            matriz_list = [ matrizActividades.ConvertirOT_a_ActividadesCSV(ot) for ot in obj_lists ]
+            futures_step_2 = [
+                self.client.submit(call_load_ot, future)
+                for future in futures_step_1
+            ]
+
+            futures_step_3 = [
+                self.client.submit(matrizActividades.ConvertirOT_a_ActividadesCSV, future)
+                for future in futures_step_2
+            ]
+
+            # Group the collections of futures you want to retrieve
+            futures_to_gather = [futures_step_2, futures_step_3]
+
+            # Call gather just ONCE
+            # Dask will efficiently compute everything needed for both lists
+            obj_lists, matriz_list = self.client.gather(futures_to_gather)
 
             end_time = time.time()
             elapsed_time = end_time - start_time
-            print(
+            logger.info(
                 f"   Procesados todos los {len(obj_lists)} items. Tiempo transcurrido: {elapsed_time:.2f} segundos.\n"
             )
 
+            # Delete from Memory The proccessed Ot
+            try:
+                self.client.cancel([futures_step_1, futures_step_2, futures_step_3])
+            except Exception as e:
+                logger.warning(f"  [ DASK ] No se pudo borrar las 'futures' ")
+
         # Maybe we could only use DASK, but I'll leave this code if I encounter errors with DASK in the future
         elif len(items_to_process) > 0:
-            print(
+            logger.info(
                 f"   Procesando {len(items_to_process)} archivos. Hora de inicio: {start_datetime.strftime('%Y-%m-%d %H:%M:%S')}"
             )
 
@@ -132,7 +162,7 @@ class MyEventHandler(FileSystemEventHandler):
 
             end_time = time.time()
             elapsed_time = end_time - start_time
-            print(
+            logger.info(
                 f"   Procesados todos los {len(obj_lists)} items. Tiempo transcurrido: {elapsed_time:.2f} segundos.\n"
             )
 
@@ -156,7 +186,7 @@ class MyEventHandler(FileSystemEventHandler):
                         if reporte_typst != "todo_ok":
                             with open("reporte_code.typ", mode="wt") as f:
                                 f.write(reporte_typst.render())
-                                print(" ::: Creado el archivo de reporte")
+                                logger.debug(" ::: Creado el archivo de reporte")
                             
                             if nuevo_path != "Failed":
                                 report_filename = "REPORTE_"+os.path.basename(ot.link)
@@ -165,7 +195,7 @@ class MyEventHandler(FileSystemEventHandler):
                                 report_filename = "REPORTE_"+os.path.basename(ot.link)
                                 report_filename = os.path.join("ot_procesados",os.path.dirname(ot.link),report_filename)
 
-                            print(f" ::: Se guardará en {report_filename}")
+                            logger.debug(f" ::: Se guardará en {report_filename}")
                             typst.compile("reporte_code.typ",  output= report_filename )
 
                         #SE ENVIAN LAS OT QUE SE ENCUENTRAN TERMINADAS Y SIN FALLAS
@@ -180,13 +210,15 @@ class MyEventHandler(FileSystemEventHandler):
                             global IS_FIRST_MESSAGE_SENT
                             LAST_MESSAGE_TIMESTAMP = time.time()
                             IS_FIRST_MESSAGE_SENT = True
-                            print(f"   [OK] > {os.path.basename(ot.link)} < se ha enviado a la base de datos")
+                            logger.info(f"   [OK] > {os.path.basename(ot.link)} < se ha enviado a la base de datos")
                         else:
                             #TODO: Este mensaje lo deberia hacer conocer a Kafka como parte de la reporteria
-                            print(f"   [?]  > {os.path.basename(ot.link)} < REVISAR: No se ha enviado a la base de datos")    
+                            logger.info(f"   [?]  > {os.path.basename(ot.link)} < REVISAR: No se ha enviado a la base de datos")    
                     else:
-                        print(f"   [X]  > {ot.link} < No es un archivo Orden de Trabajo")
+                        logger.info(f"   [X]  > {ot.link} < No es un archivo Orden de Trabajo")
                 producer.flush()
+            
+            
 
 
 def main(event_handler):
@@ -218,11 +250,11 @@ def get_or_create_DASK_client():
     try:
         # Try to get the default client (if one exists)
         client = get_client()
-        print("   Conectado a un cluster existente.")
+        logger.info("  [ DASK ]  Conectado a un cluster existente.")
         return client
     except ValueError:
         # No client exists, create a new LocalCluster and client
-        print("   Creando un nuevo cluster local.")
+        logger.info("  [ DASK]   Creando un nuevo cluster local.")
         cluster = LocalCluster()
         client = Client(cluster)
         return client
@@ -238,7 +270,7 @@ if __name__ == "__main__":
     # Initialize the global timer when the script starts
     LAST_MESSAGE_TIMESTAMP = time.time()
         
-    client = get_or_create_DASK_client()
+    dask_client = get_or_create_DASK_client()
 
     KafkaApp = Application(
         broker_address="localhost:29092",
@@ -246,7 +278,7 @@ if __name__ == "__main__":
     )
 
 
-    event_handler = MyEventHandler(client, KafkaApp)
+    event_handler = MyEventHandler(dask_client, KafkaApp)
     observer = Observer()
 
 

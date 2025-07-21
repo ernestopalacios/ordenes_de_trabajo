@@ -792,7 +792,9 @@ class GestionOt:
     riesgos_dict = {}
     try:
       df_riesgos = hoja.find_tables( clip = box )
-      df_riesgos = df_riesgos.tables[0].to_pandas().replace('', np.nan).dropna(how = 'all')
+      df_riesgos = df_riesgos.tables[0].to_pandas()
+      # Chain the operations and then add .copy()
+      df_riesgos = df_riesgos.replace('', np.nan).dropna(how = 'all').copy()
       df_riesgos.fillna('·', inplace = True)
       for _, row in df_riesgos.iterrows():
         key = row['RIESGOS EXISTENTES:']
@@ -809,7 +811,7 @@ class GestionOt:
     try:
       df_medidas_seg = hoja.find_tables( clip = box )
       df_medidas_seg = df_medidas_seg.tables[0].to_pandas()
-      df_medidas_seg = df_medidas_seg[['0-MEDIDAS','1-ESTADO']].replace('', np.nan).dropna(how = 'all')
+      df_medidas_seg = df_medidas_seg[['0-MEDIDAS','1-ESTADO']].replace('', np.nan).dropna(how = 'all').copy()
       df_medidas_seg.fillna('·', inplace = True)
       df_medidas_seg = dict(zip(df_medidas_seg['0-MEDIDAS'],df_medidas_seg['1-ESTADO']))
 
@@ -823,7 +825,7 @@ class GestionOt:
     try:
       df_epps = hoja.find_tables( clip = box )
       df_epps = df_epps.tables[0].to_pandas()
-      df_epps = df_epps[['2-EQUIPOS DE PROTECCIÓN','3-ESTADO']].replace('', np.nan).dropna(how = 'all')
+      df_epps = df_epps[['2-EQUIPOS DE PROTECCIÓN','3-ESTADO']].replace('', np.nan).dropna(how = 'all').copy()
       df_epps.fillna('·', inplace = True)
       df_epps = dict(zip(df_epps['2-EQUIPOS DE PROTECCIÓN'],df_epps['3-ESTADO']))
       return df_epps

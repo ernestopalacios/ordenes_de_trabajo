@@ -106,8 +106,11 @@ class MyEventHandler(FileSystemEventHandler):
         start_time = time.time()
         start_datetime = datetime.now()
 
-        # For more than eight elements process them using DASAK Distributed Computing
-        if len(items_to_process) > 8:
+        # TODO: No esta funcionando el procesamiento distribuido en DASK
+        # hay un error que no permite extraer las actividades adecuadamente
+        # posiblemente algo que ver con el manejo de memoria en DASK 
+        # PymuPDF se queja de que no hay `ValueError('not a textpage of this page')`
+        if len(items_to_process) < 0:
 
             items_to_process = list(set(items_to_process))
             logger.info(

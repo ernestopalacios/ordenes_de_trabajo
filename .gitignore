@@ -13,5 +13,6 @@ reporte_code.typ
 .venv
 test
 state
+LOGS
 # Private Keys
 eerssa/secret.py

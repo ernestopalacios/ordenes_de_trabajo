@@ -334,7 +334,7 @@ def organizarActividades( obj_ot ):
   #"""····························································
   #    Consolidar Items adicionales en uno solo
   #·······························································"""
-  backup = actividades
+  backup = actividades.copy()
 
   try:
 
@@ -544,19 +544,26 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
 
   """
 
-  actividades.insert( 3, 'Cuadrilla'     , cuadrilla  )
-  actividades.insert( 4, 'Primario'      , primario   )
-  actividades.insert( 5, 'SIG'           , "No"   )
-  actividades.insert( 8, 'Desconexion'   , desconexion)
-  actividades.insert( 9, 'id_ot'         , id_ot      )
-  actividades.insert( 1, 'Responsable'   , responsable)
-  actividades.insert( 2, 'Colaboradores' , colaboradores )
-  actividades.insert( 3, 'Vehiculo'      , vehiculo   )
-  actividades.insert( 4, 'Sitio'         , sitio      )
-  actividades.insert( 5, 'Dia'           , dia        )
-  actividades.insert( 6, 'Fecha'         , fecha      )
-  actividades.insert( 7, 'Materiales'    , materiales    )
-  actividades.insert( 8, 'Archivo'       , archivo    )
+  datos_comunes = {
+    'Cuadrilla' : cuadrilla,
+    'Primario'  : primario,
+    'SIG' : "No",
+    'Desconexion' : desconexion,
+    'id_ot' : id_ot,
+    'Responsable' : responsable,
+    'Colaboradores' : colaboradores,
+    'Vehiculo' : vehiculo,
+    'Sitio' : sitio,
+    'Dia' : dia,
+    'Fecha' : fecha,
+    'Materiales' : materiales,
+    'Archivo' : archivo
+  }
+
+  for col, value in datos_comunes.items():
+    actividades[col] = value
+
+  
 
   """
     Se reorganizan las columanas
@@ -576,7 +583,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
 
 
   # Guardo la respuesta en el objeto
-  obj_ot.matriz = actividades.fillna("·")
+  obj_ot.matriz = actividades.fillna("·").copy()
   
   # Lo regreso al programa principal 
   return( actividades )

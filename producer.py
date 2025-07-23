@@ -158,6 +158,7 @@ class MyEventHandler(FileSystemEventHandler):
             for file in items_to_process:
                 ot = gestionOT.GestionOt(file)
                 ot.load_ot()
+                matrizActividades.ConvertirOT_a_ActividadesCSV(ot)
                 obj_lists.append(ot)
 
             end_time = time.time()

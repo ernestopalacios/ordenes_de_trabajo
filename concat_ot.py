@@ -99,22 +99,6 @@ input_topic = app.topic(KAFKA_TO_DELTA, key_deserializer="str", value_deserializ
 
 sdf = app.dataframe(input_topic)
 
-def find_differences( json_old, json_new ):
-
-    updates = {}
-    for key, value in json_new.items():
-        if key == "_id":
-            continue
-        if key == "log":
-            continue
-               
-            #TODO: Atomic changes in Actividades
-
-        if json_old.get(key) != value:
-            updates[key] = value
-
-    return updates
-
 
 def reducer(aggregated_values, new_value):
     """
@@ -196,21 +180,31 @@ def process_batch(window_values):
                 if not json_old:
                     logger.info(f" [x] Error no se pudo encontrar la OT original: {value}")
                     continue
-            
-            # 2. Find differences between the two documents
-                updates = find_differences(json_old, json_new)
-                if not updates:
+
+            # 2. Compare documents to see if an update is needed.
+                # We create copies and remove fields that shouldn't be compared,
+                # like the database ID and the log history.
+                json_new_for_compare = json_new.copy()
+                json_old_for_compare = json_old.copy()
+                json_new_for_compare.pop("_id", None)
+                json_old_for_compare.pop("_id", None)
+                json_new_for_compare.pop("log", None)
+                json_old_for_compare.pop("log", None)
+
+                if json_new_for_compare == json_old_for_compare:
                     logging.info(f" [=] No changes detected for OT '{id_ot_value}'. Skipping update.")
-                    #Delete the document from ReloadCollection
                     ReloadCollection.delete_one({"id_ot": id_ot_value})
-                    return
+                    continue
 
             # 3. Replace the document from ReloadCollection to Current Collection.
-                CurrentCollection.replace_one({"id_ot": id_ot_value}, json_new, upsert=True)
+                # To avoid the immutable _id error, we must remove the _id from the
+                # replacement document. The original _id in CurrentCollection will be preserved.
+                del json_new["_id"]
+                CurrentCollection.replace_one({"id_ot": id_ot_value}, json_new)
                 ReloadCollection.delete_one({"id_ot": id_ot_value})
                 logging.info(f" [ MONGODB ] Successfully updated OT '{id_ot_value}' in MongoDB collection '{CurrentCollection.name}'.")
 
-            # 4. Apply atomic updates to Delta Lake
+            # 4. Apply updates to Delta Lake
                 updated_ot_doc = CurrentCollection.find_one({"id_ot": id_ot_value})
                 obj_ot = OrdenTrabajo.GestionOt.from_dict(updated_ot_doc)
                 new_activities_df = Actividades.ConvertirOT_a_ActividadesCSV(obj_ot)
@@ -226,7 +220,7 @@ def process_batch(window_values):
                 logging.info(f" [EXITO] DELTA LAKE Se ha Actualizado toda la OT: '{id_ot_value}' a la table at '{table_path}' ")
 
             except Exception as e:
-                logger.error(f"Fallo al procesar el item {value}. Error: {e}")
+                logger.error(f"Fallo OT Recargada, al procesar el item {value}. Error: {e}")
 
 
 

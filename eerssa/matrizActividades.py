@@ -200,11 +200,11 @@ def organizarActividades( obj_ot ):
     # En aquellas OT solo informativas, que no tienen puesto una fecha en las
     # actividades, primero intentamos tomar la fecha de inicio, sino, la fecha final
     # sino una fecha de referencia.
-    if( ot_df['fecha'] != "·" ):
+    if( ot_df['fecha'] != DEFAULT_EMPTY_CHAR ):
       fechaModa = ot_df['fecha'].split(' ')[0]
       obj_ot.Log2Ot("INFO", "Desde >> Obtener fechaModa. No se encontro fecha en las actividades", "Se utiliza como fechaModa la fecha de Inicio en la Hoja 1")
     
-    elif( ot_df['fechaFinal'] != "·" ):
+    elif( ot_df['fechaFinal'] != DEFAULT_EMPTY_CHAR ):
       obj_ot.Log2Ot("REVISAR", "Desde >> Obtener fechaModa. No se encontro fecha en la Hoja 1", "Se utiliza como fechaModa la fecha final en la Hoja 2")
       fechaModa = ot_df['fechaFinal'].split()[0] 
     
@@ -362,7 +362,7 @@ def organizarActividades( obj_ot ):
         
 
     actividades.Item = actividades.Item.astype(int)
-    actividades.insert( 3, 'Cuenta'     ,  "·" )
+    actividades.insert( 3, 'Cuenta'     ,  DEFAULT_EMPTY_CHAR )
 
   except:
 
@@ -448,7 +448,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   # Si no fue posible extraer las actividades en un paso previo
   # no se hace nada más
   try:
-    if ot_df['actividades'] == "·":
+    if ot_df['actividades'] == DEFAULT_EMPTY_CHAR:
       return None
   except Exception as e:
     print(f"Desde ConvertirOT_a_ActividadesCSV. No tiene actividades el archivo: {obj_ot.link}")
@@ -468,7 +468,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   vehiculo      = ot_df['vehiculo']['numero']
   sitio         = ot_df['sitio']
   dia           = ot_df['diaSemana']  # solo el nombre del dia de labores: lunes, martes, ...
-  materiales    = "·"
+  materiales    = DEFAULT_EMPTY_CHAR
   archivo       = ot_df['link']   # solo el nombre de archivo PDF
 
   # obtiene el día de la semana: lunes, martes, ....
@@ -476,14 +476,14 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
     fecha = ot_df['fecha']
     fecha = fecha.split()[0]
   except:
-    fecha = "·"
+    fecha = DEFAULT_EMPTY_CHAR
 
 
   # Obtiene nombre del archivo a PDF
   try:
     archivo = basename(archivo)
   except:
-    archivo = "·"
+    archivo = DEFAULT_EMPTY_CHAR
 
 
   # Obtener las Actividades
@@ -517,9 +517,9 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   actividades.loc[ actividades['Tipo'] == "ALIMENTACI", 'Tipo' ] = "LUNCH"
 
   
-  actividades.loc[(actividades['Alimentador'].isnull()) & (actividades['Cuenta'] == "·" ), 'Cuenta'] = "informativa"
+  actividades.loc[(actividades['Alimentador'].isnull()) & (actividades['Cuenta'] == DEFAULT_EMPTY_CHAR ), 'Cuenta'] = "informativa"
   actividades.loc[ :,'Evento'] = actividades[ 'Evento' ].apply( lambda x:limpiar_texto_actividad(x) )
-  actividades.loc[ actividades['Cuenta'] == "·" , 'Cuenta' ] = actividades.loc[actividades['Cuenta'] == "·" , 'Evento'].apply(lambda x:get_estimated_cuenta(x) )
+  actividades.loc[ actividades['Cuenta'] == DEFAULT_EMPTY_CHAR , 'Cuenta' ] = actividades.loc[actividades['Cuenta'] == DEFAULT_EMPTY_CHAR , 'Evento'].apply(lambda x:get_estimated_cuenta(x) )
   
   # ==========================================
   #           IDENTIFICACIÓN DE HORAS EXTRA
@@ -593,7 +593,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
 
 
   # Guardo la respuesta en el objeto
-  obj_ot.matriz = actividades.fillna("·").copy()
-  
+  actividades.fillna(DEFAULT_EMPTY_CHAR, inplace=True)
+  obj_ot.matriz = actividades.copy()
   # Lo regreso al programa principal 
   return( actividades )

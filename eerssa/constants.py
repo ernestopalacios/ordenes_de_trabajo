@@ -4,6 +4,8 @@ from enum import Enum
 class Current(Enum):
   VERSION = '0.23.0'
 
+class Chars(Enum):
+  DEFAULT_EMPTY_CHAR = "·"
 
 # VALUES OF LINES FOR TABLE AND TEXT EXTRACTION
 #    py1  <- Vertical Values in PPi for the first paeg

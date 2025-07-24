@@ -3,11 +3,13 @@ from unidecode import unidecode
 import pickle
 from   os.path import basename
 from datetime import datetime
-
-import traceback
 import re
 
-"""Convertimos el Dataframe multidimensional a un formato de Matriz (2D) Filas-Columnas, 
+from .constants import Chars
+"""
+VERSION 3
+
+Convertimos el Dataframe multidimensional a un formato de Matriz (2D) Filas-Columnas, 
 durante la transformación se ejecutan correcciones más frecuentes, fechas, horas, 
 con la intención de que la matriz sea lo más correcta posible. 
 
@@ -19,10 +21,7 @@ A partir de esta matriz se generará los Informes y se podra Exportar/Importar a
 para la revisión manual y actualización de OT.
 """
 
-from .constants import Chars
-
 DEFAULT_EMPTY_CHAR = Chars.DEFAULT_EMPTY_CHAR.value 
-
 
 
 def limpiar_texto_actividad( actividad ):
@@ -147,7 +146,7 @@ def calcular_minutos_transcurridos( fecha_inicio, fecha_fin ):
     return elapsed_minutes
 
   except:
-    print( f"\nError: al intentar calcular el tiempo transcurrido para una actividad texto de inicio {fecha_inicio} texto de fin {fecha_fin}\n")
+    print( f"\nError: al intentar calcular el tiempo transcurrido para una actividad . texto de inicio {fecha_inicio} texto de fin {fecha_fin}\n")
     return -1
 
 
@@ -156,18 +155,15 @@ def calcular_minutos_transcurridos( fecha_inicio, fecha_fin ):
 #     ORGANIZAR ACTIVIDADES
 # ==================================
 
-def organizarActividades( obj_ot ):
+def organizarActividades( data_dict ):
 
 
-  ot_df = obj_ot.data
-
-  actividades = pd.DataFrame( obj_ot.data['actividades'] )
+  ot_df = data_dict
+  actividades = pd.DataFrame( ot_df['actividades'] )
   
   if len(actividades) == 0:
     return actividades
-  
-  # Volver a convertir de DEFAULT_EMPTY_CHAR a NaN
-  actividades.replace( DEFAULT_EMPTY_CHAR, pd.NA, inplace=True )  
+
   actividades = actividades[actividades.Evento.notnull()]
   actividades = actividades.reset_index()
 
@@ -177,8 +173,6 @@ def organizarActividades( obj_ot ):
 
 
   try:
-
-    
 
     fInicio = actividades[['Item','InicioEvento','FinEvento']].dropna()
     fInicio['solofechaI'] = fInicio['InicioEvento'].apply( lambda x: re.findall( '\d{4}-\d{2}-\d{2}', x)[0])
@@ -356,17 +350,17 @@ def organizarActividades( obj_ot ):
         
         fila = fila + 1
 
-        # Lo programo de esta manera ya que al hacer el Drop no se actualizan los indices
-        #  si uso un lazo FOR. Al hacerlo de esta manera cada vez leo los indices tomando
-        #  en cuenta aquellos que ya elimine. y funciona.
-        
+        """ Lo programo de esta manera ya que al hacer el Drop no se actualizan los indices
+          si uso un lazo FOR. Al hacerlo de esta manera cada vez leo los indices tomando
+          en cuenta aquellos que ya elimine. y funciona.
+        """
 
     actividades.Item = actividades.Item.astype(int)
     actividades.insert( 3, 'Cuenta'     ,  "·" )
 
   except:
 
-    actividades = backup.copy()
+    actividades = backup
     obj_ot.Log2Ot("ERROR", "No pudo consolidar la matriz de Actividades", "Ocurrio un error al consolidar las actividades. Desde >> iteraciones while fila < totalIdx")
 
 
@@ -387,9 +381,8 @@ def organizarActividades( obj_ot ):
       obj_ot.Log2Ot("REVISAR", "Se detectaron fechas inconsistentes", "En actividades, revisar las fechas de fin de actividad")
   
   except:
-    actividades = backup.copy()
+    actividades = backup
     obj_ot.Log2Ot("ERROR", "No pudo corregir las fechas erroneas", "Ocurrio un error al corregir fechas mal digitadas. Desde >> corregir_fechaInicio/Fin")
-  
   return actividades
 
 
@@ -431,8 +424,7 @@ def convert_to_time(time_string):
 
 def ConvertirOT_a_ActividadesCSV( obj_ot ):
 
-  """ 
-    Convierte una fila del Dataframe que contiene las OTs y
+  """ Convierte una fila del Dataframe que contiene las OTs y
     devuelve un nuevo dataframe exponienda cada una de las
     actividades de acuerdo al formato descrito.
   """
@@ -492,11 +484,6 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
     obj_ot.Log2Ot("FATAL", "No se encontraron actividades", "Fallo al intentar obtener la matriz de actividades")
     return
 
-  print(f"  >> Regreso de Organizar Actividades, tipo de objeto: {type(actividades)}")
-  
-  if isinstance(actividades, list):
-    actividades = pd.DataFrame(actividades)
-  
 
   # Calcular los minutos transcurridos en cada actividad.
   actividades['Duracion'] = actividades.apply( lambda x: calcular_minutos_transcurridos( x['InicioEvento'], x['FinEvento'] ), axis=1 )

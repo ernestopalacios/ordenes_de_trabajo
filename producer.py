@@ -183,6 +183,7 @@ class MyEventHandler(FileSystemEventHandler):
 
                         if nuevo_path != "Failed":
                           ot.link = nuevo_path
+                          ot.data["link"] = nuevo_path
                         
                         #GENERACION DEL REPORTE
                         reporte_typst = reporte_pdf.create_typst_doc( ot )

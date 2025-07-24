@@ -3,25 +3,39 @@
 #show: dvdtyp.with(
     title: "Reporte de Orden de Trabajo",
     subtitle: [ ],
-    author: "ECURSO",
-    abstract: "Yantzaza (Agencia) 
- martes, 22 de julio del 2025 
- CHAMBA CANGO PEDRO ROSALINO 
- id_ot : 157619",
+    author: "TERMINADO",
+    abstract: "Zamora Z1 (Cuadrilla. AP Nro. 4) 
+ miércoles, 23 de julio del 2025 
+ MORALES RIVERA LUIS ALBERTO 
+ id_ot : 157727",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2025-07-22 23:25:28")[
+#informativo("Informativo - 2025-07-23 23:11:31")[
   CREACIÓN DE LA OT, se encuentra un archivo PDF de al menos tres hojas 
   $
     "Ninguno"
   $
 ]
 
-#problema("FATAL - 2025-07-22 23:25:28")[
-  No es posible enviar al servidor esta Orden de Trabajo
+#informativo("Informativo - 2025-07-23 23:11:32")[
+  Desde >> Obtener fechaModa. No se encontro fecha en las actividades
   $
-    "[x] Estado Actual: ECURSO"
+    "Se utiliza como fechaModa la fecha de Inicio en la Hoja 1"
+  $
+]
+
+#revisar("Revisar - 2025-07-23 23:11:32")[
+  Se detectaron fechas inconsistentes
+  $
+    "En actividades, revisar las fechas de inicio actividad"
+  $
+]
+
+#revisar("Revisar - 2025-07-23 23:11:32")[
+  Se detectaron fechas inconsistentes
+  $
+    "En actividades, revisar las fechas de fin de actividad"
   $
 ]

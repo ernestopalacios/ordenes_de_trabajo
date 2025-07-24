@@ -491,8 +491,6 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   if len(actividades) == 0:
     obj_ot.Log2Ot("FATAL", "No se encontraron actividades", "Fallo al intentar obtener la matriz de actividades")
     return
-
-  print(f"  >> Regreso de Organizar Actividades, tipo de objeto: {type(actividades)}")
   
   if isinstance(actividades, list):
     actividades = pd.DataFrame(actividades)

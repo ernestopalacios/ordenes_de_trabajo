@@ -106,6 +106,24 @@ class MyEventHandler(FileSystemEventHandler):
         start_time = time.time()
         start_datetime = datetime.now()
 
+        if len(items_to_process) > 0:
+            logger.info(
+                f"   Procesando {len(items_to_process)} archivos. Hora de inicio: {start_datetime.strftime('%Y-%m-%d %H:%M:%S')}"
+            )
+
+            obj_lists = []
+            for file in items_to_process:
+                ot = gestionOT.GestionOt(file)
+                ot.load_ot()
+                matrizActividades.ConvertirOT_a_ActividadesCSV(ot)
+                obj_lists.append(ot)
+
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            logger.info(
+                f"   Procesados todos los {len(obj_lists)} items. Tiempo transcurrido: {elapsed_time:.2f} segundos.\n"
+            )
+
         # TODO: No esta funcionando el procesamiento distribuido en DASK
         # hay un error que no permite extraer las actividades adecuadamente
         # posiblemente algo que ver con el manejo de memoria en DASK 
@@ -121,10 +139,12 @@ class MyEventHandler(FileSystemEventHandler):
                 self.client.submit(gestionOT.GestionOt, file)
                 for file in items_to_process
             ]
+
+            ot_cargadas = self.client.gather(futures_step_1)
             
             futures_step_2 = [
                 self.client.submit(call_load_ot, future)
-                for future in futures_step_1
+                for future in ot_cargadas
             ]
 
             futures_step_3 = [
@@ -151,24 +171,6 @@ class MyEventHandler(FileSystemEventHandler):
             except Exception as e:
                 logger.warning(f"  [ DASK ] No se pudo borrar las 'futures' ")
 
-        # Maybe we could only use DASK, but I'll leave this code if I encounter errors with DASK in the future
-        elif len(items_to_process) > 0:
-            logger.info(
-                f"   Procesando {len(items_to_process)} archivos. Hora de inicio: {start_datetime.strftime('%Y-%m-%d %H:%M:%S')}"
-            )
-
-            obj_lists = []
-            for file in items_to_process:
-                ot = gestionOT.GestionOt(file)
-                ot.load_ot()
-                matrizActividades.ConvertirOT_a_ActividadesCSV(ot)
-                obj_lists.append(ot)
-
-            end_time = time.time()
-            elapsed_time = end_time - start_time
-            logger.info(
-                f"   Procesados todos los {len(obj_lists)} items. Tiempo transcurrido: {elapsed_time:.2f} segundos.\n"
-            )
 
         # Once i got the list of objects I send to KAFKA only those that are VALID objects
         if obj_lists:
@@ -256,12 +258,14 @@ def get_or_create_DASK_client():
         # Try to get the default client (if one exists)
         client = get_client()
         logger.info("  [ DASK ]  Conectado a un cluster existente.")
+        logger.info(f" [ DASK ]  Se puede encontrar el Dashboard en: {client.dashboard_link}")
         return client
     except ValueError:
         # No client exists, create a new LocalCluster and client
-        logger.info("  [ DASK]   Creando un nuevo cluster local.")
+        logger.info("  [ DASK ]   Creando un nuevo cluster local.")
         cluster = LocalCluster()
         client = Client(cluster)
+        logger.info(f" [ DASK ]  Se puede encontrar el Dashboard en: {client.dashboard_link}")
         return client
 
 

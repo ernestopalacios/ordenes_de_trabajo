@@ -2,7 +2,7 @@ from enum import Enum
 
 # Versioning and files
 class Current(Enum):
-  VERSION = '0.23.0'
+  VERSION = '0.3.0'
 
 class Chars(Enum):
   DEFAULT_EMPTY_CHAR = "·"

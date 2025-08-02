@@ -209,15 +209,25 @@ def process_batch(window_values):
                 obj_ot = OrdenTrabajo.GestionOt.from_dict(updated_ot_doc)
                 new_activities_df = Actividades.ConvertirOT_a_ActividadesCSV(obj_ot)
 
-                # Merge updates into the Delta table based on a unique key (assuming 'id_ot' exists in the table)
+                # The predicate must uniquely identify each row. For activities, this is
+                # the combination of the work order ID and the item number.
+                unique_key_predicate = "target.id_ot = source.id_ot AND target.Item = source.Item"
+
+                # This merge operation will atomically update the activities for a given OT
                 dt = DeltaTable(table_path)
                 (dt.merge(
                     source=new_activities_df,
-                    predicate="source.id_ot = target.id_ot",
+                    predicate=unique_key_predicate,
                     source_alias="source",
                     target_alias="target"
-                ).when_matched_update_all().execute())
-                logging.info(f" [EXITO] DELTA LAKE Se ha Actualizado toda la OT: '{id_ot_value}' a la table at '{table_path}' ")
+                )
+                .when_matched_update_all()  # Rule 1: If an activity exists, update it.
+                .when_not_matched_insert_all()  # Rule 2: If it's a new activity, insert it.
+                .when_not_matched_by_source_delete(  # Rule 3: If an old activity is now gone...
+                    predicate=f"target.id_ot = {id_ot_value}"  # ...delete it, but only for the current OT.
+                )
+                .execute())
+                logging.info(f" [EXITO] DELTA LAKE Se ha actualizado la OT: '{id_ot_value}' en la tabla '{table_path}'")
 
             except Exception as e:
                 logger.error(f"Fallo OT Recargada, al procesar el item {value}. Error: {e}")

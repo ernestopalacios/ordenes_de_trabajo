@@ -1,5 +1,3 @@
-import dask.bag as db
-from dask.distributed import Client
 from pathlib import Path
 import json
 from datetime import datetime
@@ -12,6 +10,15 @@ from .gestionOT import toDateEcuador, getDiaSemana
 # PDF Conversion Library
 import pymupdf
 from   pymupdf import Rect
+import pandas as pd
+import numpy as np
+
+import logging
+from pprint import pprint
+
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def to_log_entry( level, message, detail ):
@@ -82,8 +89,6 @@ def procesarOt( link_to_pdf ):
 
       hojas = pdf.page_count
       paginaUno = pdf.load_page(0)
-      paginaDos = pdf.load_page(1)
-
 
       if ( hojas > 1 and hojas < 5 ):       
         
@@ -93,20 +98,65 @@ def procesarOt( link_to_pdf ):
           ot["log"].append(
             to_log_entry("INFO", "CREACION DE LA OT, se encuentra un archivo PDF de al menos tres hojas ", f"Ubicacion: {link_to_pdf}"))
           ot["createdAt"] = datetime.now()
-          return ot
 
       else:
         ot["log"].append(
           to_log_entry("FATAL","No es un archivo PDF valido",f"La cantidad de hojas no es valida: {hojas} ")
         )
         return ot 
-      
-
   except:
     ot["log"].append(
       to_log_entry( "FATAL", "No es un archivo PDF", f"No se reconoce como archivo PDF valido: {link_to_pdf}"))
     return ot
   
   # = 4. Obtenemos los campos necesarios
-  # if ot["exito"] == True:
+  if ot["exito"] == True:
+        
+    with pymupdf.open( pdf_path ) as pdf:
+      paginaUno = pdf.load_page(0)
+
+    # - ACTIVIDADES -
+      try:
+        actividades = []
+        for x in range( 1, pdf.page_count ):
+          paginaDos = pdf.load_page(x)
+          tables = paginaDos.find_tables( clip=Rect( BoxesValues.ACTIVIDADES.value), strategy='lines_strict') # type: ignore
+          
+          # Check if any tables were found before trying to access them
+          if not tables.tables:
+            ot["log"].append(  
+            to_log_entry("ERROR", "No se pudo extraer la tabla de Actividades.", f"La funcion 'find_tables()' no encontro tablas en la pagina: {paginaDos.number+1}")
+          )
+              
+          df = tables.tables[0].to_pandas()
+          df.columns = ['Item','Actividad','Evento','Ali','Alimentador','Tipo','InicioEvento','FinEvento']
+
+          # More robust way to filter header rows
+          df['Item'] = df['Item'].astype(str)
+          is_valid_item = df['Item'].str.contains(r'\d', na=False)
+          df = df[is_valid_item].copy()
+
+          # Clean up data
+          df['InicioEvento'] = df['InicioEvento'].str.replace('\n', ' ', regex=False)
+          df['FinEvento']   = df['FinEvento'].str.replace('\n', ' ', regex=False)
+          df = df.replace('', pd.NA).dropna(how='all')
+          
+          actividades.append(df.to_dict('records'))
+
       
+        if len(actividades[0]) == 0:
+          ot["exito"] = False
+          ot["log"].append(  
+            to_log_entry("FATAL","No se pudieron encontrar actividades",f"No hay actividades en la hoja: {paginaDos.number+1}"))
+          return ot
+        else:
+          # Cargo las actividades al objeto
+          ot["actividades"] = actividades[0]
+          
+
+
+      except Exception:
+        ot["log"].append(  
+          to_log_entry("ERROR", "No se pudo extraer la tabla de Actividades.", f"Desde la funcion getActividades() en la hoja {paginaDos.number+1}")
+        )
+  return ot

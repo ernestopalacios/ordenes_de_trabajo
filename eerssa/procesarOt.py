@@ -13,6 +13,7 @@ from   pymupdf import Rect
 import pandas as pd
 import numpy as np
 
+import traceback
 import logging
 from pprint import pprint
 
@@ -25,14 +26,18 @@ def to_log_entry( level, message, detail ):
   """
      Devuelve un objeto en formato diccionario para ser insertado en el 
      array de Logs.
-  """  
-  if isinstance(detail, str):
+  """
+  if isinstance(detail, Exception):
+    # Format the exception with its traceback for detailed logging
+    detalles = "".join(traceback.format_exception(type(detail), detail, detail.__traceback__))
+  elif not isinstance(detail, str):
+    # Fallback for other non-string types, convert them safely
+    detalles = str(detail)
+  else: # it's a string
     detalles = detail
-  else:
-    detalles = "No se pudo capturar la Excepcion, lo mas probable campos vacios"
   
   entry = {
-    "t": datetime.now(),
+    "t": datetime.now().isoformat(),
     "level"  : level,
     "message": message,
     "detail" : detalles
@@ -72,41 +77,34 @@ def procesarOt( link_to_pdf ):
   try:
     
     pdf_path = Path(link_to_pdf)
-
     if not pdf_path.exists():
       ot["log"].append(
         to_log_entry( "FATAL", "No es un directorio valido",f"El enlace no es de un directorio valido:{link_to_pdf} "))
       return ot
-  except:
+  except Exception as e:
     ot["log"].append( 
-      to_log_entry( "FATAL", "No es un directorio valido",f"Fallo al obtener Path: {link_to_pdf}"))
+      to_log_entry( "FATAL", f"Ocurrio un error al interpretar como Path el String: {link_to_pdf}", e))
     return ot
   
   # = 3. Verificamos que sea un archivo PDF de tipo Orden de Trabajo
   try:
-
-    with pymupdf.open( pdf_path ) as pdf:
-
+    with pymupdf.open(pdf_path) as pdf:
       hojas = pdf.page_count
-      paginaUno = pdf.load_page(0)
-
-      if ( hojas > 1 and hojas < 5 ):       
-        
-        check = paginaUno.get_textbox( Rect( BoxesValues.FECHA_INICIO_TESTIMADO.value) )
-        if  "TIEMPO ESTIMADO DE DURACIÓN (HORAS):" in check:
-          ot["exito"] = True
-          ot["log"].append(
-            to_log_entry("INFO", "CREACION DE LA OT, se encuentra un archivo PDF de al menos tres hojas ", f"Ubicacion: {link_to_pdf}"))
-          ot["createdAt"] = datetime.now()
-
-      else:
+      if not (1 < hojas < 5):
         ot["log"].append(
-          to_log_entry("FATAL","No es un archivo PDF valido",f"La cantidad de hojas no es valida: {hojas} ")
-        )
-        return ot 
-  except:
-    ot["log"].append(
-      to_log_entry( "FATAL", "No es un archivo PDF", f"No se reconoce como archivo PDF valido: {link_to_pdf}"))
+          to_log_entry("FATAL", "No es un archivo PDF valido", f"La cantidad de hojas no es valida: {hojas}"))
+        return ot
+
+      paginaUno = pdf.load_page(0)
+      # Verifica un marcador de texto en la pagina UNO para validar que es un archivo Orden de Trabajo.
+      check_text = paginaUno.get_textbox( Rect(BoxesValues.FECHA_INICIO_TESTIMADO.value ))
+      if "TIEMPO ESTIMADO DE DURACIÓN (HORAS):" in check_text:
+        ot["exito"] = True
+        ot["log"].append(
+          to_log_entry("INFO", "CREACION DE LA OT, se encuentra un archivo PDF valido", f"Ubicacion: {link_to_pdf}"))
+        ot["createdAt"] = datetime.now().isoformat()
+  except Exception as e:
+    ot["log"].append(to_log_entry("FATAL", "No se pudo abrir o procesar el archivo PDF", e))
     return ot
   
   # = 4. Obtenemos los campos necesarios
@@ -114,49 +112,131 @@ def procesarOt( link_to_pdf ):
         
     with pymupdf.open( pdf_path ) as pdf:
       paginaUno = pdf.load_page(0)
+      paginaDos = pdf.load_page(1)
+
+    # - FECHA DE INICIO HOJA UNO.Arriba
+      try:
+        fechaInicio = paginaUno.get_textbox( Rect( BoxesValues.FECHA_INICIAL_UNO.value) )
+        fechaInicio = fechaInicio.strip()
+        diaSemana = getDiaSemana( fechaInicio )
+        fechaInicio = toDateEcuador( fechaInicio )
+
+        ot['diaSemana'] = diaSemana
+        ot['fecha'] = fechaInicio
+
+      except Exception as e:
+        ot["log"].append(
+          to_log_entry('ERROR',"No se pudo extraer la FECHA la Orden de Trabajo", e)) 
+      
+    # - FECHA DE INICIO HOJA UNO. Mitad
+      try:
+        df_fechaInicio = paginaUno.get_textbox( Rect( BoxesValues.FECHA_INICIO_TESTIMADO.value) )
+        df_fechaInicio = df_fechaInicio.split('\n')[1]
+        df_fechaInicio = toDateEcuador( df_fechaInicio )
+
+        if df_fechaInicio != ot['fecha']:
+          ot['log'].append(
+            to_log_entry('ERROR',
+                         f"No coincide la FECHA OT: {ot['fecha']} con la FECHA inicio: {df_fechaInicio}",
+                         "Revisar las fechas en la primer hoja."))
+
+        ot['fechaInicio'] = df_fechaInicio
+      except Exception as e:
+        ot['log'].append(
+          to_log_entry('ERROR',"No se pudo extraer la FECHA DE INICIO en la Hoja 1 (mitad)", e))
+
+
+
+
+
+
+    # - TIPOS DE TRABAJO - 
+      try:
+        df_tipos_trabajo = paginaUno.get_textbox( Rect( BoxesValues.TIPOS_TRABAJO.value) )
+        df_tipos_trabajo = df_tipos_trabajo.split('\n')
+        
+
+        ot["trabajo"] = df_tipos_trabajo
+      except Exception as e:
+        ot["log"].append(
+          to_log_entry('ERROR',"No se pudo extraer los TIPOS DE TRABAJO", e))
+
+    # - RIESGOS DE TRABAJO - 
+      try:
+        df_riesgos = paginaUno.get_textbox( Rect( BoxesValues.RIESGOS_EPPS.value) )
+        df_riesgos = df_riesgos.replace('RIESGOS EXISTENTES:\nCONSECUENCIAS PROBABLES:\nELEMENTOS DE PREVENCIÓN A UTILIZAR\n','')
+        df_riesgos = df_riesgos.split('\n')
+        
+        ot["riesgos"] = df_riesgos
+      except Exception as e:
+        ot["log"].append(
+          to_log_entry('ERROR',"No se pudo extraer los RIESGOS DE TRABAJO", e))
+
+    # - MEDIDAS DE SEGURIDAD -
+      try:
+        df_seguridad = paginaUno.get_textbox( Rect( BoxesValues.MEDIDAS_SEGURIDAD.value) )
+        df_seguridad = df_seguridad.replace('MEDIDAS\nESTADO\nEQUIPOS DE PROTECCIÓN\nESTADO\n','')
+        df_seguridad = df_seguridad.split('\n')
+        
+        ot["seguridad"] = df_seguridad
+      except Exception as e:
+        ot["log"].append(
+          to_log_entry('ERROR',"No se pudo extraer las MEDIDAS DE SEGURIDAD", e))
+
+    # - PRECAUCIONES -
+      try:
+        df_precauciones = paginaUno.get_textbox( Rect( BoxesValues.PRECAUCIONES.value) )
+        df_precauciones = df_precauciones.replace('PRECAUCIONES:', "").replace('\n', ' ').strip()
+        
+        ot["precauciones"] = df_precauciones
+      except Exception as e:
+        ot["log"].append(
+          to_log_entry('ERROR',"No se pudo extraer las PRECAUCIONES", e))
+
 
     # - ACTIVIDADES -
       try:
         actividades = []
-        for x in range( 1, pdf.page_count ):
-          paginaDos = pdf.load_page(x)
-          tables = paginaDos.find_tables( clip=Rect( BoxesValues.ACTIVIDADES.value), strategy='lines_strict') # type: ignore
+        # Loop through pages that can contain activities (page 2 onwards)
+        for i in range(1, pdf.page_count):
+          page = pdf.load_page(i)
+          tables = page.find_tables(clip=Rect(BoxesValues.ACTIVIDADES.value), strategy='lines_strict') # type: ignore
           
           # Check if any tables were found before trying to access them
           if not tables.tables:
             ot["log"].append(  
-            to_log_entry("ERROR", "No se pudo extraer la tabla de Actividades.", f"La funcion 'find_tables()' no encontro tablas en la pagina: {paginaDos.number+1}")
-          )
+              to_log_entry("INFO", "No se encontraron tablas de actividades.", f"En la pagina: {page.number + 1}")
+            )
+            continue # Skip to the next page
               
           df = tables.tables[0].to_pandas()
           df.columns = ['Item','Actividad','Evento','Ali','Alimentador','Tipo','InicioEvento','FinEvento']
 
           # More robust way to filter header rows
-          df['Item'] = df['Item'].astype(str)
-          is_valid_item = df['Item'].str.contains(r'\d', na=False)
+          df['Item'] = df['Item'].astype(str).str.strip()
+          is_valid_item = df['Item'].str.match(r'^\d+$', na=False)
           df = df[is_valid_item].copy()
 
           # Clean up data
           df['InicioEvento'] = df['InicioEvento'].str.replace('\n', ' ', regex=False)
           df['FinEvento']   = df['FinEvento'].str.replace('\n', ' ', regex=False)
+          df['Actividad'] = df['Actividad'].str.replace('\n', ' ', regex=False)
           df = df.replace('', pd.NA).dropna(how='all')
-          
-          actividades.append(df.to_dict('records'))
+          df = df.fillna(DEFAULT_EMPTY_CHAR)
 
-      
-        if len(actividades[0]) == 0:
+          actividades.extend(df.to_dict('records'))
+
+        if not actividades:
           ot["exito"] = False
           ot["log"].append(  
-            to_log_entry("FATAL","No se pudieron encontrar actividades",f"No hay actividades en la hoja: {paginaDos.number+1}"))
+            to_log_entry("FATAL", "No se pudieron encontrar actividades", "No se encontraron actividades en ninguna de las hojas del documento.")
+          )
           return ot
-        else:
-          # Cargo las actividades al objeto
-          ot["actividades"] = actividades[0]
-          
 
+        ot["actividades"] = actividades
 
-      except Exception:
+      except Exception as e:
         ot["log"].append(  
-          to_log_entry("ERROR", "No se pudo extraer la tabla de Actividades.", f"Desde la funcion getActividades() en la hoja {paginaDos.number+1}")
+          to_log_entry("ERROR", f"No se pudo extraer la tabla de Actividades en la hoja {paginaDos.number+1}", e)
         )
   return ot

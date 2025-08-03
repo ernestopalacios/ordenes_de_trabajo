@@ -114,6 +114,24 @@ def procesarOt( link_to_pdf ):
       paginaUno = pdf.load_page(0)
       paginaDos = pdf.load_page(1)
 
+    # - identificacion de ot ID_OT
+      texto = DEFAULT_EMPTY_CHAR
+      try:
+        texto = paginaUno.get_textbox( Rect( BoxesValues.ID_OT.value) )
+        id_ot = texto.split('\n')[1].replace(',',"")
+        id_ot = int(id_ot)
+        ot["id_ot"] = id_ot
+
+      except Exception as e:
+        ot['exito'] = False   # SI NO HAY 'id_ot' NO SE PUEDE CONTINUAR
+        ot["log"].append(
+          to_log_entry('FATAL',f"No se pudo extraer el ID de la Orden de Trabajo en el texto: {texto}", e)) 
+        
+        return ot  # <=== No es Ot Valida. 
+    
+    
+
+
     # - FECHA DE INICIO HOJA UNO.Arriba
       try:
         fechaInicio = paginaUno.get_textbox( Rect( BoxesValues.FECHA_INICIAL_UNO.value) )
@@ -127,27 +145,8 @@ def procesarOt( link_to_pdf ):
       except Exception as e:
         ot["log"].append(
           to_log_entry('ERROR',"No se pudo extraer la FECHA la Orden de Trabajo", e)) 
-      
-    # - FECHA DE INICIO HOJA UNO. Mitad
-      try:
-        df_fechaInicio = paginaUno.get_textbox( Rect( BoxesValues.FECHA_INICIO_TESTIMADO.value) )
-        df_fechaInicio = df_fechaInicio.split('\n')[1]
-        df_fechaInicio = toDateEcuador( df_fechaInicio )
-
-        if df_fechaInicio != ot['fecha']:
-          ot['log'].append(
-            to_log_entry('ERROR',
-                         f"No coincide la FECHA OT: {ot['fecha']} con la FECHA inicio: {df_fechaInicio}",
-                         "Revisar las fechas en la primer hoja."))
-
-        ot['fechaInicio'] = df_fechaInicio
-      except Exception as e:
-        ot['log'].append(
-          to_log_entry('ERROR',"No se pudo extraer la FECHA DE INICIO en la Hoja 1 (mitad)", e))
-
-
-
-
+    
+ 
 
 
     # - TIPOS DE TRABAJO - 

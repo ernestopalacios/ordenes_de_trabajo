@@ -948,8 +948,8 @@ class GestionOt:
         df.columns = ['Item','Actividad','Evento','Ali','Alimentador','Tipo','InicioEvento','FinEvento']
 
         # More robust way to filter header rows
-        df['Item'] = df['Item'].astype(str)
-        is_valid_item = df['Item'].str.contains(r'\d', na=False)
+        df['Item'] = df['Item'].astype(str).str.strip()
+        is_valid_item = df['Item'].str.match(r'^\d+$', na=False)
         df = df[is_valid_item].copy()
 
         # Clean up data

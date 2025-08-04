@@ -64,12 +64,12 @@ def procesarOt( link_to_pdf ):
   ot["version"] = VERSION
   ot["link"]    = link_to_pdf
   ot["exito"]   = False
-  ot["log"]     = []
+  ot['log']     = []
 
   # = 1. No es String
 
   if not isinstance(link_to_pdf, str):
-    ot["log"].append(
+    ot['log'].append(
       to_log_entry( "FATAL", "No es un directorio valido","El enlace no es de tipo String"))
     return ot
   
@@ -78,11 +78,11 @@ def procesarOt( link_to_pdf ):
     
     pdf_path = Path(link_to_pdf)
     if not pdf_path.exists():
-      ot["log"].append(
+      ot['log'].append(
         to_log_entry( "FATAL", "No es un directorio valido",f"El enlace no es de un directorio valido:{link_to_pdf} "))
       return ot
   except Exception as e:
-    ot["log"].append( 
+    ot['log'].append( 
       to_log_entry( "FATAL", f"Ocurrio un error al interpretar como Path el String: {link_to_pdf}", e))
     return ot
   
@@ -91,7 +91,7 @@ def procesarOt( link_to_pdf ):
     with pymupdf.open(pdf_path) as pdf:
       hojas = pdf.page_count
       if not (1 < hojas < 5):
-        ot["log"].append(
+        ot['log'].append(
           to_log_entry("FATAL", "No es un archivo PDF valido", f"La cantidad de hojas no es valida: {hojas}"))
         return ot
 
@@ -100,11 +100,11 @@ def procesarOt( link_to_pdf ):
       check_text = paginaUno.get_textbox( Rect(BoxesValues.FECHA_INICIO_TESTIMADO.value ))
       if "TIEMPO ESTIMADO DE DURACIÓN (HORAS):" in check_text:
         ot["exito"] = True
-        ot["log"].append(
+        ot['log'].append(
           to_log_entry("INFO", "CREACION DE LA OT, se encuentra un archivo PDF valido", f"Ubicacion: {link_to_pdf}"))
         ot["createdAt"] = datetime.now().isoformat()
   except Exception as e:
-    ot["log"].append(to_log_entry("FATAL", "No se pudo abrir o procesar el archivo PDF", e))
+    ot['log'].append(to_log_entry("FATAL", "No se pudo abrir o procesar el archivo PDF", e))
     return ot
   
   # = 4. Obtenemos los campos necesarios
@@ -124,13 +124,91 @@ def procesarOt( link_to_pdf ):
 
       except Exception as e:
         ot['exito'] = False   # SI NO HAY 'id_ot' NO SE PUEDE CONTINUAR
-        ot["log"].append(
+        ot['log'].append(
           to_log_entry('FATAL',f"No se pudo extraer el ID de la Orden de Trabajo en el texto: {texto}", e)) 
         
         return ot  # <=== No es Ot Valida. 
+        
+    # - Terminado
+      try:
+        texto = paginaDos.get_textbox( Rect( BoxesValues.ESTADO_OT.value) )
+        terminado = texto.strip()
+        ot["terminado"] = terminado
+
+        if terminado != "TERMINADO":
+          ot['exito'] = False
+          ot['log'].append(
+            to_log_entry('FATAL',"La Orden de trabajo no se encuentra en estado TERMINADO",f"Texto es: {terminado}"))
+          
+      except Exception as e:
+        ot['exito'] = False
+        ot['log'].append(
+          to_log_entry('FATAL',"No se pudo extraer el ESTADO de la Orden de Trabajo", e)) 
+
+    # - Cuadrilla
+      try:
+        texto = paginaDos.get_textbox( Rect( BoxesValues.CUADRILLA_NOMBRE.value) )
+        cuadrilla = texto.strip()
+        ot["cuadrilla"] = cuadrilla
+
+        if len(cuadrilla) < 4:
+          ot['cuadrilla'] = DEFAULT_EMPTY_CHAR
+          ot['exito'] = False
+          ot['log'].append(
+            to_log_entry('FATAL',"No se pudo extraer la CUADRILLA de la Orden de Trabajo",f"Texto es: {cuadrilla}"))
+
+      except Exception as e:
+        ot['cuadrilla'] = DEFAULT_EMPTY_CHAR
+        ot['exito'] = False
+        ot['log'].append(
+          to_log_entry('FATAL',"No se pudo extraer la CUADRILLA de la Orden de Trabajo", e)) 
     
+    # - Responsable
+      try:
+        texto = paginaUno.get_textbox( Rect( BoxesValues.RESPONSABLE.value) )
+        df_personal = texto.strip().split('\n')
+        responsable = [df_personal[0],df_personal[1]]
+        ot['responsable'] = responsable
+      except Exception as e:
+        ot['responsable'] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('ERROR',"No se pudo extraer el RESPONSABLE de la Orden de Trabajo", e)) 
     
 
+    # - Colaboradores
+      try:
+        texto = paginaUno.get_textbox( Rect( BoxesValues.COLABORADORES_NOMBRES.value) )
+        df_personal = texto.strip().split('\n')
+        df_personal = [ item for item in df_personal if item != '' ]
+
+        data = paginaUno.get_textbox( Rect( BoxesValues.COLABORADORES_CARGOS.value) )
+        df_cargos = data.strip().split('\n')
+        df_cargos = [ item for item in df_cargos if item != '' ]
+
+        totalColaboradores = len(df_personal)
+
+        colaboradores = []
+
+        for i in range(totalColaboradores):
+          colaboradores.append([df_personal[i],df_cargos[i]])
+
+        respuesta = {}
+        respuesta['total'] = totalColaboradores
+        respuesta['nombres'] = colaboradores
+
+        if ot['responsable'] in respuesta['nombres']:
+          respuesta['total'] -= 1
+          respuesta['nombres'] = [x for x in respuesta['nombres'] if x != ot['responsable']]
+
+        ot['colaboradores'] = respuesta
+      except Exception as e:
+        lista_colaboradores = {}
+        lista_colaboradores['total'] = 0
+        lista_colaboradores['nombres'] = []
+        ot['colaboradores'] = lista_colaboradores
+        ot['log'].append(
+          to_log_entry('REVISAR',"No se pudo extraer los COLABORADORES de la Orden de Trabajo", e)) 
+    
 
     # - FECHA DE INICIO HOJA UNO.Arriba
       try:
@@ -143,21 +221,132 @@ def procesarOt( link_to_pdf ):
         ot['fecha'] = fechaInicio
 
       except Exception as e:
-        ot["log"].append(
-          to_log_entry('ERROR',"No se pudo extraer la FECHA la Orden de Trabajo", e)) 
+        ot['diaSemana'] = DEFAULT_EMPTY_CHAR
+        ot['fecha'] = DEFAULT_EMPTY_CHAR
+        ot['exito'] = False
+        ot['log'].append(
+          to_log_entry('FATAL',"No se pudo extraer la FECHA la Orden de Trabajo", e)) 
     
- 
+    #
+    # TODO  fecha Inicio HOja Uno mitad.  n_fallas, n_errores, n_revisar, n_info
+    #
 
+
+
+    # - FechaFinal2
+      try:
+        texto = paginaDos.get_textbox( Rect( BoxesValues.FECHA_FINAL.value) )
+        fechaFinal = texto.strip()
+        ot["fechaFinal"] = fechaFinal
+        if len(fechaFinal) < 4:
+          ot['fechaFinal'] = DEFAULT_EMPTY_CHAR
+          ot['log'].append(
+            to_log_entry('ERROR','No ha competado la fecha final',f"Texto es: {texto}"))
+      except Exception as e:
+        ot['fechaFinal'] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('ERROR',"No se pudo extraer la FECHA FINAL de la Orden de Trabajo", e)) 
+    
+    
+    # - Numeracion
+
+      try:
+        texto = paginaUno.get_textbox( Rect( BoxesValues.NUMERO_OT.value) )
+        numeracion = texto.replace('NM:',"").replace(',',"").strip()
+        ot["numeracion"] = int(numeracion)
+      except Exception as e:
+        ot['numeracion'] = 0
+        ot['log'].append(
+          to_log_entry('REVISAR',f"No se pudo extraer el NUMERO de la Orden de Trabajo, texto: {texto}", e))
+    
+    # - Gerencia
+      try:
+        texto = paginaUno.get_textbox( Rect( BoxesValues.GERENCIA.value) )
+        gerencia = texto.strip()
+        ot["gerencia"] = gerencia
+      except Exception as e:
+        ot['gerencia'] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('ERROR',f"No se pudo extraer la GERENCIA de la Orden de Trabajo, texto: {texto}", e)) 
+    
+    # - Sitio
+      try:
+        texto = paginaUno.get_textbox( Rect( BoxesValues.SITIO.value) )
+        sitio = texto.strip().replace('\n'," ")
+        ot["sitio"] = sitio
+      except Exception as e:
+        ot["sitio"] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('ERROR',f"No se pudo extraer el SITIO de la Orden de Trabajo, texto: {texto}", e)) 
+    
+    # - Descripcion
+      try:
+        texto = paginaUno.get_textbox( Rect( BoxesValues.DESCRIPCION.value) )
+        descripcion = texto.strip().replace('\n'," ") 
+        ot["descripcion"] = descripcion
+      except Exception as e:
+        ot["descripcion"] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('ERROR',"No se pudo extraer la DESCRIPCION de la Orden de Trabajo", e)) 
+    
+    # - Precauciones
+      try:
+        texto = paginaUno.get_textbox( Rect( BoxesValues.PRECAUCIONES.value) )
+        precauciones = texto.replace('PRECAUCIONES:',"").strip()
+        ot["precauciones"] = precauciones
+      except Exception as e:
+        ot['log'].append(
+          to_log_entry('REVISAR',"No se pudo extraer las PRECAUCIONES de la Orden de Trabajo", e)) 
+    
+    # - Carencias
+      try:
+        texto = paginaUno.get_textbox( Rect( BoxesValues.CARENCIAS.value) )
+        carencias = texto.replace('CARENCIAS:',"").strip()
+        ot["carencias"] = carencias
+
+        if len(carencias) > 4:
+          ot['log'].append(
+          to_log_entry('REVISAR','Se reportan CARENCIAS','Revisar si estan reportadas CARENCIAS'))
+      except Exception as e:
+        ot['carencias'] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('REVISAR',"No se pudo extraer las CARENCIAS de la Orden de Trabajo", e)) 
+    
+    # - Observaciones
+      try:
+        texto = paginaDos.get_textbox( Rect( BoxesValues.OBSERVACIONES.value) )
+        observaciones = texto.strip().replace('\n'," ")
+        ot["observaciones"] = observaciones
+      except Exception as e:
+        ot['observaciones'] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('REVISAR',"No se pudo extraer las OBSERVACIONES de la Orden de Trabajo", e)) 
+    
+    # - Accidentes
+      try:
+        texto = paginaDos.get_textbox( Rect( BoxesValues.ACCIDENTES.value) )
+        accidentes = texto.strip()
+        ot["accidentes"] = accidentes
+        if accidentes != "NO":
+          ot['log'].append(
+          to_log_entry('REVISAR','Se reportan accidentes','Revisar si estan reportados accidentes'))
+      except Exception as e:
+        ot['accidentes'] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('REVISAR',"No se pudo extraer los ACCIDENTES de la Orden de Trabajo", e)) 
+    
 
     # - TIPOS DE TRABAJO - 
       try:
-        df_tipos_trabajo = paginaUno.get_textbox( Rect( BoxesValues.TIPOS_TRABAJO.value) )
-        df_tipos_trabajo = df_tipos_trabajo.split('\n')
-        
-
+        texto = paginaUno.get_textbox( Rect( BoxesValues.TIPOS_TRABAJO.value) )
+        df_tipos_trabajo = texto.split('\n')
         ot["trabajo"] = df_tipos_trabajo
+        if len(df_tipos_trabajo) < 1:
+          ot['log'].append(
+          to_log_entry('ERROR',"No se encontaron TIPOS DE TRABAJO", f"texto: {texto}" ))
       except Exception as e:
-        ot["log"].append(
+        ot['trabajo'] = []
+        ot['log'].append(
           to_log_entry('ERROR',"No se pudo extraer los TIPOS DE TRABAJO", e))
 
     # - RIESGOS DE TRABAJO - 
@@ -168,7 +357,8 @@ def procesarOt( link_to_pdf ):
         
         ot["riesgos"] = df_riesgos
       except Exception as e:
-        ot["log"].append(
+        ot['riesgos'] = []
+        ot['log'].append(
           to_log_entry('ERROR',"No se pudo extraer los RIESGOS DE TRABAJO", e))
 
     # - MEDIDAS DE SEGURIDAD -
@@ -179,7 +369,8 @@ def procesarOt( link_to_pdf ):
         
         ot["seguridad"] = df_seguridad
       except Exception as e:
-        ot["log"].append(
+        ot['seguridad'] = []
+        ot['log'].append(
           to_log_entry('ERROR',"No se pudo extraer las MEDIDAS DE SEGURIDAD", e))
 
     # - PRECAUCIONES -
@@ -189,10 +380,11 @@ def procesarOt( link_to_pdf ):
         
         ot["precauciones"] = df_precauciones
       except Exception as e:
-        ot["log"].append(
+        ot['precauciones'] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
           to_log_entry('ERROR',"No se pudo extraer las PRECAUCIONES", e))
 
-
+    """
     # - ACTIVIDADES -
       try:
         actividades = []
@@ -203,7 +395,7 @@ def procesarOt( link_to_pdf ):
           
           # Check if any tables were found before trying to access them
           if not tables.tables:
-            ot["log"].append(  
+            ot['log'].append(  
               to_log_entry("INFO", "No se encontraron tablas de actividades.", f"En la pagina: {page.number + 1}")
             )
             continue # Skip to the next page
@@ -227,7 +419,7 @@ def procesarOt( link_to_pdf ):
 
         if not actividades:
           ot["exito"] = False
-          ot["log"].append(  
+          ot['log'].append(  
             to_log_entry("FATAL", "No se pudieron encontrar actividades", "No se encontraron actividades en ninguna de las hojas del documento.")
           )
           return ot
@@ -235,7 +427,9 @@ def procesarOt( link_to_pdf ):
         ot["actividades"] = actividades
 
       except Exception as e:
-        ot["log"].append(  
+        ot['log'].append(  
           to_log_entry("ERROR", f"No se pudo extraer la tabla de Actividades en la hoja {paginaDos.number+1}", e)
         )
+
+    """
   return ot

@@ -3,32 +3,25 @@
 #show: dvdtyp.with(
     title: "Reporte de Orden de Trabajo",
     subtitle: [ ],
-    author: "TERMINADO",
-    abstract: "Zamora Z1 (Cuadrilla. AP Nro. 4) 
- martes, 08 de julio del 2025 
- CABRERA CABRERA MIGUEL ISAURO 
- id_ot : 156733",
+    author: "ECURSO",
+    abstract: "El Pangui Z1 (Cuadrilla. Nro. 4) 
+ domingo, 03 de agosto del 2025 
+ VERA SANCHEZ LIVIO STALIN 
+ id_ot : 158449",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2025-08-01 16:35:13")[
+#informativo("Informativo - 2025-08-04 10:59:19")[
   CREACIÓN DE LA OT, se encuentra un archivo PDF de al menos tres hojas 
   $
     "Ninguno"
   $
 ]
 
-#revisar("Revisar - 2025-08-01 16:35:13")[
-  Se detectaron fechas inconsistentes
+#problema("FATAL - 2025-08-04 10:59:19")[
+  No es posible enviar al servidor esta Orden de Trabajo
   $
-    "En actividades, revisar las fechas de inicio actividad"
-  $
-]
-
-#revisar("Revisar - 2025-08-01 16:35:13")[
-  Se detectaron fechas inconsistentes
-  $
-    "En actividades, revisar las fechas de fin de actividad"
+    "[x] Estado Actual: ECURSO"
   $
 ]

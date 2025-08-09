@@ -85,6 +85,70 @@ ry11= 748.00
 ry12= 749.00
 ry13= 770.00
 
+
+itemX1 = 28
+itemY1 = 92
+
+itemX2 = 41
+itemY2 = 117.85
+
+deltaY = 28.32
+
+deltaXactiv1 = 15
+anchoActiv = 36
+
+deltaEvento = 53
+anchoEvento = 298
+
+deltaLMT = 340
+anchoLMT = 397
+
+deltaTipo = 440
+anchoTipo = 490
+
+deltaInicio = 491
+anchoFecha = 37
+
+deltaFin = 529.5
+
+kilomY = 58
+KilomD = 9
+kmInicioX1 = 140
+kmInicioX2 = 55
+
+kmFinalX1 = 267
+kmFinalX2 = 55
+
+kmRecorX1 = 417
+kmRecorX2 = 55
+
+vehicX1 = 125
+placaX1 = 190
+rentadoX1 = 286
+choferX1 = 342
+vehicDl = 27
+
+vehicY1 = 46.5 
+vehiYdl = 9
+
+firmasX1 = 85
+firmasAncho = 159
+firmasDelta = 160
+
+firmasY1 = 740
+firmasAlto = 23.4
+
+fechaInicioY1 = 263
+fechaDeltaY   = 11
+
+fechaInicioX1 = 100
+fechaAncho    = 170
+
+duracionX1    = 483
+duracionAncho = 80
+
+
+
 class BoxesValues(Enum):
   ID_OT                = ( px9 ,py1  , px10, py2 )
   NUMERO_OT            = ( px9 ,py2  , px10, py3 )
@@ -106,12 +170,25 @@ class BoxesValues(Enum):
   CARENCIAS             = ( px1 ,py25 , px10, py26)
   FIRMAS                = ( px1 ,py19 , px10, py21)
 
+  FECHA_STRING      = (fechaInicioX1, fechaInicioY1, fechaInicioX1+fechaAncho, fechaInicioY1+ fechaDeltaY)
+  DURACION          = (duracionX1, fechaInicioY1, duracionX1+duracionAncho, fechaInicioY1+ fechaDeltaY)
+
+
   # Hoja 2
   CUADRILLA_NOMBRE      = ( px1 ,ry1  , px14,ry2 )
-  VEHICULO              = ( px1 ,ry2  , px10,ry3 )
-  KILOMETRAJE           = ( px1 ,ry3  , px10,ry4 )
   ACTIVIDADES           = ( px1 ,ry6  , px10,ry7 )
   OBSERVACIONES         = ( px15,ry7  , px10,ry8 )
   ESTADO_OT             = ( px15,ry9  , px16,ry10)
   FECHA_FINAL           = ( px15,ry10 , px16,ry11)
   ACCIDENTES            = ( px17,ry12 , px18,ry13)
+
+  VEHICULO              = ( vehicX1, vehicY1 , vehicX1 + vehicDl*1.2, vehicY1+vehiYdl )
+  PLACA                 = ( placaX1, vehicY1 , placaX1 + vehicDl*2, vehicY1+vehiYdl )
+  RENTADO               = ( rentadoX1, vehicY1 , rentadoX1 + vehicDl*0.8, vehicY1+vehiYdl )
+  CHOFER                = ( choferX1, vehicY1 , choferX1 + vehicDl*8, vehicY1+vehiYdl )
+
+  KILOMETRAJE           = ( px1 ,ry3  , px10,ry4 )
+
+  KMI             = (kmInicioX1, kilomY , kmInicioX1 + kmInicioX2,kilomY+KilomD)
+  KMF             = (kmFinalX1, kilomY , kmFinalX1 + kmFinalX2,kilomY+KilomD)
+  KMT             = (kmRecorX1, kilomY , kmRecorX1 + kmRecorX2,kilomY+KilomD)

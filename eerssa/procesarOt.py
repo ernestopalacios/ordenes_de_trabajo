@@ -1,6 +1,7 @@
 from pathlib import Path
 import json
 from datetime import datetime
+from pytz import timezone
 
 # Import your existing modules
 from .constants import BoxesValues, Current
@@ -102,7 +103,9 @@ def procesarOt( link_to_pdf ):
         ot["exito"] = True
         ot['log'].append(
           to_log_entry("INFO", "CREACION DE LA OT, se encuentra un archivo PDF valido", f"Ubicacion: {link_to_pdf}"))
-        ot["createdAt"] = datetime.now().isoformat()
+        ecuador = timezone("America/Guayaquil")
+        local_datetime = ecuador.localize(datetime.now())        
+        ot["createdAt"] = local_datetime.isoformat()
   except Exception as e:
     ot['log'].append(to_log_entry("FATAL", "No se pudo abrir o procesar el archivo PDF", e))
     return ot
@@ -114,20 +117,6 @@ def procesarOt( link_to_pdf ):
       paginaUno = pdf.load_page(0)
       paginaDos = pdf.load_page(1)
 
-    # - identificacion de ot ID_OT
-      texto = DEFAULT_EMPTY_CHAR
-      try:
-        texto = paginaUno.get_textbox( Rect( BoxesValues.ID_OT.value) )
-        id_ot = texto.split('\n')[1].replace(',',"")
-        id_ot = int(id_ot)
-        ot["id_ot"] = id_ot
-
-      except Exception as e:
-        ot['exito'] = False   # SI NO HAY 'id_ot' NO SE PUEDE CONTINUAR
-        ot['log'].append(
-          to_log_entry('FATAL',f"No se pudo extraer el ID de la Orden de Trabajo en el texto: {texto}", e)) 
-        
-        return ot  # <=== No es Ot Valida. 
         
     # - Terminado
       try:
@@ -145,6 +134,22 @@ def procesarOt( link_to_pdf ):
         ot['log'].append(
           to_log_entry('FATAL',"No se pudo extraer el ESTADO de la Orden de Trabajo", e)) 
 
+
+
+    # - identificacion de ot ID_OT
+      texto = DEFAULT_EMPTY_CHAR
+      try:
+        texto = paginaUno.get_textbox( Rect( BoxesValues.ID_OT.value) )
+        id_ot = texto.split('\n')[1].replace(',',"")
+        id_ot = int(id_ot)
+        ot["id_ot"] = id_ot
+
+      except Exception as e:
+        ot['exito'] = False   # SI NO HAY 'id_ot' NO SE PUEDE CONTINUAR
+        ot['log'].append(
+          to_log_entry('FATAL',f"No se pudo extraer el ID de la Orden de Trabajo en el texto: {texto}", e)) 
+        
+        return ot  # <=== No es Ot Valida. 
     # - Cuadrilla
       try:
         texto = paginaDos.get_textbox( Rect( BoxesValues.CUADRILLA_NOMBRE.value) )
@@ -226,7 +231,29 @@ def procesarOt( link_to_pdf ):
         ot['exito'] = False
         ot['log'].append(
           to_log_entry('FATAL',"No se pudo extraer la FECHA la Orden de Trabajo", e)) 
+        
+    # - Fecha String HOJA UNO mitad de la hoja
+
+      try:
+        texto = paginaUno.get_textbox( Rect( BoxesValues.FECHA_STRING.value) )
+        fechaString = texto.strip()
+        ot["fechaString"] = fechaString
+      except Exception as e:
+        ot['fechaString'] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('ERROR',"No se pudo extraer la FECHA STRING de la Orden de Trabajo", e)) 
     
+    # - Tiempo Estimado
+      try:
+        texto = paginaUno.get_textbox( Rect( BoxesValues.DURACION.value) )
+        duracion = texto.strip()
+        ot["tEstimado"] = duracion
+      except Exception as e:
+        ot['tEstimado'] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('ERROR',"No se pudo extraer la DURACION de la Orden de Trabajo", e)) 
+        
+
     #
     # TODO  fecha Inicio HOja Uno mitad.  n_fallas, n_errores, n_revisar, n_info
     #
@@ -246,19 +273,78 @@ def procesarOt( link_to_pdf ):
         ot['fechaFinal'] = DEFAULT_EMPTY_CHAR
         ot['log'].append(
           to_log_entry('ERROR',"No se pudo extraer la FECHA FINAL de la Orden de Trabajo", e)) 
-    
-    
-    # - Numeracion
-
+        
+    # - Vehiculo
       try:
-        texto = paginaUno.get_textbox( Rect( BoxesValues.NUMERO_OT.value) )
-        numeracion = texto.replace('NM:',"").replace(',',"").strip()
-        ot["numeracion"] = int(numeracion)
+        texto = paginaDos.get_textbox( Rect( BoxesValues.VEHICULO.value) )
+        vehiculo = texto.strip()
+        ot["vehiculo"] = vehiculo
       except Exception as e:
-        ot['numeracion'] = 0
+        ot['vehiculo'] = DEFAULT_EMPTY_CHAR
         ot['log'].append(
-          to_log_entry('REVISAR',f"No se pudo extraer el NUMERO de la Orden de Trabajo, texto: {texto}", e))
+          to_log_entry('ERROR',"No se pudo extraer el VEHICULO de la Orden de Trabajo", e)) 
     
+    # - Placa
+      try:
+        texto = paginaDos.get_textbox( Rect( BoxesValues.PLACA.value) )
+        placa = texto.strip()
+        ot["placa"] = placa
+      except Exception as e:
+        ot['placa'] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('ERROR',"No se pudo extraer la PLACA de la Orden de Trabajo", e)) 
+    
+    # - Chofer
+      try:
+        texto = paginaDos.get_textbox( Rect( BoxesValues.CHOFER.value) )
+        chofer = texto.strip()
+        ot["chofer"] = chofer
+      except Exception as e:
+        ot['chofer'] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('ERROR',"No se pudo extraer el CHOFER de la Orden de Trabajo", e))
+    
+    # - Rentado
+      try:
+        texto = paginaDos.get_textbox( Rect( BoxesValues.RENTADO.value) )
+        rentado = texto.strip()
+        ot["rentado"] = rentado
+      except Exception as e:  
+        ot['rentado'] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('ERROR',"No se pudo extraer el RENTADO de la Orden de Trabajo", e)) 
+        
+    # - KMI
+      try:
+        texto = paginaDos.get_textbox( Rect( BoxesValues.KMI.value) )
+        kmi = texto.strip().replace(',' ,  '' )
+        ot["kmInicial"] = int(kmi)
+      except Exception as e:
+        ot['kmInicial'] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('ERROR',"No se pudo extraer el KMI de la Orden de Trabajo", e)) 
+        
+    # - KMF
+      try:
+        texto = paginaDos.get_textbox( Rect( BoxesValues.KMF.value) )
+        kmf = texto.strip().replace(',' ,  '' )
+        ot["kmFinal"] = int(kmf)
+      except Exception as e:
+        ot['kmFinal'] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('ERROR',"No se pudo extraer el KMF de la Orden de Trabajo", e)) 
+        
+    # - KMT 
+      try:
+        texto = paginaDos.get_textbox( Rect( BoxesValues.KMT.value) )
+        kmt = texto.strip().replace(',' ,  '' )
+        ot["kmTotal"] = int(kmt)
+      except Exception as e:
+        ot['kmTotal'] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('ERROR',"No se pudo extraer el KMT de la Orden de Trabajo", e)) 
+                 
+      
     # - Gerencia
       try:
         texto = paginaUno.get_textbox( Rect( BoxesValues.GERENCIA.value) )
@@ -279,6 +365,8 @@ def procesarOt( link_to_pdf ):
         ot['log'].append(
           to_log_entry('ERROR',f"No se pudo extraer el SITIO de la Orden de Trabajo, texto: {texto}", e)) 
     
+
+
     # - Descripcion
       try:
         texto = paginaUno.get_textbox( Rect( BoxesValues.DESCRIPCION.value) )
@@ -334,7 +422,6 @@ def procesarOt( link_to_pdf ):
         ot['accidentes'] = DEFAULT_EMPTY_CHAR
         ot['log'].append(
           to_log_entry('REVISAR',"No se pudo extraer los ACCIDENTES de la Orden de Trabajo", e)) 
-    
 
     # - TIPOS DE TRABAJO - 
       try:
@@ -383,6 +470,46 @@ def procesarOt( link_to_pdf ):
         ot['precauciones'] = DEFAULT_EMPTY_CHAR
         ot['log'].append(
           to_log_entry('ERROR',"No se pudo extraer las PRECAUCIONES", e))
+    
+    # - Numeracion
+
+      try:
+        texto = paginaUno.get_textbox( Rect( BoxesValues.NUMERO_OT.value) )
+        numeracion = texto.replace('NM:',"").replace(',',"").strip()
+        ot["numeracion"] = int(numeracion)
+      except Exception as e:
+        ot['numeracion'] = 0
+        ot['log'].append(
+          to_log_entry('REVISAR',f"No se pudo extraer el NUMERO de la Orden de Trabajo, texto: {texto}", e))
+    
+    # - Firmas
+      try:
+        firmasX1 = 85
+        firmasAncho = 159
+        firmasDelta = 160
+
+        firmasY1 = 740
+        firmasAlto = 23.4
+
+        firmas_list = []
+        for i in range(3):
+          firmas_list.append(
+            paginaUno.get_textbox( 
+              Rect( firmasX1 + (i*firmasDelta),
+                    firmasY1,
+                    firmasX1 + (i*firmasDelta) + firmasAncho,
+                    firmasY1+firmasAlto  )))
+        if len(firmas_list) < 3:
+          ot['log'].append(
+            to_log_entry("ERROR","Faltan Firmas Revisar","No se encontraron todas las firmas")
+          )
+        ot["firmas"] = firmas_list
+      except Exception as e:
+        ot['firmas'] = DEFAULT_EMPTY_CHAR
+        ot['log'].append(
+          to_log_entry('REVISAR',"No se pudo extraer las FIRMAS de la Orden de Trabajo", e)) 
+    
+
 
     """
     # - ACTIVIDADES -

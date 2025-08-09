@@ -509,40 +509,96 @@ def procesarOt( link_to_pdf ):
         ot['log'].append(
           to_log_entry('REVISAR',"No se pudo extraer las FIRMAS de la Orden de Trabajo", e)) 
     
-
-
-    """
     # - ACTIVIDADES -
       try:
+        itemX1 = 28
+        itemY1 = 92
+
+        itemX2 = 41
+        itemY2 = 117.85
+
+        deltaY = 28.32
+
+        deltaXactiv1 = 15
+        anchoActiv = 36
+
+        deltaEvento = 53
+        anchoEvento = 298
+
+        deltaLMT = 340
+        anchoLMT = 397
+
+        deltaTipo = 440
+        anchoTipo = 490
+
+        deltaInicio = 491
+        anchoFecha = 37
+
+        deltaFin = 529.5
+        
         actividades = []
+
         # Loop through pages that can contain activities (page 2 onwards)
         for i in range(1, pdf.page_count):
           page = pdf.load_page(i)
-          tables = page.find_tables(clip=Rect(BoxesValues.ACTIVIDADES.value), strategy='lines_strict') # type: ignore
           
-          # Check if any tables were found before trying to access them
-          if not tables.tables:
-            ot['log'].append(  
-              to_log_entry("INFO", "No se encontraron tablas de actividades.", f"En la pagina: {page.number + 1}")
-            )
-            continue # Skip to the next page
-              
-          df = tables.tables[0].to_pandas()
-          df.columns = ['Item','Actividad','Evento','Ali','Alimentador','Tipo','InicioEvento','FinEvento']
+          for i in range(21):
+            # ITEM
+            fila = {}
 
-          # More robust way to filter header rows
-          df['Item'] = df['Item'].astype(str).str.strip()
-          is_valid_item = df['Item'].str.match(r'^\d+$', na=False)
-          df = df[is_valid_item].copy()
+            fila['Item'] = page.get_textbox( 
+              Rect(itemX1, itemY1+(i*deltaY), itemX2, itemY2+(i*deltaY)))
+            
+            # Activ
+            fila['Actividad'] = page.get_textbox( 
+              Rect(
+                itemX1 + deltaXactiv1, 
+                itemY1+(i*deltaY), 
+                itemX2 + anchoActiv, 
+                itemY2+(i*deltaY) ))
+            
+            #Evento
+            fila['Evento'] = page.get_textbox( 
+              Rect(
+                itemX1 + deltaEvento, 
+                itemY1+(i*deltaY), 
+                itemX2 + anchoEvento, 
+                itemY2+(i*deltaY) ))
+            
+            #Alimentador
+            fila['Alimentador'] = page.get_textbox( 
+              Rect(
+                itemX1 + deltaLMT, 
+                itemY1+(i*deltaY), 
+                itemX2 + anchoLMT, 
+                itemY2+(i*deltaY) ))
+            
+            # Tipo
+            fila['Tipo'] = page.get_textbox( 
+              Rect(
+                deltaTipo, 
+                itemY1+(i*deltaY), 
+                anchoTipo, 
+                itemY2+(i*deltaY) ))
+            
+            # Inicio
+            fila['InicioEvento'] = page.get_textbox( 
+              Rect(
+                deltaInicio, 
+                itemY1+(i*deltaY), 
+                deltaInicio+anchoFecha, 
+                itemY2+(i*deltaY) ))
+            
+            # Fin
+            fila['FinEvento'] = page.get_textbox( 
+              Rect(
+                deltaFin, 
+                itemY1+(i*deltaY), 
+                deltaFin+anchoFecha, 
+                itemY2+(i*deltaY) ))
+          
+            actividades.append(fila)
 
-          # Clean up data
-          df['InicioEvento'] = df['InicioEvento'].str.replace('\n', ' ', regex=False)
-          df['FinEvento']   = df['FinEvento'].str.replace('\n', ' ', regex=False)
-          df['Actividad'] = df['Actividad'].str.replace('\n', ' ', regex=False)
-          df = df.replace('', pd.NA).dropna(how='all')
-          df = df.fillna(DEFAULT_EMPTY_CHAR)
-
-          actividades.extend(df.to_dict('records'))
 
         if not actividades:
           ot["exito"] = False
@@ -558,5 +614,5 @@ def procesarOt( link_to_pdf ):
           to_log_entry("ERROR", f"No se pudo extraer la tabla de Actividades en la hoja {paginaDos.number+1}", e)
         )
 
-    """
+
   return ot

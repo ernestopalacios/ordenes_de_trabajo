@@ -549,6 +549,9 @@ def procesarOt( link_to_pdf ):
             fila['Item'] = page.get_textbox( 
               Rect(itemX1, itemY1+(i*deltaY), itemX2, itemY2+(i*deltaY)))
             
+            if fila['Item'] == "":
+              fila['Item'] = DEFAULT_EMPTY_CHAR
+            
             # Activ
             fila['Actividad'] = page.get_textbox( 
               Rect(
@@ -557,6 +560,9 @@ def procesarOt( link_to_pdf ):
                 itemX2 + anchoActiv, 
                 itemY2+(i*deltaY) ))
             
+            if fila['Actividad'] == "":
+              fila['Actividad'] = DEFAULT_EMPTY_CHAR
+
             #Evento
             fila['Evento'] = page.get_textbox( 
               Rect(
@@ -564,6 +570,8 @@ def procesarOt( link_to_pdf ):
                 itemY1+(i*deltaY), 
                 itemX2 + anchoEvento, 
                 itemY2+(i*deltaY) ))
+            if fila['Evento'] == "":
+              continue
             
             #Alimentador
             fila['Alimentador'] = page.get_textbox( 
@@ -572,6 +580,8 @@ def procesarOt( link_to_pdf ):
                 itemY1+(i*deltaY), 
                 itemX2 + anchoLMT, 
                 itemY2+(i*deltaY) ))
+            if fila['Alimentador'] == "":
+              fila['Alimentador'] = DEFAULT_EMPTY_CHAR
             
             # Tipo
             fila['Tipo'] = page.get_textbox( 
@@ -580,6 +590,8 @@ def procesarOt( link_to_pdf ):
                 itemY1+(i*deltaY), 
                 anchoTipo, 
                 itemY2+(i*deltaY) ))
+            if fila['Tipo'] == "":
+              fila['Tipo'] = DEFAULT_EMPTY_CHAR
             
             # Inicio
             fila['InicioEvento'] = page.get_textbox( 
@@ -587,7 +599,9 @@ def procesarOt( link_to_pdf ):
                 deltaInicio, 
                 itemY1+(i*deltaY), 
                 deltaInicio+anchoFecha, 
-                itemY2+(i*deltaY) ))
+                itemY2+(i*deltaY) )).replace('\n', ' ')
+            if fila['InicioEvento'] == "":
+              fila['InicioEvento'] = DEFAULT_EMPTY_CHAR
             
             # Fin
             fila['FinEvento'] = page.get_textbox( 
@@ -595,13 +609,16 @@ def procesarOt( link_to_pdf ):
                 deltaFin, 
                 itemY1+(i*deltaY), 
                 deltaFin+anchoFecha, 
-                itemY2+(i*deltaY) ))
+                itemY2+(i*deltaY) )).replace('\n', ' ')
+            if fila['FinEvento'] == "":
+              fila['FinEvento'] = DEFAULT_EMPTY_CHAR
           
             actividades.append(fila)
 
 
-        if not actividades:
+        if len(actividades) == 0:
           ot["exito"] = False
+          ot["actividades"] = []
           ot['log'].append(  
             to_log_entry("FATAL", "No se pudieron encontrar actividades", "No se encontraron actividades en ninguna de las hojas del documento.")
           )

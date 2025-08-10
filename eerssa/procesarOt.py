@@ -266,13 +266,21 @@ def procesarOt( link_to_pdf ):
       try:
         texto = paginaUno.get_textbox( Rect( BoxesValues.FECHA_STRING.value) )
         fechaString = texto.strip()
-        ot["fechaString"] = fechaString
+        
         if len(fechaString) < 4:
           ot['n_errores'] += 1
           ot['fechaString'] = DEFAULT_EMPTY_CHAR
           ot['log'].append(
-            to_log_entry('ERROR','No ha competado la FECHA STRING',f"Fehca de la OT: {ot['fecha']}"))
+            to_log_entry('ERROR',f"No ha competado la FECHA STRING. Texto es: {fechaString}",f"Fehca de la OT: {ot['fecha']}"))
+        
+        ot["fechaString"] = fechaString
 
+        if ot['fecha'] != toDateEcuador(fechaString):
+          ot['n_errores'] += 1
+          ot['log'].append(
+            to_log_entry("ERROR","No coinciden las fechas en la HOJA UNO",f"Fecha de la OT: {ot['fecha']}\nFecha Mitad: {toDateEcuador(fechaString)}\nFecha String: {fechaString}")
+          )
+        
       except Exception as e:
         ot['fechaString'] = DEFAULT_EMPTY_CHAR
         ot['n_errores'] += 1

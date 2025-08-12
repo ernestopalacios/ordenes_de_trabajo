@@ -68,7 +68,7 @@ class MyEventHandler(FileSystemEventHandler):
         """
         if isinstance(event, FileCreatedEvent):
             self.file_queue.put(event.src_path)
-            logging.info(f"Nuevo archivo Creado:      '{event.src_path}'")
+            logging.debug(f"Nuevo archivo Creado:      '{event.src_path}'")
 
     def on_modified(self, event):
         """
@@ -76,7 +76,7 @@ class MyEventHandler(FileSystemEventHandler):
         """
         if isinstance(event, FileModifiedEvent):
             self.file_queue.put(event.src_path)
-            logging.info(f"[*] Nuevo archivo Modificado: '{event.src_path}'")
+            logging.debug(f"[*] Nuevo archivo Modificado: '{event.src_path}'")
 
     def get_queue(self):
         """

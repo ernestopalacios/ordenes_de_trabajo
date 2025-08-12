@@ -4,6 +4,11 @@ import shutil
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
 # CODIGO GENERADO POR GEMINI 2.5 PARA OBTENER EL LISTADO DEL PERSONAL, SU ORDEN CARGO Y CUADRILLA
 
 # --- Configuration ---
@@ -28,10 +33,10 @@ def get_gsheet_df( ):
   try:
     creds = ServiceAccountCredentials.from_json_keyfile_name(creds_file, scope)
     client = gspread.authorize(creds)
-    print("Authentication successful!")
+    logger.info("Authentication successful!")
     
   except Exception as e:
-    print(f"Authentication failed: {e}")
+    logger.info(f"Authentication failed: {e}")
     # Handle error appropriately, maybe stop execution
     return "Fail"
   
@@ -39,21 +44,21 @@ def get_gsheet_df( ):
     # Open the Google Sheet by its name
     sheet = client.open(google_sheet_name)
     
-    print(f"|->> Successfully opened Google Sheet: '{google_sheet_name}'")
+    logger.info(f"|->> Successfully opened Google Sheet: '{google_sheet_name}'")
 
     # Select the worksheet
     worksheet = sheet.worksheet(worksheet_name)
-    print(f"|->> Selected worksheet by name: '{worksheet.title}'")
+    logger.info(f"|->> Selected worksheet by name: '{worksheet.title}'")
 
   except gspread.SpreadsheetNotFound:
-    print(f"[ X ]  Error: Spreadsheet '{google_sheet_name}' not found.")
-    print("Make sure the name is correct and the sheet is shared with the service account email.")
+    logger.info(f"[ X ]  Error: Spreadsheet '{google_sheet_name}' not found.")
+    logger.info("Make sure the name is correct and the sheet is shared with the service account email.")
     return "Fail"
   except gspread.WorksheetNotFound:
-    print(f"[ X ]  Error: Worksheet '{worksheet_name}' not found in the spreadsheet.")
+    logger.info(f"[ X ]  Error: Worksheet '{worksheet_name}' not found in the spreadsheet.")
     return "Fail"
   except Exception as e:
-    print(f"[ X ]  An error occurred while accessing the sheet/worksheet: {e}")
+    logger.info(f"[ X ]  An error occurred while accessing the sheet/worksheet: {e}")
     return "Fail"
 
   try:
@@ -65,17 +70,17 @@ def get_gsheet_df( ):
     if data:
       headers = data[0]
       df = pd.DataFrame(data[1:], columns=headers)
-      print("\n|->> Data successfully imported into DataFrame")
+      logger.info("\n|->> Data successfully imported into DataFrame")
       
       # Elimina las filas vacias
       df.loc[df["NOMBRE"] == '',"NOMBRE" ] = pd.NA
       df = df.dropna()
     else:
-      print("[ X ]  Error: The selected worksheet appears to be empty.")
+      logger.info("[ X ]  Error: The selected worksheet appears to be empty.")
       df = pd.DataFrame() # Create an empty DataFrame
 
   except Exception as e:
-    print(f"[ X ]  An error occurred while reading data or creating the DataFrame: {e}")
+    logger.info(f"[ X ]  An error occurred while reading data or creating the DataFrame: {e}")
     return "Fail"
 
   return df
@@ -204,7 +209,7 @@ def get_nombre_archivo( obj, df = "vacio" ):
     return f"OT [{num_cudarilla}] {cuadrilla_corto} {fecha_ot} ({num_responsable}) {iniciales}.pdf"
   
   except Exception as e:
-    print(f"[ X ]  No fue posible renombrar la OT Error: {e}")
+    logger.info(f"[ X ]  No fue posible renombrar la OT Error: {e}")
     obj.Log2Ot("ERROR", "No fue posible renombrar la OT", "No se pudo extraer la información de la Orden de Trabajo para ser renombrada")
     return os.path.basename(obj.link)
   
@@ -229,17 +234,17 @@ def renombrar_ot( current_file_path, nombre_nuevo ):
     # To ensure it replaces a file if it exists with the same name,
     # and doesn't move into a directory if new_file_path accidentally points to one:
     if os.path.isdir(new_file_path):
-      print(f"Error: Destination '{new_file_path}' is a directory. Cannot overwrite with a file.")
+      logger.info(f"Error: Destination '{new_file_path}' is a directory. Cannot overwrite with a file.")
       return "Failed"
 
     shutil.move(current_file_path, new_file_path)
-    print(f"[OK] Archivo: '{os.path.basename(current_file_path)}' reubicado a: '{new_file_path}' correctamente.")
+    logger.debug(f"[OK] Archivo: '{os.path.basename(current_file_path)}' reubicado a: '{new_file_path}' correctamente.")
     return new_file_path
   
   except FileNotFoundError:
-    print(f"Error: The file '{current_file_path}' was not found.")
+    logger.info(f"Error: The file '{current_file_path}' was not found.")
     return "Failed"
   
   except shutil.Error as e:
-    print(f"Error moving/renaming file: {e}")
+    logger.info(f"Error moving/renaming file: {e}")
     return "Failed"

@@ -9,7 +9,7 @@ from confluent_kafka import Message
 
 from eerssa.secret import Keys
 from eerssa import gestionOT as OrdenTrabajo            
-from eerssa import matrizActividades as Actividades  
+from eerssa import procesarActividades as Actividades  
 
 import pymongo
 from pymongo.errors import ConnectionFailure
@@ -22,7 +22,8 @@ KAFKA_TO_DELTA = "to_delta"
 # Karka KEY for the Delta Topic
 KAFKA_KEY = "MBID"
 # Where is the DELTA LAKE TABLE
-table_path = "./test/deltalake_2025"
+# DELTA_TABLE_PATH_ON_HOST 
+table_path = "/home/vlad/delta_V30"
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -76,7 +77,7 @@ try:
     # The ping command is cheap and does not require auth.
     client.admin.command('ping')
     db_eerssa = client.eerssa                   # Base de datos EERSSA
-    CurrentCollection = db_eerssa.ot_v22        # Coleccion actual
+    CurrentCollection = db_eerssa.ot_v30        # Coleccion actual
     ReloadCollection  = db_eerssa.ot_reload  # Aqui se cargan OTs repetidas
     logging.info(":::: Conexion exitosa con MongoDB ::::")
 
@@ -144,7 +145,7 @@ def process_batch(window_values):
                     logger.warning(f"No se pudo encontrar la OT con id_ot '{id_ot_value}' en MongoDB. Saltando.")
                     continue
                 
-                obj_ot = OrdenTrabajo.GestionOt.from_dict(json_ot)
+                obj_ot = OrdenTrabajo.GestionOt.from_v30(json_ot)
                 new_data_frames.append(Actividades.ConvertirOT_a_ActividadesCSV(obj_ot))
             else:
                 # Replacement OT are treated later down the pipe
@@ -206,7 +207,7 @@ def process_batch(window_values):
 
             # 4. Apply updates to Delta Lake
                 updated_ot_doc = CurrentCollection.find_one({"id_ot": id_ot_value})
-                obj_ot = OrdenTrabajo.GestionOt.from_dict(updated_ot_doc)
+                obj_ot = OrdenTrabajo.GestionOt.from_v30(updated_ot_doc)
                 new_activities_df = Actividades.ConvertirOT_a_ActividadesCSV(obj_ot)
 
                 # The predicate must uniquely identify each row. For activities, this is

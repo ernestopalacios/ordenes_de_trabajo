@@ -17,7 +17,7 @@ IS_FIRST_MESSAGE_SENT = False
 # Event to signal the heartbeat thread to stop
 SHUTDOWN_EVENT = threading.Event()
 # Kafka Topic Name with json format documents
-KAFKA_JSON = "json_ot"
+KAFKA_JSON = "json_ot_v30"
 # Kafka Topic Name for concatenating to Delta Laje
 KAFKA_TO_DELTA = "to_delta"
 # Karka KEY for the Delta Topic
@@ -56,7 +56,7 @@ try:
     client = pymongo.MongoClient(uri, serverSelectionTimeoutMS=5000)
     client.admin.command('ping')
     db_eerssa = client.eerssa
-    CurrentCollection = db_eerssa.ot_v22
+    CurrentCollection = db_eerssa.ot_v30
     ReloadCollection  = db_eerssa.ot_reload
     logging.info(":::: Conexion exitosa con MongoDB ::::")
 except ConnectionFailure as e:
@@ -125,7 +125,7 @@ sdf = sdf.apply(process_row)
 
 # = = = =   H E A R T B E A T   = = = = #
 # Esta porcion del codigo monitorea cuanto tiempo ha transcurrido.
-# desde la ultima vez que se envio un mensaje al topic 'new_id_v22'
+# desde la ultima vez que se envio un mensaje al topic 'to_delta'
 # El objetivo es asegurarse de que se complete la ventana de 5 segundos
 # asegurandose la ejecucion de la ultima ventana y evitando llenar el
 # topic Kafka de mensajes de <3 
@@ -142,12 +142,12 @@ def heartbeat_loop():
         
         # Check if a message has been sent and if 5 seconds have passed
         if IS_FIRST_MESSAGE_SENT and (time.time() - LAST_MESSAGE_TIMESTAMP > 5.5):
-            logging.info(" <3 Inactivity detected. Sending heartbeat to 'new_id_v22'")
+            logging.info(f" <3 Inactivity detected. Sending heartbeat to: {KAFKA_TO_DELTA}")
             try:
                 heartbeat_payload = {
                     "type": "heartbeat",
                     "timestamp": time.time(),
-                    "source": "ot_processor_v22"
+                    "source": "consumer"
                 }
                 heartbeat_message = output_topic.serialize(key=KAFKA_KEY, value=heartbeat_payload)
                 

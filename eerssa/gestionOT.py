@@ -199,6 +199,35 @@ class GestionOt:
         return
 
   @classmethod
+  def from_v30(cls, data_dict: dict):
+      """
+      Convierte el JSON de la V30 a objeto tipo GestionOT  
+
+      :param data_dict: A dictionary containing the OT data, typically from `ot.data`.
+      :return: A new instance of GestionOt.
+      """
+      # We pass None to __init__ to create a "blank" instance without PDF processing.
+      instance = cls(link_to_pdf=None)
+
+      # Populate instance attributes from the dictionary.
+      instance.data = data_dict
+      instance.link = data_dict.get('link', 'loaded_from_dict')
+      instance.version = data_dict.get('version', cls.VERSION)
+      instance.id_ot = data_dict.get('id_ot', 0)
+      instance.log = data_dict.get('log', [])
+      instance.valido = data_dict.get('exito', True)
+
+      # These attributes are on the instance itself and might not be in the data dict.
+      # We get them if available, otherwise set a default.
+      instance.createdAt = data_dict.get('createdAt', datetime.now().isoformat())
+      instance.n_fallas = data_dict.get('n_fallas', 0)
+      instance.n_errores = data_dict.get('n_errores', 0)
+      instance.n_revisar = data_dict.get('n_revisar', 0)
+
+
+      return instance
+
+  @classmethod
   def from_dict(cls, data_dict: dict):
       """
       Alternative constructor to create a GestionOt instance from a dictionary.
@@ -223,6 +252,7 @@ class GestionOt:
       # These attributes are on the instance itself and might not be in the data dict.
       # We get them if available, otherwise set a default.
       instance.createdAt = data_dict.get('createdAt', datetime.now().isoformat())
+      
 
       return instance
 

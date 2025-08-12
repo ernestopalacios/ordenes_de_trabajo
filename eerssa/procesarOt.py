@@ -1,5 +1,4 @@
 from pathlib import Path
-import json
 from datetime import datetime
 from pytz import timezone
 
@@ -134,13 +133,13 @@ def procesarOt( link_to_pdf ):
 
         if terminado != "TERMINADO":
           ot['exito'] = False
-          ot['n_fatales'] += 1
+          ot['n_fatales'] = 1
           ot['log'].append(
             to_log_entry('FATAL',"La Orden de trabajo no se encuentra en estado TERMINADO",f"Texto es: {terminado}"))
           
       except Exception as e:
         ot['exito'] = False
-        ot['n_fatales'] += 1
+        ot['n_fatales'] = 1
         ot['log'].append(
           to_log_entry('FATAL',"No se pudo extraer el ESTADO de la Orden de Trabajo", f"[ERROR] en la ot: {ot['link']}\n\n {e}")) 
 

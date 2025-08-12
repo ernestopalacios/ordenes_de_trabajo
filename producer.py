@@ -18,12 +18,12 @@ import json
 from quixstreams import Application
 
 from eerssa import gestionOT              # Convert from PDF_ot to obj_ot
+from eerssa import procesarOt as OrdenTrabajo  # Version 0.3.0 
 from eerssa import matrizActividades      # process ot.data["actividades"]
 from eerssa import organizar as gdrive    # download sheet from Google Drive
 
 from eerssa import reporte_ot as reporte_pdf # Para generar el reporte del PDF
 import typst
-import pypst
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -39,7 +39,7 @@ LAST_MESSAGE_TIMESTAMP = None
 IS_FIRST_MESSAGE_SENT = False
 
 # Kafka Topic Name with json format documents
-KAFKA_JSON = "json_ot"
+KAFKA_JSON = "json_ot_v30"
 
 
 # Dask Helper function to call the method on the result of a future
@@ -48,7 +48,7 @@ def call_load_ot(orden_trabajo_object):
     Takes the result of the first task (an OrdenTrabajo object) 
     and calls the load_ot() method on it.
     """
-    return orden_trabajo_object.load_ot()
+    return (gestionOT.GestionOt.from_v30(orden_trabajo_object))
 
 
 class MyEventHandler(FileSystemEventHandler):
@@ -106,17 +106,17 @@ class MyEventHandler(FileSystemEventHandler):
         start_time = time.time()
         start_datetime = datetime.now()
 
-        if len(items_to_process) > 0:
+        if len(items_to_process) < 3:
             logger.info(
                 f"   Procesando {len(items_to_process)} archivos. Hora de inicio: {start_datetime.strftime('%Y-%m-%d %H:%M:%S')}"
             )
 
             obj_lists = []
             for file in items_to_process:
-                ot = gestionOT.GestionOt(file)
-                ot.load_ot()
-                matrizActividades.ConvertirOT_a_ActividadesCSV(ot)
-                obj_lists.append(ot)
+                ot = OrdenTrabajo.procesarOt(file)
+                ot_obj = gestionOT.GestionOt.from_v30(ot)
+                matrizActividades.ConvertirOT_a_ActividadesCSV(ot_obj)
+                obj_lists.append(ot_obj)
 
             end_time = time.time()
             elapsed_time = end_time - start_time
@@ -128,7 +128,7 @@ class MyEventHandler(FileSystemEventHandler):
         # hay un error que no permite extraer las actividades adecuadamente
         # posiblemente algo que ver con el manejo de memoria en DASK 
         # PymuPDF se queja de que no hay `ValueError('not a textpage of this page')`
-        if len(items_to_process) < 0:
+        else:
 
             items_to_process = list(set(items_to_process))
             logger.info(
@@ -136,15 +136,13 @@ class MyEventHandler(FileSystemEventHandler):
             )
             
             futures_step_1 = [
-                self.client.submit(gestionOT.GestionOt, file)
+                self.client.submit(OrdenTrabajo.procesarOt, file, pure=False)
                 for file in items_to_process
             ]
 
-            ot_cargadas = self.client.gather(futures_step_1)
-            
             futures_step_2 = [
                 self.client.submit(call_load_ot, future)
-                for future in ot_cargadas
+                for future in futures_step_1
             ]
 
             futures_step_3 = [
@@ -206,7 +204,7 @@ class MyEventHandler(FileSystemEventHandler):
                             typst.compile("reporte_code.typ",  output= report_filename )
 
                         #SE ENVIAN LAS OT QUE SE ENCUENTRAN TERMINADAS Y SIN FALLAS
-                        if ot.data["estado"] != "ECURSO" and ot.data["n_fallas"] == 0:
+                        if ot.data["estado"] != "ECURSO" and ot.data["n_fatales"] == 0:
                             producer.produce(
                                 topic=KAFKA_JSON,
                                 key="Development",

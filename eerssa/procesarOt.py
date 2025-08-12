@@ -86,12 +86,12 @@ def procesarOt( link_to_pdf ):
     if not pdf_path.exists():
       ot['n_fatales'] = 1
       ot['log'].append(
-        to_log_entry( "FATAL", "No es un directorio valido",f"El enlace no es de un directorio valido:{link_to_pdf} "))
+        to_log_entry( "FATAL", "No es un directorio valido",f"El enlace no es de un directorio valido:\n{link_to_pdf} "))
       return ot
   except Exception as e:
     ot['n_fatales'] = 1
     ot['log'].append( 
-      to_log_entry( "FATAL", f"Ocurrio un error al interpretar como Path el String: {link_to_pdf}", e))
+      to_log_entry( "FATAL", f"Ocurrio un error al interpretar como Path el String:\n {link_to_pdf}", e))
     return ot
   
   # = 3. Verificamos que sea un archivo PDF de tipo Orden de Trabajo
@@ -101,7 +101,7 @@ def procesarOt( link_to_pdf ):
       if not (1 < hojas < 5):
         ot['n_fatales'] = 1
         ot['log'].append(
-          to_log_entry("FATAL", f"No es un archivo PDF valido: {link_to_pdf}", f"La cantidad de hojas no es valida: {hojas}"))
+          to_log_entry("FATAL", f"No es un archivo PDF valido:\n{link_to_pdf}", f"La cantidad de hojas no es valida: {hojas}"))
         return ot
 
       paginaUno = pdf.load_page(0)
@@ -110,11 +110,11 @@ def procesarOt( link_to_pdf ):
       if "TIEMPO ESTIMADO DE DURACIÓN (HORAS):" in check_text:
         ot["exito"] = True
         ot['log'].append(
-          to_log_entry("INFO", "CREACION DE LA OT, se encuentra un archivo PDF valido", f"Ubicacion: {link_to_pdf}"))
+          to_log_entry("INFO", "CREACION DE LA OT, se encuentra un archivo PDF valido", f"Ubicacion:\n{link_to_pdf}"))
         ot["createdAt"] = datetime.now().isoformat()
   except Exception as e:
     ot['n_fatales'] = 1
-    ot['log'].append(to_log_entry("FATAL", f"No se pudo abrir o procesar el archivo PDF: {link_to_pdf}", f"[ERROR] en la ot: {ot['link']}\n\n {e}"))
+    ot['log'].append(to_log_entry("FATAL", f"No se pudo abrir o procesar el archivo PDF:\n {link_to_pdf}", f"[ERROR] en la ot: {ot['link']}\n\n {e}"))
     return ot
   
   # = 4. Obtenemos los campos necesarios
@@ -129,7 +129,7 @@ def procesarOt( link_to_pdf ):
       try:
         texto = paginaDos.get_textbox( Rect( BoxesValues.ESTADO_OT.value) )
         terminado = texto.strip()
-        ot["terminado"] = terminado
+        ot["estado"] = terminado
 
         if terminado != "TERMINADO":
           ot['exito'] = False

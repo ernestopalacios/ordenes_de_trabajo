@@ -48,6 +48,20 @@ def limpiar_texto_actividad( actividad ):
           "est."          : "estructura",
           "estructuras"   : "estructura",
           "poste"         : "estructura",
+          "ingnitor"      : "ignitor",
+          "w na"          : "wna",
+          "70 w"          : "70w",
+          "100 w"         : "100w",
+          "150 w"         : "150w",
+          "70 wna"        : "70wna",
+          "70w na"        : "70wna",
+          "70 w na"       : "70wna",
+          "100 wna"       : "100wna",
+          "100w na"       : "100wna",
+          "100 w na"      : "100wna",
+          "150 wna"       : "150wna",
+          "150w na"       : "150wna",
+          "150 w na"      : "150wna",
           "tiraf"         : "tirafusible",
           "med."          : "medidor",
           "med"           : "medidor",
@@ -188,9 +202,13 @@ def organizarActividades( obj_ot ):
 
   try:
 
-    fInicio = actividades[['Item','InicioEvento','FinEvento']].dropna()
-    fInicio['solofechaI'] = fInicio['InicioEvento'].apply( lambda x: re.findall( '\d{4}-\d{2}-\d{2}', x)[0])
+    fInicio = actividades[['Item','InicioEvento','FinEvento']].dropna().copy()
     
+    # Use .loc to create the new 'solofechaI' column safely
+    fInicio.loc[:, 'solofechaI'] = fInicio['InicioEvento'].apply(
+        lambda x: re.findall(r'\d{4}-\d{2}-\d{2}', str(x))[0] if re.findall(r'\d{4}-\d{2}-\d{2}', str(x)) else None
+    )
+        
     fechaModa = fInicio.solofechaI.mode().values[0] # fecha 'moda' en el arreglo la fecha mas común usada en actividades
 
 
@@ -601,7 +619,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
 
 
   # Guardo la respuesta en el objeto
-  actividades.fillna(DEFAULT_EMPTY_CHAR, inplace=True)
+  actividades = actividades.fillna(DEFAULT_EMPTY_CHAR)
   obj_ot.matriz = actividades.copy()
   # Lo regreso al programa principal 
   return( actividades )

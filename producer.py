@@ -19,7 +19,7 @@ from quixstreams import Application
 
 from eerssa import gestionOT              # Convert from PDF_ot to obj_ot
 from eerssa import procesarOt as OrdenTrabajo  # Version 0.3.0 
-from eerssa import matrizActividades      # process ot.data["actividades"]
+from eerssa import procesarActividades as Actividades      # process ot.data["actividades"]
 from eerssa import organizar as gdrive    # download sheet from Google Drive
 
 from eerssa import reporte_ot as reporte_pdf # Para generar el reporte del PDF
@@ -106,29 +106,8 @@ class MyEventHandler(FileSystemEventHandler):
         start_time = time.time()
         start_datetime = datetime.now()
 
-        if len(items_to_process) < 3:
-            logger.info(
-                f"   Procesando {len(items_to_process)} archivos. Hora de inicio: {start_datetime.strftime('%Y-%m-%d %H:%M:%S')}"
-            )
-
-            obj_lists = []
-            for file in items_to_process:
-                ot = OrdenTrabajo.procesarOt(file)
-                ot_obj = gestionOT.GestionOt.from_v30(ot)
-                matrizActividades.ConvertirOT_a_ActividadesCSV(ot_obj)
-                obj_lists.append(ot_obj)
-
-            end_time = time.time()
-            elapsed_time = end_time - start_time
-            logger.info(
-                f"   Procesados todos los {len(obj_lists)} items. Tiempo transcurrido: {elapsed_time:.2f} segundos.\n"
-            )
-
-        # TODO: No esta funcionando el procesamiento distribuido en DASK
-        # hay un error que no permite extraer las actividades adecuadamente
-        # posiblemente algo que ver con el manejo de memoria en DASK 
-        # PymuPDF se queja de que no hay `ValueError('not a textpage of this page')`
-        else:
+    # ===   PARALLEL PROCESING USING DASK  ========== #
+        if len(items_to_process) >= 3:
 
             items_to_process = list(set(items_to_process))
             logger.info(
@@ -146,7 +125,7 @@ class MyEventHandler(FileSystemEventHandler):
             ]
 
             futures_step_3 = [
-                self.client.submit(matrizActividades.ConvertirOT_a_ActividadesCSV, future)
+                self.client.submit(Actividades.ConvertirOT_a_ActividadesCSV, future)
                 for future in futures_step_2
             ]
 
@@ -168,6 +147,32 @@ class MyEventHandler(FileSystemEventHandler):
                 self.client.cancel([futures_step_1, futures_step_2, futures_step_3])
             except Exception as e:
                 logger.warning(f"  [ DASK ] No se pudo borrar las 'futures' ")
+
+
+
+    # ===   SINGLE THREAD PROCESING    ========== #
+
+        elif len(items_to_process) > 0:
+            logger.info(
+                f"   Procesando {len(items_to_process)} archivos. Hora de inicio: {start_datetime.strftime('%Y-%m-%d %H:%M:%S')}"
+            )
+
+            obj_lists = []
+            for file in items_to_process:
+                ot = OrdenTrabajo.procesarOt(file)
+                ot_obj = gestionOT.GestionOt.from_v30(ot)
+                Actividades.ConvertirOT_a_ActividadesCSV(ot_obj)
+                obj_lists.append(ot_obj)
+
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            logger.info(
+                f"   Procesados todos los {len(obj_lists)} items. Tiempo transcurrido: {elapsed_time:.2f} segundos.\n"
+            )
+
+        
+
+
 
 
         # Once i got the list of objects I send to KAFKA only those that are VALID objects
@@ -239,9 +244,8 @@ def main(event_handler):
         if IS_FIRST_MESSAGE_SENT and (time.time() - LAST_MESSAGE_TIMESTAMP > 5):
         #     logging.warning("No messages produced to 'json_ot' in the last 30 seconds.")
         #     # Reset timer to avoid repeated warnings, or maybe send a heartbeat message.
-            logging.info(" <3 Es momento de enviar un HeartBeat han transcurrido 5 segundos. desde la ultima vez que se envio un mensaje al topic 'json_ot'")
+            logging.info(" <3 Es momento de enviar un HeartBeat han transcurrido 5 segundos desde la ultima vez que se envio un mensaje al Broker")
             LAST_MESSAGE_TIMESTAMP = time.time()
-            
             IS_FIRST_MESSAGE_SENT = False
         
         time.sleep(1.5)
@@ -331,7 +335,7 @@ if __name__ == "__main__":
         finally:
             observer.stop()
             observer.join()
-            client.close()
-            client.cluster.close()
+            Client.close()
+            Client.cluster.close()
 
             print("\n   === Fin del proceso ===\n")

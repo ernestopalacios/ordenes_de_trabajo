@@ -132,7 +132,6 @@ def procesarOt( link_to_pdf ):
         ot["estado"] = terminado
 
         if terminado != "TERMINADO":
-          ot['exito'] = False
           ot['n_fatales'] = 1
           ot['log'].append(
             to_log_entry('FATAL',"La Orden de trabajo no se encuentra en estado TERMINADO",f"Texto es: {terminado}"))
@@ -604,7 +603,7 @@ def procesarOt( link_to_pdf ):
         if len(carencias) > 4:
           ot['n_revisar'] += 1
           ot['log'].append(
-          to_log_entry('REVISAR','Se reportan CARENCIAS',f'Se reporta CARENCIAS: {carencias}'))
+          to_log_entry('REVISAR','Se reportan CARENCIAS',f'{carencias}'))
       except Exception as e:
         ot['carencias'] = DEFAULT_EMPTY_CHAR
         ot['n_errores'] += 1

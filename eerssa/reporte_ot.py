@@ -47,7 +47,7 @@ def create_typst_doc( ot ):
   except:
     cuadrilla = "SIN CUADRILLA"
   try:
-    fecha = ot.data["fechaInicio"]
+    fecha = ot.data["fechaString"]
   except:
     fecha = "Sin Fecha"
   try:

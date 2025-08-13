@@ -4,39 +4,24 @@
     title: "Reporte de Orden de Trabajo",
     subtitle: [ ],
     author: "TERMINADO",
-    abstract: "Zamora Z1 (Cuadrilla. AP Nro. 4) 
+    abstract: "Líneas Energizadas (Cuadrilla  Nro.6) 
  Sin Fecha 
- CABRERA CABRERA MIGUEL ISAURO 
- id_ot : 158512",
+ MACAS CURIPOMA RAMIRO HOMERO 
+ id_ot : 154750",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2025-08-13 09:16:46")[
+#informativo("Informativo - 2025-08-13 10:32:11")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
-    "Ubicacion:
-/home/vlad/Documents/temp_borrar/aTest/sc_pdf_20250813091627_209_pdfreport_ordenesTrabajoVisualizar.pdf"
+    "Archivo PDF de reconocido como Orden de Trabajo"
   $
 ]
 
-#error("ERROR - 2025-08-13 09:16:47")[
-  No coinciden las fechas
+#revisar("Revisar - 2025-08-13 10:32:13")[
+  Se reportan CARENCIAS
   $
-    "La fecha en Hoja 1 no es la misma que en Actividades"
-  $
-]
-
-#revisar("Revisar - 2025-08-13 09:16:48")[
-  Se detectaron fechas inconsistentes
-  $
-    "En actividades, revisar las fechas de inicio actividad"
-  $
-]
-
-#revisar("Revisar - 2025-08-13 09:16:48")[
-  Se detectaron fechas inconsistentes
-  $
-    "En actividades, revisar las fechas de fin de actividad"
+    "Se reporta CARENCIAS: FALTA MOTO-SIERRA PARA DESBROCE DE VEGETACIÓN"
   $
 ]

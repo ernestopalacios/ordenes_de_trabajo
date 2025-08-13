@@ -110,7 +110,7 @@ def procesarOt( link_to_pdf ):
       if "TIEMPO ESTIMADO DE DURACIÓN (HORAS):" in check_text:
         ot["exito"] = True
         ot['log'].append(
-          to_log_entry("INFO", "CREACION DE LA OT, se encuentra un archivo PDF valido", f"Ubicacion:\n{link_to_pdf}"))
+          to_log_entry("INFO", "CREACION DE LA OT, se encuentra un archivo PDF valido", f"Archivo PDF de reconocido como Orden de Trabajo"))
         ot["createdAt"] = datetime.now().isoformat()
   except Exception as e:
     ot['n_fatales'] = 1
@@ -604,7 +604,7 @@ def procesarOt( link_to_pdf ):
         if len(carencias) > 4:
           ot['n_revisar'] += 1
           ot['log'].append(
-          to_log_entry('REVISAR','Se reportan CARENCIAS','Revisar si estan reportadas CARENCIAS'))
+          to_log_entry('REVISAR','Se reportan CARENCIAS',f'Se reporta CARENCIAS: {carencias}'))
       except Exception as e:
         ot['carencias'] = DEFAULT_EMPTY_CHAR
         ot['n_errores'] += 1

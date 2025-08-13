@@ -145,6 +145,7 @@ class MyEventHandler(FileSystemEventHandler):
             # Delete from Memory The proccessed Ot
             try:
                 self.client.cancel([futures_step_1, futures_step_2, futures_step_3])
+                logger.info(f"  [ DASK ] Se cancela la memoria de DASK ")
             except Exception as e:
                 logger.warning(f"  [ DASK ] No se pudo borrar las 'futures' ")
 

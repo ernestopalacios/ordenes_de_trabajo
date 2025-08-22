@@ -441,7 +441,7 @@ def procesarOt( link_to_pdf ):
                 deltaInicio, 
                 itemY1+(i*deltaY), 
                 deltaInicio+anchoFecha, 
-                itemY2+(i*deltaY) )).replace('\n', ' ')
+                itemY2+(i*deltaY) )).replace('\n', ' ').strip()
             if fila['InicioEvento'] == "":
               fila['InicioEvento'] = DEFAULT_EMPTY_CHAR
             
@@ -451,7 +451,7 @@ def procesarOt( link_to_pdf ):
                 deltaFin, 
                 itemY1+(i*deltaY), 
                 deltaFin+anchoFecha, 
-                itemY2+(i*deltaY) )).replace('\n', ' ')
+                itemY2+(i*deltaY) )).replace('\n', ' ').strip()
             if fila['FinEvento'] == "":
               fila['FinEvento'] = DEFAULT_EMPTY_CHAR
           

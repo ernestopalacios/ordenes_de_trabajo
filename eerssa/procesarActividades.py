@@ -195,6 +195,12 @@ def organizarActividades( obj_ot ):
   actividades = actividades[actividades.Evento.notnull()]
   actividades = actividades.reset_index()
 
+  # Clean whitespace from event time columns at the beginning
+  if 'InicioEvento' in actividades.columns:
+      actividades['InicioEvento'] = actividades['InicioEvento'].str.strip()
+  if 'FinEvento' in actividades.columns:
+      actividades['FinEvento'] = actividades['FinEvento'].str.strip()
+
   #····························································
   #        Validar y Corregir Fecha y Hora.
   #····························································

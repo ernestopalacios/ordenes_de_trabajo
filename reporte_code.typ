@@ -3,25 +3,27 @@
 #show: dvdtyp.with(
     title: "Reporte de Orden de Trabajo",
     subtitle: [ ],
-    author: "ECURSO",
-    abstract: "El Pangui Z1 (Cuadrilla. Nro. 4) 
- lunes, 11 de agosto del 2025 
- VERA SANCHEZ LIVIO STALIN 
- id_ot : 158942",
+    author: "TERMINADO",
+    abstract: "Zamora Z1 (Cuadrilla. AP Nro. 4) 
+ jueves, 09 de mayo del 2002 
+ CABRERA CABRERA MIGUEL ISAURO 
+ id_ot : 85823",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2025-08-13 11:57:41")[
+#informativo("Informativo - 2025-08-20 18:40:43")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF de reconocido como Orden de Trabajo"
   $
 ]
 
-#problema("FATAL - 2025-08-13 11:57:41")[
-  La Orden de trabajo no se encuentra en estado TERMINADO
+#error("ERROR - 2025-08-20 18:40:44")[
+  No coinciden las fechas en la HOJA UNO
   $
-    "Texto es: ECURSO"
+    "Fecha de la OT: 2022-05-09T00:00:00-05:00
+Fecha Mitad: 2002-05-09T00:00:00-05:00
+Fecha String: jueves, 09 de mayo del 2002"
   $
 ]

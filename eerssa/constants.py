@@ -138,8 +138,8 @@ firmasDelta = 160
 firmasY1 = 740
 firmasAlto = 23.4
 
-fechaInicioY1 = 263
-fechaDeltaY   = 11
+fechaInicioY1 = 265
+fechaDeltaY   = 9
 
 fechaInicioX1 = 100
 fechaAncho    = 170

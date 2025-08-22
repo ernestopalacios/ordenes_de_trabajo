@@ -127,10 +127,10 @@ def calcular_minutos_transcurridos( fecha_inicio, fecha_fin ):
     datetime_format = "%Y-%m-%d %H:%M:%S"
 
     # Se elimina el componente de Zona Horaria
-    fecha_inicio = fecha_inicio.replace('T', ' ').split()
+    fecha_inicio = fecha_inicio.strip().replace('T', ' ').split()
     fecha_inicio = fecha_inicio[0]+' '+fecha_inicio[-1]
     
-    fecha_fin = fecha_fin.replace('T', ' ').split()
+    fecha_fin = fecha_fin.strip().replace('T', ' ').split()
     fecha_fin = fecha_fin[0]+' '+fecha_fin[-1]
 
     # Convert the strings to datetime objects

@@ -4,26 +4,24 @@
     title: "Reporte de Orden de Trabajo",
     subtitle: [ ],
     author: "TERMINADO",
-    abstract: "Zamora Z1 (Cuadrilla. AP Nro. 4) 
- jueves, 09 de mayo del 2002 
- CABRERA CABRERA MIGUEL ISAURO 
- id_ot : 85823",
+    abstract: "Zamora Z1 (Cuadrilla. Nro. 6) 
+ viernes, 05 de septiembre del 2025 
+ RIVERA GUAMAN SEGUNDO PATRICIO 
+ id_ot : 160604",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2025-08-20 18:40:43")[
+#informativo("Informativo - 2025-09-06 20:33:08")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF de reconocido como Orden de Trabajo"
   $
 ]
 
-#error("ERROR - 2025-08-20 18:40:44")[
-  No coinciden las fechas en la HOJA UNO
+#revisar("Revisar - 2025-09-06 20:33:09")[
+  Se reportan CARENCIAS
   $
-    "Fecha de la OT: 2022-05-09T00:00:00-05:00
-Fecha Mitad: 2002-05-09T00:00:00-05:00
-Fecha String: jueves, 09 de mayo del 2002"
+    "SILLóN PARA ESCRITORIO EN MAL ESTADO"
   $
 ]

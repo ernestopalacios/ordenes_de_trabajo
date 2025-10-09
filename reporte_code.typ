@@ -4,24 +4,22 @@
     title: "Reporte de Orden de Trabajo",
     subtitle: [ ],
     author: "TERMINADO",
-    abstract: "Zamora Z1 (Cuadrilla. Nro. 6) 
- viernes, 05 de septiembre del 2025 
- RIVERA GUAMAN SEGUNDO PATRICIO 
- id_ot : 160604",
+    abstract: [
+      Gualaquiza (Agencia)       jueves, 02 de octubre del 2025       CARTUCHE SILVA GERARDO PATRICIO       id_ot: 162496 ],
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2025-09-06 20:33:08")[
+#informativo("Informativo - 2025-10-08 21:39:56")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
-    "Archivo PDF de reconocido como Orden de Trabajo"
+    "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#revisar("Revisar - 2025-09-06 20:33:09")[
+#revisar("Revisar - 2025-10-08 21:39:57")[
   Se reportan CARENCIAS
   $
-    "SILLóN PARA ESCRITORIO EN MAL ESTADO"
+    "ESCALERA DE 28 \""
   $
 ]

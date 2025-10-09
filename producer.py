@@ -132,8 +132,6 @@ class MyEventHandler(FileSystemEventHandler):
             # Group the collections of futures you want to retrieve
             futures_to_gather = [futures_step_2, futures_step_3]
 
-            # Call gather just ONCE
-            # Dask will efficiently compute everything needed for both lists
             obj_lists, matriz_list = self.client.gather(futures_to_gather)
 
             end_time = time.time()
@@ -174,14 +172,14 @@ class MyEventHandler(FileSystemEventHandler):
         
 
 
-
+    # ===   KAFKA  QUEUE             ========== #
 
         # Once i got the list of objects I send to KAFKA only those that are VALID objects
         if obj_lists:
             with self.KafkaApp.get_producer() as producer:
                 for ot in obj_lists:
                     if ot.valido:
-                        # Aqui estoy reubicando el archivo.
+                        # Primero reubico el archivo.
                         nuevo_path = gdrive.renombrar_ot(
                                         ot.link,
                                         gdrive.get_nombre_archivo( ot, df_datos_cudarilla )
@@ -194,7 +192,7 @@ class MyEventHandler(FileSystemEventHandler):
                         #GENERACION DEL REPORTE
                         reporte_typst = reporte_pdf.create_typst_doc( ot )
 
-                        if reporte_typst != "todo_ok":
+                        if reporte_typst != "nada_por_reportar":
                             with open("reporte_code.typ", mode="wt") as f:
                                 f.write(reporte_typst.render())
                                 logger.debug(" ::: Creado el archivo de reporte")
@@ -204,7 +202,7 @@ class MyEventHandler(FileSystemEventHandler):
                                 report_filename = os.path.join(os.path.dirname(ot.link),report_filename)
                             else:
                                 report_filename = "REPORTE_"+os.path.basename(ot.link)
-                                report_filename = os.path.join("ot_procesados",os.path.dirname(ot.link),report_filename)
+                                report_filename = os.path.join(os.path.dirname(ot.link),"ot_procesados",report_filename)
 
                             logger.debug(f" ::: Se guardará en {report_filename}")
                             typst.compile("reporte_code.typ",  output= report_filename )
@@ -226,6 +224,17 @@ class MyEventHandler(FileSystemEventHandler):
                             #TODO: Este mensaje lo deberia hacer conocer a Kafka como parte de la reporteria
                             logger.info(f"   [?]  > {os.path.basename(ot.link)} < REVISAR: No se ha enviado a la base de datos")    
                     else:
+                        #GENERACION DEL REPORTE CUANDO NO ES ot
+                        reporte_typst = reporte_pdf.create_typst_doc( ot )
+
+                        with open("reporte_code.typ", mode="wt") as f:
+                            f.write(reporte_typst.render())
+                            logger.debug(" ::: Creado el archivo de reporte")
+                    
+                        report_filename = "REPORTE_"+os.path.basename(ot.link)
+                        report_filename = os.path.join(os.path.dirname(ot.link),"ot_procesados",report_filename)
+                        typst.compile("reporte_code.typ",  output= report_filename )
+                        
                         logger.info(f"   [X]  > {ot.link} < No es un archivo Orden de Trabajo")
                 producer.flush()
             
@@ -294,7 +303,7 @@ if __name__ == "__main__":
     observer = Observer()
 
 
-    print("\n   === Monitor de Ordenes de trabajo ====")
+    print("\n   === Monitor de Ordenes de trabajo v.3.0====")
 
     if len(sys.argv) > 1:
         base_dir = sys.argv[1]
@@ -336,7 +345,7 @@ if __name__ == "__main__":
         finally:
             observer.stop()
             observer.join()
-            Client.close()
-            Client.cluster.close()
+            dask_client.close()
+            dask_client.cluster.close()
 
             print("\n   === Fin del proceso ===\n")

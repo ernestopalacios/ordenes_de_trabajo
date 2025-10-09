@@ -61,9 +61,9 @@ def procesarOt( link_to_pdf ):
   VERSION = Current.VERSION.value
 
   ot = {}
-  ot["version"] = VERSION
-  ot["link"]    = link_to_pdf
-  ot["exito"]   = False
+  ot['version'] = VERSION
+  ot['link']    = link_to_pdf
+  ot['exito']   = False
   ot['log']     = []
   ot['n_fatales'] = 0
   ot['n_errores'] = 0
@@ -71,7 +71,7 @@ def procesarOt( link_to_pdf ):
 
   
 
-  # = 1. No es String
+  # = 1. El enlace al archivo no es una variable String
 
   if not isinstance(link_to_pdf, str):
     ot['n_fatales'] = 1
@@ -79,7 +79,7 @@ def procesarOt( link_to_pdf ):
       to_log_entry( "FATAL", "No es un directorio valido","El enlace no es de tipo String"))
     return ot
   
-  # = 2. Validamos el String que sea un directorio valido
+  # = 2. Validamos el String como un directorio valido
   try:
     
     pdf_path = Path(link_to_pdf)
@@ -101,7 +101,7 @@ def procesarOt( link_to_pdf ):
       if not (1 < hojas < 5):
         ot['n_fatales'] = 1
         ot['log'].append(
-          to_log_entry("FATAL", f"No es un archivo PDF valido:\n{link_to_pdf}", f"La cantidad de hojas no es valida: {hojas}"))
+          to_log_entry("FATAL", f"El archivo PDF no se reconoce como Orden de Trabajo:\n {link_to_pdf}", f"La cantidad de hojas no es valida: {hojas}"))
         return ot
 
       paginaUno = pdf.load_page(0)
@@ -110,8 +110,17 @@ def procesarOt( link_to_pdf ):
       if "TIEMPO ESTIMADO DE DURACIÓN (HORAS):" in check_text:
         ot["exito"] = True
         ot['log'].append(
-          to_log_entry("INFO", "CREACION DE LA OT, se encuentra un archivo PDF valido", f"Archivo PDF de reconocido como Orden de Trabajo"))
+          to_log_entry("INFO", 
+                       "CREACION DE LA OT, se encuentra un archivo PDF valido", 
+                       f"Archivo PDF es reconocido como Orden de Trabajo"))
         ot["createdAt"] = datetime.now().isoformat()
+      
+      else:
+        ot['n_fatales'] = 1
+        ot['log'].append(
+          to_log_entry("FATAL", 
+                       "El archivo PDF no se reconoce como Orden de Trabajo:\n {link_to_pdf}",
+                       f"[ERROR] en página uno no se encuentra texto:\n TIEMPO ESTIMADO DE DURACIÓN (HORAS):" ))
   except Exception as e:
     ot['n_fatales'] = 1
     ot['log'].append(to_log_entry("FATAL", f"No se pudo abrir o procesar el archivo PDF:\n {link_to_pdf}", f"[ERROR] en la ot: {ot['link']}\n\n {e}"))

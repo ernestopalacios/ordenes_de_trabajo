@@ -1,16 +1,48 @@
 import typst
 import pypst
+import textwrap
 import pandas as pd
 
 import sys
 import os
 
+def sanitize_for_typst(text: str) -> str:
+    """
+    Escapes special characters in a string for safe inclusion in a Typst document.
+    """
+    if not isinstance(text, str):
+        text = str(text)
+    
+    # Characters to escape with a backslash in Typst
+    special_chars = {
+        "\\": "\\\\",
+        "#": "\\#",
+        "*": "\\*",
+        "_": "\\_",
+        "$": "\\$",
+        "~": "\\~",
+        "`": "\\`",
+        "[": "\\[",
+        "]": "\\]",
+        "{": "\\{",
+        "}": "\\}",
+        "\"": "\\\"",
+        '"': '\\"',
+        "'": "\\'",
+        "|": "\\|",
+        "<": "\\<",
+        ">": "\\>",
+    }
+    
+    for char, escaped_char in special_chars.items():
+        text = text.replace(char, escaped_char)
+        
+    return text
+
 
 def generate_comment( doc, log_item ):
   level_msg = log_item["level"]
   time_msg = log_item["t"].replace('T',' ').split('.')[0]
-  detail = log_item["detail"]
-  message = log_item["message"]
   
   if level_msg == 'FATAL':
     color = f"#problema(\"FATAL - {time_msg}\")"
@@ -21,11 +53,17 @@ def generate_comment( doc, log_item ):
   else:
     color = f"#informativo(\"Informativo - {time_msg}\")"
 
+  message = sanitize_for_typst(log_item["message"])
+  detail = sanitize_for_typst(log_item["detail"])
+
+  wrapped_message = textwrap.fill(message, width=80)
+  wrapped_detail = textwrap.fill(detail, width=80)
+
   doc.add(
     f"""{color}[
-  {message}
+  {wrapped_message}
   $
-    \"{detail}"
+    \"{wrapped_detail}"
   $
 ]""")
 
@@ -57,7 +95,7 @@ def create_typst_doc( ot ):
 
   # No generar Reporte para OT finalizadas en caso de no haber novedades.
   if len(ot.log) == 1 and ot.log[0]["level"] == "INFO" and estado == "TERMINADO":
-      return "todo_ok"
+      return "nada_por_reportar"
 
 
   doc = pypst.Document()
@@ -67,8 +105,12 @@ def create_typst_doc( ot ):
   doc.add(f"""#show: dvdtyp.with(
     title: "Reporte de Orden de Trabajo",
     subtitle: [ ],
-    author: "{estado}",
-    abstract: "{cuadrilla} \n {fecha} \n {responsable} \n id_ot : {id_ot}",
+    author: "{sanitize_for_typst(estado)}",
+    abstract: [
+      {sanitize_for_typst(cuadrilla)} \
+      {sanitize_for_typst(fecha)} \
+      {sanitize_for_typst(responsable)} \
+      id_ot: {sanitize_for_typst(id_ot)} ],
   )""")
 
   doc.add("= Novedades encontradas")

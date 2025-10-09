@@ -56,8 +56,8 @@ def generate_comment( doc, log_item ):
   message = sanitize_for_typst(log_item["message"])
   detail = sanitize_for_typst(log_item["detail"])
 
-  wrapped_message = textwrap.fill(message, width=80)
-  wrapped_detail = textwrap.fill(detail, width=80)
+  wrapped_message = textwrap.fill(message, width=68)
+  wrapped_detail = textwrap.fill(detail, width=68)
 
   doc.add(
     f"""{color}[
@@ -105,12 +105,12 @@ def create_typst_doc( ot ):
   doc.add(f"""#show: dvdtyp.with(
     title: "Reporte de Orden de Trabajo",
     subtitle: [ ],
-    author: "{sanitize_for_typst(estado)}",
-    abstract: [
-      {sanitize_for_typst(cuadrilla)} \
-      {sanitize_for_typst(fecha)} \
-      {sanitize_for_typst(responsable)} \
-      id_ot: {sanitize_for_typst(id_ot)} ],
+    author: "\n{sanitize_for_typst(estado)}",
+    abstract: "
+      {sanitize_for_typst(cuadrilla)} \n
+      {sanitize_for_typst(fecha)} \n
+      {sanitize_for_typst(responsable)} \n
+      id_ot: {sanitize_for_typst(id_ot)}",
   )""")
 
   doc.add("= Novedades encontradas")

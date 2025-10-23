@@ -105,7 +105,8 @@ def procesarOt( link_to_pdf ):
         return ot
 
       paginaUno = pdf.load_page(0)
-      # Verifica un marcador de texto en la pagina UNO para validar que es un archivo Orden de Trabajo.
+
+      # 3.1. Verifica un marcador de texto en la pagina UNO para validar que es un archivo Orden de Trabajo.
       check_text = paginaUno.get_textbox( Rect(BoxesValues.FECHA_INICIO_TESTIMADO.value ))
       if "TIEMPO ESTIMADO DE DURACIÓN (HORAS):" in check_text:
         ot["exito"] = True

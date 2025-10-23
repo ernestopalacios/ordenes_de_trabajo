@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 import sys
 import threading
 from quixstreams import Application
@@ -86,7 +87,7 @@ def process_row(row: Row):
         ot = row
         is_replacement = False
         ot_id = ot["id_ot"]
-        logging.info(f"\n ~~~ (1) Recibido el mensaje Orden de Trabajo con ID: {ot_id}")
+        logging.info(f"\n ~~~ (1) Recibido el mensaje Orden de Trabajo con ID: {ot_id}") 
 
         if CurrentCollection.find_one({"id_ot": ot_id}, {"_id": 1}):
             is_replacement = True
@@ -110,6 +111,7 @@ def process_row(row: Row):
                 value=message.value,
             )
             producer.flush()
+            logging.info(f" TIMESTAMP envio de OT : {datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')}")
 
 
         global LAST_MESSAGE_TIMESTAMP, IS_FIRST_MESSAGE_SENT

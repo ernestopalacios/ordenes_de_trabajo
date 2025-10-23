@@ -2,6 +2,9 @@ from pprint import pprint
 import json
 import logging
 import sys
+import time
+from datetime import datetime
+
 
 from quixstreams import Application
 from quixstreams.models import StringDeserializer
@@ -229,6 +232,7 @@ def process_batch(window_values):
                 )
                 .execute())
                 logging.info(f" [EXITO] DELTA LAKE Se ha actualizado la OT: '{id_ot_value}' en la tabla '{table_path}'")
+                logging.info(f" TIMESTAMP concatenado de OT : {datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')}")
 
             except Exception as e:
                 logger.error(f"Fallo OT Recargada, al procesar el item {value}. Error: {e}")

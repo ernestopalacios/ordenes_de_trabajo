@@ -3,6 +3,7 @@ import os
 import logging
 import queue
 import time
+from datetime import datetime
 
 from watchdog.observers import Observer
 from watchdog.events import (
@@ -220,6 +221,7 @@ class MyEventHandler(FileSystemEventHandler):
                             LAST_MESSAGE_TIMESTAMP = time.time()
                             IS_FIRST_MESSAGE_SENT = True
                             logger.info(f"   [OK] > {os.path.basename(ot.link)} < se ha enviado a la base de datos")
+                            logger.info(f"   [OK] > {datetime.fromtimestamp(LAST_MESSAGE_TIMESTAMP).strftime('%Y-%m-%d %H:%M:%S')} < Fecha y hora del envio")
                         else:
                             #TODO: Este mensaje lo deberia hacer conocer a Kafka como parte de la reporteria
                             logger.info(f"   [?]  > {os.path.basename(ot.link)} < REVISAR: No se ha enviado a la base de datos")    

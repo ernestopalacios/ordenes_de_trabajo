@@ -410,7 +410,7 @@ def procesarOt( link_to_pdf ):
                 itemX1 + deltaXactiv1, 
                 itemY1+(i*deltaY), 
                 itemX2 + anchoActiv, 
-                itemY2+(i*deltaY) ))
+                itemY2+(i*deltaY) )).strip()
             
             if fila['Actividad'] == "":
               fila['Actividad'] = DEFAULT_EMPTY_CHAR
@@ -421,7 +421,7 @@ def procesarOt( link_to_pdf ):
                 itemX1 + deltaEvento, 
                 itemY1+(i*deltaY), 
                 itemX2 + anchoEvento, 
-                itemY2+(i*deltaY) ))
+                itemY2+(i*deltaY) )).strip()
             if fila['Evento'] == "":
               continue
             
@@ -431,7 +431,7 @@ def procesarOt( link_to_pdf ):
                 itemX1 + deltaLMT, 
                 itemY1+(i*deltaY), 
                 itemX2 + anchoLMT, 
-                itemY2+(i*deltaY) ))
+                itemY2+(i*deltaY) )).strip()
             if fila['Alimentador'] == "":
               fila['Alimentador'] = DEFAULT_EMPTY_CHAR
             
@@ -441,7 +441,7 @@ def procesarOt( link_to_pdf ):
                 deltaTipo, 
                 itemY1+(i*deltaY), 
                 anchoTipo, 
-                itemY2+(i*deltaY) ))
+                itemY2+(i*deltaY) )).strip()
             if fila['Tipo'] == "":
               fila['Tipo'] = DEFAULT_EMPTY_CHAR
             

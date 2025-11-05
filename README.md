@@ -5,9 +5,9 @@
   Add your open source license, GitHub uses Creative Commons Attribution 4.0 International.
 -->
 
-# GitHub Pages
+# TFM Data pipelines 
 
-_Create a site or blog from your GitHub repositories with GitHub Pages._
+_Data-pipelines basados en computación en la nube para el análisis, procesamiento y modelado de operaciones de mantenimiento_
 
 <!--
   <<< Author notes: Start of the course >>>
@@ -49,19 +49,10 @@ endstep0-->
 -->
 
 <details id=1>
-<summary><h2>Step 1: Enable GitHub Pages</h2></summary>
+<summary><h2>1: Librería EERSSA</h2></summary>
 
-_Welcome to GitHub Pages and Jekyll :tada:!_
+_Libreria para la gestión de ordenes de trabajo_
 
-The first step is to enable GitHub Pages on this [repository](https://docs.github.com/en/get-started/quickstart/github-glossary#repository). When you enable GitHub Pages on a repository, GitHub takes the content that's on the main branch and publishes a website based on its contents.
-
-### :keyboard: Activity: Enable GitHub Pages
-
-1. Open a new browser tab, and work on the steps in your second tab while you read the instructions in this tab.
-1. Under your repository name, click **Settings**.
-1. Click **Pages**, in the "GitHub Pages" section, use the Source drop-down, then select **main branch**.
-1. Wait about _one minute_, then refresh this page for the next step.
-   > Turning on GitHub Pages creates a deployment of your repository. GitHub Actions may take up to a minute to respond while waiting for the deployment. Future steps will be about 20 seconds; this step is slower.
 
 </details>
 
@@ -229,6 +220,5 @@ Here's a recap of all the tasks you've accomplished in your repository:
 
 ---
 
-Get help: [Post in our discussion board](https://github.com/skills/.github/discussions) &bull; [Review the GitHub status page](https://www.githubstatus.com/)
 
-&copy; 2022 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [CC-BY-4.0 License](https://creativecommons.org/licenses/by/4.0/legalcode)
+&copy; 2025 Ernesto Palacios &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; 

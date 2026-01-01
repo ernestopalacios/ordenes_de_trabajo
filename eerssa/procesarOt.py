@@ -610,10 +610,12 @@ def procesarOt( link_to_pdf ):
         carencias = texto.replace('CARENCIAS:',"").strip()
         ot["carencias"] = carencias
 
-        if len(carencias) > 4:
-          ot['n_revisar'] += 1
-          ot['log'].append(
-          to_log_entry('REVISAR','Se reportan CARENCIAS',f'{carencias}'))
+        # No deseo que las carencias sean reportadas en PDF.
+        
+        #if len(carencias) > 4:
+        #  ot['n_revisar'] += 1
+        #  ot['log'].append(
+        #  to_log_entry('REVISAR','Se reportan CARENCIAS',f'{carencias}'))
       except Exception as e:
         ot['carencias'] = DEFAULT_EMPTY_CHAR
         ot['n_errores'] += 1

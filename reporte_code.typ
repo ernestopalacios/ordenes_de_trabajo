@@ -6,28 +6,27 @@
     author: "
 TERMINADO",
     abstract: "
-      Paquisha Z1 (Cuadrilla Nro. 10) 
+      Gualaquiza Z1 (Cuadrilla. Nro. 3) 
 
-      domingo, 05 de octubre del 2025 
+      jueves, 18 de diciembre del 2025 
 
-      AMARI ORDONEZ JUNIOR IVAN 
+      LOJAN PAZ CARLOS DIEGO 
 
-      id_ot: 162666",
+      id_ot: 167414",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2025-11-05 14:22:22")[
+#informativo("Informativo - 2026-01-01 09:19:29")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#revisar("Revisar - 2025-11-05 14:22:24")[
-  Se reportan CARENCIAS
+#error("ERROR - 2026-01-01 09:19:29")[
+  No ha descrito el TIEMPO ESTIMADO en la Hoja Uno
   $
-    "BOD PARA LA CUAD EN PAQUISHA, HERR DE EXCAV, TECLE DE 1.6TON,
-MORDAZ, MOTOSIER, LIN 2, COMPUTAD"
+    "Dia de la semana: jueves"
   $
 ]

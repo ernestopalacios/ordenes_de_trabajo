@@ -6,27 +6,27 @@
     author: "
 TERMINADO",
     abstract: "
-      Gualaquiza Z1 (Cuadrilla. Nro. 3) 
+      Yantzaza (Agencia) 
 
-      jueves, 18 de diciembre del 2025 
+      miércoles, 31 de diciembre del 2025 
 
-      LOJAN PAZ CARLOS DIEGO 
+      CUADRADO LEON RAUL EFREN 
 
-      id_ot: 167414",
+      id_ot: 167991",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2026-01-01 09:19:29")[
+#informativo("Informativo - 2026-01-04 08:08:24")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#error("ERROR - 2026-01-01 09:19:29")[
-  No ha descrito el TIEMPO ESTIMADO en la Hoja Uno
+#revisar("Revisar - 2026-01-04 08:08:26")[
+  Se detectaron fechas inconsistentes
   $
-    "Dia de la semana: jueves"
+    "En actividades, revisar las fechas de fin de actividad"
   $
 ]

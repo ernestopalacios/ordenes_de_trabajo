@@ -321,6 +321,11 @@ if __name__ == "__main__":
         print(
             f"   Se ha iniciado a monitorear el directorio:\n   ==>: '{base_dir}'\n"
         )
+        if not os.path.isdir(os.path.join(base_dir, "ot_procesados")):
+            os.mkdir(os.path.join(base_dir, "ot_procesados")) 
+            print(
+                f"   Se ha creado el directorio:\n   ==>: '{base_dir+'/ot_procesados'}'\n"
+            )
 
 
 

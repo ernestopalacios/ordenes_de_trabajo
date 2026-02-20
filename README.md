@@ -5,6 +5,12 @@
   Add your open source license, GitHub uses Creative Commons Attribution 4.0 International.
 -->
 
+# Pendiente:
+
+- No se puede rellenar cuando en una actividad falta la fecha final, deberia copiar la inicial de la siguiente actividad.
+
+- Verificar que las firmas esten correctas.
+
 # TFM Data pipelines 
 
 _Data-pipelines basados en computación en la nube para el análisis, procesamiento y modelado de operaciones de mantenimiento_

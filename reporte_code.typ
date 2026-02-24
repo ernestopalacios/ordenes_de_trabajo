@@ -6,25 +6,25 @@
     author: "
 TERMINADO",
     abstract: "
-      Yantzaza Z1 (Cuadrilla. Nro. 5) 
+      Yantzaza (Agencia) 
 
-      martes, 10 de febrero del 2026 
+      lunes, 23 de febrero del 2026 
 
-      BARRAZUETA GONZAGA SERVIO GUILLERMO 
+      CHAMBA CANGO PEDRO ROSALINO 
 
-      id_ot: 170637",
+      id_ot: 171358",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2026-02-20 09:32:21")[
+#informativo("Informativo - 2026-02-24 08:11:26")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#revisar("Revisar - 2026-02-20 09:32:22")[
+#revisar("Revisar - 2026-02-24 08:11:29")[
   Se detectaron fechas inconsistentes
   $
     "En actividades, revisar las fechas de fin de actividad"

@@ -1,43 +1,90 @@
-# 2. Funcion para eliminar el componente de Time Zone
-#    éste es introducido cuando en actividades no se consigue una 'fecha_moda' 
-#    y es necesario utilizar la 'fecha' de hoja_uno.   
-
-def elimina_timezone( fecha ):
-  try:
-    fecha_inicio = fecha.replace('T', ' ').split()
-    fecha_inicio = fecha_inicio[0]+' '+fecha_inicio[-1]
-    return fecha_inicio
-  except:
-    return fecha
+from datetime import datetime, date
+import pandas as pd
 
 
-def soloFecha_SinTimezone( fecha ):
-  try:
-    fecha_inicio = fecha.replace('T', ' ').split()
-    fecha_inicio = fecha_inicio[0]
-    return fecha_inicio
-  except:
-    return fecha
+# ── String / Timezone helpers ──────────────────────────────────────────────────
+
+def elimina_timezone(fecha: str) -> str:
+    """Elimina el componente TimeZone de una fecha. 
+
+    Args:
+        fecha (str): Fecha en formato ISO 'YYYY-MM-DDTHH:MM:SS±HH:MM'.
+
+    Returns:
+        str: Fecha en formato 'YYYY-MM-DD HH:MM:SS'. Si falla, retorna el valor original.
+    """
+    try:
+        fecha_inicio = fecha.replace('T', ' ').split()
+        return fecha_inicio[0] + ' ' + fecha_inicio[-1]
+    except:
+        return fecha
 
 
-def ColocarTimezone( fecha ):
-  try:
-    return fecha+'T00:00:00-05:00'
-  except:
-    return fecha
+def soloFecha_SinTimezone(fecha: str) -> str:
+    """Elimina el componente TimeZone y retorna solo la fecha.
 
-def calcular_minutos_transcurridos( start_times, end_times ):
-  """
-  This function works because subtracting two pandas Series of datetimes
-  is a vectorized operation.
-  """
-  try:
-    # Ensure columns are in datetime format first
-    start_times = pd.to_datetime(start_times)
-    end_times = pd.to_datetime(end_times)
+    Args:
+        fecha (str): Fecha en formato ISO 'YYYY-MM-DDTHH:MM:SS±HH:MM'.
 
-    time_difference = end_times - start_times
-    # Return the difference in minutes
-    return (time_difference.dt.total_seconds() / 60).astype(int)
-  except Exception as e:
-    print(f" EXCEPTION:\n{e}")
+    Returns:
+        str: Fecha en formato 'YYYY-MM-DD'. Si falla, retorna el valor original.
+    """
+    try:
+        fecha_inicio = fecha.replace('T', ' ').split()
+        return fecha_inicio[0]
+    except:
+        return fecha
+
+
+def ColocarTimezone(fecha: str) -> str:
+    """Agrega el componente TimeZone '-05:00' a una fecha.
+
+    Args:
+        fecha (str): Fecha en formato 'YYYY-MM-DD'.
+
+    Returns:
+        str: Fecha en formato 'YYYY-MM-DDT00:00:00-05:00'. Si falla, retorna el valor original.
+    """
+    try:
+        return fecha + 'T00:00:00-05:00'
+    except:
+        return fecha
+
+
+def toDateObject(date_str: str) -> date:
+    """Convierte una fecha en formato 'YYYY-MM-DD' a un objeto date de Python.
+
+    Útil para luego filtrar filas en un DataFrame por fecha:
+        df[df['Date'] > toDateObject('2026-01-01')]
+
+    Args:
+        date_str (str): Fecha en formato 'YYYY-MM-DD'. Ej: '2026-02-01'.
+
+    Returns:
+        date: Objeto date de Python.
+    """
+    return datetime.strptime(date_str, '%Y-%m-%d').date()
+
+
+# ── DataFrame helpers ──────────────────────────────────────────────────────────
+
+def calcular_minutos_transcurridos(
+    start_times: pd.Series,
+    end_times: pd.Series
+) -> pd.Series:
+    """Calcula los minutos transcurridos entre dos columnas de fechas.
+
+    Args:
+        start_times (pd.Series): Serie con las fechas/horas de inicio.
+        end_times (pd.Series): Serie con las fechas/horas de fin.
+
+    Returns:
+        pd.Series: Serie de enteros con los minutos transcurridos.
+    """
+    try:
+        start_times = pd.to_datetime(start_times)
+        end_times = pd.to_datetime(end_times)
+        time_difference = end_times - start_times
+        return (time_difference.dt.total_seconds() / 60).astype(int)
+    except Exception as e:
+        print(f" EXCEPTION:\n{e}")

@@ -1,5 +1,6 @@
 from datetime import datetime, date
 import pandas as pd
+import re
 
 
 # ── String / Timezone helpers ──────────────────────────────────────────────────
@@ -88,3 +89,15 @@ def calcular_minutos_transcurridos(
         return (time_difference.dt.total_seconds() / 60).astype(int)
     except Exception as e:
         print(f" EXCEPTION:\n{e}")
+
+def natural_key(s):
+    """Rompe una cadena de palabras en partes numéricas y no numéricas.
+
+    Args:
+        s (String): Cadena a romper.
+
+    Returns:
+        Array: Lista de palabras y digitos.
+    """
+    """Split string into text and numeric parts for natural ordering."""
+    return [int(c) if c.isdigit() else c.lower() for c in re.split(r'(\d+)', str(s))]

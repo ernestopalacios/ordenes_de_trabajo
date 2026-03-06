@@ -6,25 +6,32 @@
     author: "
 TERMINADO",
     abstract: "
-      Paquisha Z1 (Cuadrilla Nro. 10) 
+      Zamora Z1 (Cuadrilla. Nro. 6) 
 
-      jueves, 26 de febrero del 2026 
+      lunes, 02 de marzo del 2026 
 
-      AMARI ORDONEZ JUNIOR IVAN 
+      RIOS RIOS FRANCISCO FERNANDO 
 
-      id_ot: 171588",
+      id_ot: 171791",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2026-02-27 07:22:30")[
+#informativo("Informativo - 2026-03-05 16:59:53")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#revisar("Revisar - 2026-02-27 07:22:32")[
+#revisar("Revisar - 2026-03-05 16:59:54")[
+  Se detectaron fechas inconsistentes
+  $
+    "En actividades, revisar las fechas de inicio actividad"
+  $
+]
+
+#revisar("Revisar - 2026-03-05 16:59:54")[
   Se detectaron fechas inconsistentes
   $
     "En actividades, revisar las fechas de fin de actividad"

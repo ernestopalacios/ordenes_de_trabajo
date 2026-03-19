@@ -6,32 +6,25 @@
     author: "
 TERMINADO",
     abstract: "
-      Zamora Z1 (Cuadrilla. Nro. 6) 
+      Gualaquiza (Agencia) 
 
-      lunes, 02 de marzo del 2026 
+      viernes, 13 de marzo del 2026 
 
-      RIOS RIOS FRANCISCO FERNANDO 
+      BUELE UYAGUARI CESAR CRISTIAN 
 
-      id_ot: 171791",
+      id_ot: 172663",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2026-03-05 16:59:53")[
+#informativo("Informativo - 2026-03-18 15:31:56")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#revisar("Revisar - 2026-03-05 16:59:54")[
-  Se detectaron fechas inconsistentes
-  $
-    "En actividades, revisar las fechas de inicio actividad"
-  $
-]
-
-#revisar("Revisar - 2026-03-05 16:59:54")[
+#revisar("Revisar - 2026-03-18 15:31:58")[
   Se detectaron fechas inconsistentes
   $
     "En actividades, revisar las fechas de fin de actividad"

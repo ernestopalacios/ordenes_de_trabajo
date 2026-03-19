@@ -67,6 +67,22 @@ def toDateObject(date_str: str) -> date:
     return datetime.strptime(date_str, '%Y-%m-%d').date()
 
 
+
+def toTimeObject(date_str: str) -> date:
+    """Convierte una fecha en formato 'YYYY-MM-DD HH:MM:SS' a un objeto date de Python.
+
+    Útil para luego filtrar filas en un DataFrame por fecha:
+        df[df['InicioEvento'] > toTimeObject('2026-01-01 08:23:00')]
+
+    Args:
+        date_str (str): Fecha en formato 'YYYY-MM-DD HH:MM:SS'. Ej: '2026-02-01 08:23:00'.
+
+    Returns:
+        date: Objeto date de Python.
+    """
+    return datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
+
+
 # ── DataFrame helpers ──────────────────────────────────────────────────────────
 
 def calcular_minutos_transcurridos(

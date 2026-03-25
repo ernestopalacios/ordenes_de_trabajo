@@ -6,27 +6,27 @@
     author: "
 TERMINADO",
     abstract: "
-      Gualaquiza (Agencia) 
+      Gualaquiza Z1 (Cuadrilla. Nro. 3) 
 
-      viernes, 13 de marzo del 2026 
+      domingo, 22 de marzo del 2026 
 
-      BUELE UYAGUARI CESAR CRISTIAN 
+      LOJAN PAZ CARLOS DIEGO 
 
-      id_ot: 172663",
+      id_ot: 173325",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2026-03-18 15:31:56")[
+#informativo("Informativo - 2026-03-25 08:01:48")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#revisar("Revisar - 2026-03-18 15:31:58")[
-  Se detectaron fechas inconsistentes
+#error("ERROR - 2026-03-25 08:01:48")[
+  No ha descrito el TIEMPO ESTIMADO en la Hoja Uno
   $
-    "En actividades, revisar las fechas de fin de actividad"
+    "Dia de la semana: domingo"
   $
 ]

@@ -4,29 +4,29 @@
     title: "Reporte de Orden de Trabajo",
     subtitle: [ ],
     author: "
-TERMINADO",
+ECURSO",
     abstract: "
-      Gualaquiza Z1 (Cuadrilla. Nro. 3) 
+      El Pangui Z1 (Cuadrilla. Nro. 4) 
 
-      domingo, 22 de marzo del 2026 
+      jueves, 26 de marzo del 2026 
 
-      LOJAN PAZ CARLOS DIEGO 
+      MENDIETA MENDIETA HENRRY ALEXANDER 
 
-      id_ot: 173325",
+      id_ot: 173489",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2026-03-25 08:01:48")[
+#informativo("Informativo - 2026-03-28 19:53:55")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#error("ERROR - 2026-03-25 08:01:48")[
-  No ha descrito el TIEMPO ESTIMADO en la Hoja Uno
+#problema("FATAL - 2026-03-28 19:53:55")[
+  La Orden de trabajo no se encuentra en estado TERMINADO
   $
-    "Dia de la semana: domingo"
+    "Texto es: ECURSO"
   $
 ]

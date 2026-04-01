@@ -6,27 +6,28 @@
     author: "
 TERMINADO",
     abstract: "
-      Gualaquiza Z1 (Cuadrilla. Nro. 3) 
+      Guayzimi Z1 (Cuadrilla. Nro. 7) 
 
-      sábado, 28 de marzo del 2026 
+      lunes, 23 de marzo del 2026 
 
-      GUZMAN BARROS MARCO FERNANDO 
+      CACAY LUZURIAGA ASDRUBAL HUMBERTO 
 
-      id_ot: 173656",
+      id_ot: 173379",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2026-03-31 14:11:36")[
+#informativo("Informativo - 2026-04-01 08:54:32")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#error("ERROR - 2026-03-31 14:11:37")[
-  No ha descrito el TIEMPO ESTIMADO en la Hoja Uno
+#error("ERROR - 2026-04-01 08:54:32")[
+  No coinciden las fechas en la HOJA UNO
   $
-    "Dia de la semana: sábado"
+    "Fecha de la OT: 2026-03-24T00:00:00-05:00 Fecha Mitad:
+2026-03-23T00:00:00-05:00 Fecha String: lunes, 23 de marzo del 2026"
   $
 ]

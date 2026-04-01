@@ -4,29 +4,29 @@
     title: "Reporte de Orden de Trabajo",
     subtitle: [ ],
     author: "
-ECURSO",
+TERMINADO",
     abstract: "
-      El Pangui Z1 (Cuadrilla. Nro. 4) 
+      Gualaquiza Z1 (Cuadrilla. Nro. 3) 
 
-      jueves, 26 de marzo del 2026 
+      sábado, 28 de marzo del 2026 
 
-      MENDIETA MENDIETA HENRRY ALEXANDER 
+      GUZMAN BARROS MARCO FERNANDO 
 
-      id_ot: 173489",
+      id_ot: 173656",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2026-03-28 19:53:55")[
+#informativo("Informativo - 2026-03-31 14:11:36")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#problema("FATAL - 2026-03-28 19:53:55")[
-  La Orden de trabajo no se encuentra en estado TERMINADO
+#error("ERROR - 2026-03-31 14:11:37")[
+  No ha descrito el TIEMPO ESTIMADO en la Hoja Uno
   $
-    "Texto es: ECURSO"
+    "Dia de la semana: sábado"
   $
 ]

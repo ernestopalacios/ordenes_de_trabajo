@@ -117,3 +117,43 @@ def natural_key(s):
     """
     """Split string into text and numeric parts for natural ordering."""
     return [int(c) if c.isdigit() else c.lower() for c in re.split(r'(\d+)', str(s))]
+
+
+# ── HoraExtra helpers ──────────────────────────────────────────────────────────
+
+def limpiar_items(lista_items):
+    # 1. Convert all elements to strings (handles ints/floats)
+    # Using sorted(set()) if you want unique, ordered numbers
+    # Using just (str(i) for i in lista_items) if you want to keep duplicates
+    str_items = [str(i) for i in lista_items]
+    
+    # 2. Join with ", "
+    resultado = ", ".join(str_items)
+    
+    # 3. Handle empty lists for Excel clarity
+    return resultado if resultado else "0"
+
+def limpiar_lista_eventos(lista_eventos):
+    cleaned_list = []
+    for texto in lista_eventos:
+        # Replace newlines/hashtags and collapse multiple spaces
+        t = texto.replace("\n", " ").replace("#", " ")
+        t = " ".join(t.split())
+        
+        if t: # Only add if the string isn't empty after cleaning
+            cleaned_list.append(t)
+    
+    # Join the cleaned strings into one block of text
+    return " ".join(cleaned_list)
+
+def limpiar_cuentas(cuentas):
+    exclude = {"transporte", "lunch", "informativa"}
+    
+    # Remove duplicates and excluded words
+    result_list = list(set(cuentas) - exclude)
+    
+    # If empty, use "?", otherwise join with a space
+    if not result_list:
+        return "?"
+    
+    return ", ".join(result_list)

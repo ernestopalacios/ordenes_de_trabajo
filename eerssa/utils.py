@@ -157,3 +157,21 @@ def limpiar_cuentas(cuentas):
         return "?"
     
     return ", ".join(result_list)
+
+def cuenta_to_dict(valor):
+    if pd.isna(valor) or valor == "":
+        return []
+    
+    elementos = str(valor).split(", ")
+    resultado = []
+    
+    for item in elementos:
+        if ":" in item:
+            # Split "REDES:30" -> key: "REDES", value: 30
+            key, val = item.rsplit(":", 1)
+            resultado.append({"cuenta": key.strip(), "peso": float(val) / 100})
+        else:
+            # No ":" found, assume 100% (1.0)
+            resultado.append({"cuenta": item.strip(), "peso": 1.0})
+            
+    return resultado

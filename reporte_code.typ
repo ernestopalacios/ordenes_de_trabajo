@@ -6,28 +6,34 @@
     author: "
 TERMINADO",
     abstract: "
-      Guayzimi Z1 (Cuadrilla. Nro. 7) 
+      Zamora Z1 (Cuadrilla. Nro. 6) 
 
-      lunes, 23 de marzo del 2026 
+      sábado, 28 de marzo del 2026 
 
-      CACAY LUZURIAGA ASDRUBAL HUMBERTO 
+      SILVA ARMIJOS ROMEL EDUARDO 
 
-      id_ot: 173379",
+      id_ot: 173943",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2026-04-01 08:54:32")[
+#informativo("Informativo - 2026-04-06 08:27:45")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#error("ERROR - 2026-04-01 08:54:32")[
-  No coinciden las fechas en la HOJA UNO
+#revisar("Revisar - 2026-04-06 08:27:46")[
+  Se detectaron fechas inconsistentes
   $
-    "Fecha de la OT: 2026-03-24T00:00:00-05:00 Fecha Mitad:
-2026-03-23T00:00:00-05:00 Fecha String: lunes, 23 de marzo del 2026"
+    "En actividades, revisar las fechas de inicio actividad"
+  $
+]
+
+#revisar("Revisar - 2026-04-06 08:27:46")[
+  Se detectaron fechas inconsistentes
+  $
+    "En actividades, revisar las fechas de fin de actividad"
   $
 ]

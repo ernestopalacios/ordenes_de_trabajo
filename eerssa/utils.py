@@ -1,5 +1,6 @@
 from datetime import datetime, date
 import pandas as pd
+import argparse
 import re
 
 
@@ -175,3 +176,102 @@ def cuenta_to_dict(valor):
             resultado.append({"cuenta": item.strip(), "peso": 1.0})
             
     return resultado
+
+
+"""
+transform_horas_extra.py
+------------------------
+Aplica transformaciones a cada DataFrame dentro del diccionario
+'horasExtra_validado' y produce 'horasExtra_final' con las columnas:
+    Fecha, InicioEvento, FinEvento, Normal, Descanso, Madrugada, Evento
+
+Reglas de clasificación (columna 'Tipo'):
+    Normal    → NORMAL
+    Descanso  → DESCANSO | FESTIVO | CANTONIZACION
+    Madrugada → MAD
+
+La fórmula Excel almacenada es "=(C{i}-B{i})" donde {i} es la fila
+real en Excel (fila 2 = primera fila de datos, considerando header).
+
+Uso como módulo:
+    from transform_horas_extra import build_horas_extra_final
+    horasExtra_final = build_horas_extra_final(horasExtra_validado)
+
+Uso como script independiente (carga un CSV de prueba):
+    python transform_horas_extra.py --csv MA.csv --key MA
+"""
+
+# Tipos que van a cada columna
+TIPOS_NORMAL    = {"NORMAL"}
+TIPOS_DESCANSO  = {"DESCANSO", "FESTIVO", "CANTONIZACION"}
+TIPOS_MADRUGADA = {"MAD"}
+
+# Columnas del resultado final
+COLUMNAS_FINALES = ["Fecha", "InicioEvento", "FinEvento",
+                    "Normal", "Descanso", "Madrugada", "Evento"]
+
+
+def agregar_columnas_formulas(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Recibe un DataFrame con columna 'Tipo' y agrega Normal, Descanso, Madrugada.
+    La fila Excel empieza en 2 (fila 1 = encabezado).
+    """
+    df = df.copy().reset_index(drop=True)
+    df["Normal"]    = ""
+    df["Descanso"]  = ""
+    df["Madrugada"] = ""
+
+    for idx in df.index:
+        # Fila Excel: posición en el df (0-based) + 2 (header ocupa fila 1)
+        excel_row = idx + 2
+        tipo = str(df.at[idx, "Tipo"]).strip().upper()
+
+        formula = f"=(C{excel_row}-B{excel_row})"
+
+        if tipo in TIPOS_NORMAL:
+            df.at[idx, "Normal"] = formula
+        elif tipo in TIPOS_DESCANSO:
+            df.at[idx, "Descanso"] = formula
+        elif tipo in TIPOS_MADRUGADA:
+            df.at[idx, "Madrugada"] = formula
+        # Tipos no reconocidos quedan con celdas vacías
+
+    return df
+
+
+def build_horas_extra_final(horasExtra_validado: dict) -> dict:
+    """
+    Transforma cada DataFrame del diccionario y devuelve 'horasExtra_final'
+    con solo las columnas requeridas.
+    """
+    horasExtra_final = {}
+
+    for key, df in horasExtra_validado.items():
+        df_transformado = agregar_columnas_formulas(df)
+        horasExtra_final[key] = df_transformado[COLUMNAS_FINALES].copy()
+
+    return horasExtra_final
+
+
+# ---------------------------------------------------------------------------
+# Ejecución como script independiente
+# ---------------------------------------------------------------------------
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Transforma horasExtra_validado -> horasExtra_final")
+    parser.add_argument("--csv",    required=True, help="Ruta al CSV de entrada")
+    parser.add_argument("--key",    default="df",  help="Clave a usar en el diccionario")
+    parser.add_argument("--output", default=None,  help="Ruta CSV de salida (opcional)")
+    args = parser.parse_args()
+
+    df_cargado = pd.read_csv(args.csv)
+    horasExtra_validado = {args.key: df_cargado}
+
+    horasExtra_final = build_horas_extra_final(horasExtra_validado)
+
+    resultado = horasExtra_final[args.key]
+    print(f"\n>>> horasExtra_final['{args.key}'] — {len(resultado)} filas\n")
+    print(resultado.to_string())
+
+    if args.output:
+        resultado.to_csv(args.output, index=False)
+        print(f"\nGuardado en: {args.output}")

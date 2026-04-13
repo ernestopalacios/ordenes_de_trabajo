@@ -6,28 +6,34 @@
     author: "
 TERMINADO",
     abstract: "
-      Zamora Z1 (Cuadrilla. Nro. 6) 
+      Gualaquiza Z1 (Cuadrilla. Nro. 3) 
 
-      sábado, 28 de marzo del 2026 
+      martes, 07 de abril del 2026 
 
-      SILVA ARMIJOS ROMEL EDUARDO 
+      LOJAN PAZ CARLOS DIEGO 
 
-      id_ot: 174146",
+      id_ot: 174313",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2026-04-07 08:18:14")[
+#informativo("Informativo - 2026-04-13 09:41:00")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#error("ERROR - 2026-04-07 08:18:14")[
-  No coinciden las fechas en la HOJA UNO
+#error("ERROR - 2026-04-13 09:41:00")[
+  No ha competado la fecha final
   $
-    "Fecha de la OT: 2026-03-29T00:00:00-05:00 Fecha Mitad:
-2026-03-28T00:00:00-05:00 Fecha String: sábado, 28 de marzo del 2026"
+    "Texto es:"
+  $
+]
+
+#error("ERROR - 2026-04-13 09:41:01")[
+  No ha descrito el TIEMPO ESTIMADO en la Hoja Uno
+  $
+    "Dia de la semana: martes"
   $
 ]

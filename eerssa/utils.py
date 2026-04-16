@@ -2,6 +2,7 @@ from datetime import datetime, date
 import pandas as pd
 import argparse
 import re
+import os
 
 
 # ── String / Timezone helpers ──────────────────────────────────────────────────
@@ -129,10 +130,10 @@ def limpiar_items(lista_items):
     str_items = [str(i) for i in lista_items]
     
     # 2. Join with ", "
-    resultado = ", ".join(str_items)
+    #resultado = ", ".join(str_items)
     
     # 3. Handle empty lists for Excel clarity
-    return resultado if resultado else "0"
+    return str(str_items)
 
 def limpiar_lista_eventos(lista_eventos):
     cleaned_list = []
@@ -176,6 +177,27 @@ def cuenta_to_dict(valor):
             resultado.append({"cuenta": item.strip(), "peso": 1.0})
             
     return resultado
+
+
+def dict_to_cuenta(lista):
+    if not lista or (isinstance(lista, float) and pd.isna(lista)):
+        return ""
+    
+    elementos = []
+    
+    for item in lista:
+        cuenta = item["cuenta"].strip()
+        peso = item["peso"]
+        
+        if peso == 1.0:
+            # No ":" needed, just the account name
+            elementos.append(cuenta)
+        else:
+            # Convert back: 0.30 -> 30, format as "CUENTA:30"
+            valor = int(round(peso * 100))
+            elementos.append(f"{cuenta}:{valor}")
+    
+    return ", ".join(elementos)
 
 
 """
@@ -275,3 +297,79 @@ if __name__ == "__main__":
     if args.output:
         resultado.to_csv(args.output, index=False)
         print(f"\nGuardado en: {args.output}")
+
+
+
+# ---------------------------------------------------------------------------
+# PICKLE DATADABASE
+# ---------------------------------------------------------------------------
+
+#import pandas as pd
+#import os
+
+def download_he_db(result: pd.DataFrame, db_he_path: str) -> pd.DataFrame:
+    """
+    Downloads data from pickle DB into result DataFrame.
+    For matching rows (id_ot + Num_Filas), copies 'Evento' and 'Cuenta' 
+    columns from pickle into result.
+    """
+    if not os.path.exists(db_he_path):
+        print(f">>> [download] DB not found at {db_he_path}, returning result unchanged.")
+        return result
+
+    db = pd.read_pickle(db_he_path)
+
+    # Build a lookup index from the DB: (id_ot, Num_Filas) -> (Evento, Cuenta)
+    db_indexed = db.set_index(['id_ot', 'Items'])[['Evento', 'Cuenta']]
+
+    # Create a MultiIndex from result to find matches
+    result_keys = list(zip(result['id_ot'], result['Items']))
+    db_keys = set(db_indexed.index)
+
+    matched = [(i, key) for i, key in enumerate(result_keys) if key in db_keys]
+
+    if not matched:
+        print(">>> [download] No matching rows found.")
+        return result
+
+    for row_idx, key in matched:
+        result.at[row_idx, 'Evento'] = db_indexed.loc[key, 'Evento'].iloc[0]
+        result.at[row_idx, 'Cuenta'] = db_indexed.loc[key, 'Cuenta'].iloc[0]
+    
+    print(f">>> [download] Copied values into {len(matched)} matching rows.")
+    return result
+
+
+def upload_he_db(result: pd.DataFrame, db_he_path: str) -> None:
+    """
+    Uploads data from result DataFrame into the pickle DB.
+    - Matching rows (id_ot + Num_Filas): overwrites entire row in DB.
+    - New rows (no match): appends to DB.
+    Saves the updated DB back to db_he_path.
+    """
+    if not os.path.exists(db_he_path):
+        print(f">>> [upload] DB not found, creating new DB at {db_he_path}.")
+        result.to_pickle(db_he_path)
+        return
+
+    db = pd.read_pickle(db_he_path)
+
+    db = db.set_index(['id_ot', 'Items'])
+    result_indexed = result.set_index(['id_ot', 'Items'])
+
+    updated = 0
+    appended = 0
+
+    for key, row in result_indexed.iterrows():
+        if key in db.index:
+            db.loc[key] = row          # overwrite entire row
+            updated += 1
+        else:
+            db = pd.concat([db, row.to_frame().T])   # append new row
+            appended += 1
+
+    db = db.reset_index()
+    db.to_pickle(db_he_path)
+
+    print(f">>> [upload] Updated: {updated} rows | Appended: {appended} rows | "
+          f">>> DB total: {len(db)} rows.")

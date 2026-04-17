@@ -104,7 +104,7 @@ def calcular_minutos_transcurridos(
         start_times = pd.to_datetime(start_times)
         end_times = pd.to_datetime(end_times)
         time_difference = end_times - start_times
-        return (time_difference.dt.total_seconds() / 60).astype(int)
+        return ( time_difference.dt.total_seconds() / 60 ).astype(int)
     except Exception as e:
         print(f" EXCEPTION:\n{e}")
 
@@ -333,8 +333,8 @@ def download_he_db(result: pd.DataFrame, db_he_path: str) -> pd.DataFrame:
         return result
 
     for row_idx, key in matched:
-        result.at[row_idx, 'Evento'] = db_indexed.loc[key, 'Evento'].iloc[0]
-        result.at[row_idx, 'Cuenta'] = db_indexed.loc[key, 'Cuenta'].iloc[0]
+        result.at[row_idx, 'Evento'] = db_indexed.loc[key, 'Evento']#.iloc[0]
+        result.at[row_idx, 'Cuenta'] = db_indexed.loc[key, 'Cuenta']#.iloc[0]
     
     print(f">>> [download] Copied values into {len(matched)} matching rows.")
     return result

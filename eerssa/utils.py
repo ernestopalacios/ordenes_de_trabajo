@@ -343,33 +343,40 @@ def download_he_db(result: pd.DataFrame, db_he_path: str) -> pd.DataFrame:
 def upload_he_db(result: pd.DataFrame, db_he_path: str) -> None:
     """
     Uploads data from result DataFrame into the pickle DB.
-    - Matching rows (id_ot + Num_Filas): overwrites entire row in DB.
+    - Matching rows (id_ot + Items): overwrites entire row in DB.
     - New rows (no match): appends to DB.
     Saves the updated DB back to db_he_path.
     """
+    
+    COLS = ['Cuadrilla', 'Responsable', 'Dia', 'Fecha', 'InicioEvento', 'FinEvento',
+            'Duracion', 'Evento', 'Cuenta', 'id_ot', 'Items', 'Num_Filas',
+            'Archivo', 'Tipo']
+
     if not os.path.exists(db_he_path):
         print(f">>> [upload] DB not found, creating new DB at {db_he_path}.")
-        result.to_pickle(db_he_path)
+        result[COLS].to_pickle(db_he_path)
         return
 
     db = pd.read_pickle(db_he_path)
 
-    db = db.set_index(['id_ot', 'Items'])
-    result_indexed = result.set_index(['id_ot', 'Items'])
+    existing_keys = set(db.set_index(['id_ot', 'Items']).index)
 
     updated = 0
     appended = 0
+    rows_to_add = []
 
-    for key, row in result_indexed.iterrows():
-        if key in db.index:
-            db.loc[key] = row          # overwrite entire row
+    for _, row in result.iterrows():
+        key = (row['id_ot'], row['Items'])
+        if key in existing_keys:
+            mask = (db['id_ot'] == key[0]) & (db['Items'] == key[1])
+            db = db[~mask]  # drop old row
             updated += 1
         else:
-            db = pd.concat([db, row.to_frame().T])   # append new row
             appended += 1
+        rows_to_add.append(row)  # always add the new version
 
-    db = db.reset_index()
+    db = pd.concat([db, pd.DataFrame(rows_to_add)], ignore_index=True)
+    db = db[COLS].sort_values(['id_ot', 'Items']).reset_index(drop=True)
     db.to_pickle(db_he_path)
-
     print(f">>> [upload] Updated: {updated} rows | Appended: {appended} rows | "
           f">>> DB total: {len(db)} rows.")

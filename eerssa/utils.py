@@ -200,6 +200,55 @@ def dict_to_cuenta(lista):
     return ", ".join(elementos)
 
 
+# ── Ajustar Horarios de Inicio y Fin HE ──────────────────────────────────────────────────────────
+
+def ajustar_horario_inicio(row):
+    # Definimos los límites de tiempo
+    inicio_rango = time(8, 1, 0)
+    inicio_noche = time(19, 0, 0)
+    
+    fin_rango = time(16, 59, 0)
+    
+    nuevo_horario = time(17, 0, 0)
+
+    
+    # Verificamos las condiciones
+    if row['Tipo'] == 'NORMAL' and inicio_rango <= row['InicioEvento'] <= fin_rango:
+        return nuevo_horario
+    
+    if row['Tipo'] == 'CAMBIO_HORARIO' and inicio_noche > row['InicioEvento']:
+        return inicio_noche
+    
+    
+    return row['InicioEvento']
+
+def ajustar_horario_fin(row):
+    # Definimos los límites de tiempo
+    inicio_rango = time(8, 1, 0)
+    
+    fin_rango = time(16, 59, 0)
+    fin_noche = time(22, 0, 0)
+
+    nuevo_horario = time(8, 0, 0)
+    
+    # Verificamos las condiciones
+    # Nota: Asegúrate de que 'InicioEvento' ya sea un objeto datetime.time
+    if row['Tipo'] == 'NORMAL' and inicio_rango <= row['FinEvento'] <= fin_rango:
+        return nuevo_horario
+    
+
+    if row['Tipo'] == 'CAMBIO_HORARIO' and fin_noche < row['FinEvento']:
+        return fin_noche
+    
+    
+    return row['FinEvento']
+
+
+
+
+
+
+
 """
 transform_horas_extra.py
 ------------------------
@@ -273,30 +322,6 @@ def build_horas_extra_final(horasExtra_validado: dict) -> dict:
         horasExtra_final[key] = df_transformado[COLUMNAS_FINALES].copy()
 
     return horasExtra_final
-
-
-# ---------------------------------------------------------------------------
-# Ejecución como script independiente
-# ---------------------------------------------------------------------------
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Transforma horasExtra_validado -> horasExtra_final")
-    parser.add_argument("--csv",    required=True, help="Ruta al CSV de entrada")
-    parser.add_argument("--key",    default="df",  help="Clave a usar en el diccionario")
-    parser.add_argument("--output", default=None,  help="Ruta CSV de salida (opcional)")
-    args = parser.parse_args()
-
-    df_cargado = pd.read_csv(args.csv)
-    horasExtra_validado = {args.key: df_cargado}
-
-    horasExtra_final = build_horas_extra_final(horasExtra_validado)
-
-    resultado = horasExtra_final[args.key]
-    print(f"\n>>> horasExtra_final['{args.key}'] — {len(resultado)} filas\n")
-    print(resultado.to_string())
-
-    if args.output:
-        resultado.to_csv(args.output, index=False)
-        print(f"\nGuardado en: {args.output}")
 
 
 
@@ -380,3 +405,30 @@ def upload_he_db(result: pd.DataFrame, db_he_path: str) -> None:
     db.to_pickle(db_he_path)
     print(f">>> [upload] Updated: {updated} rows | Appended: {appended} rows | "
           f">>> DB total: {len(db)} rows.")
+    
+
+
+
+
+# ---------------------------------------------------------------------------
+# Ejecución como script independiente
+# ---------------------------------------------------------------------------
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Transforma horasExtra_validado -> horasExtra_final")
+    parser.add_argument("--csv",    required=True, help="Ruta al CSV de entrada")
+    parser.add_argument("--key",    default="df",  help="Clave a usar en el diccionario")
+    parser.add_argument("--output", default=None,  help="Ruta CSV de salida (opcional)")
+    args = parser.parse_args()
+
+    df_cargado = pd.read_csv(args.csv)
+    horasExtra_validado = {args.key: df_cargado}
+
+    horasExtra_final = build_horas_extra_final(horasExtra_validado)
+
+    resultado = horasExtra_final[args.key]
+    print(f"\n>>> horasExtra_final['{args.key}'] — {len(resultado)} filas\n")
+    print(resultado.to_string())
+
+    if args.output:
+        resultado.to_csv(args.output, index=False)
+        print(f"\nGuardado en: {args.output}")

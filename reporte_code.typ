@@ -8,34 +8,25 @@ TERMINADO",
     abstract: "
       Gualaquiza Z1 (Cuadrilla. Nro. 3) 
 
-      miércoles, 31 de diciembre del 1969 
+      jueves, 30 de abril del 2026 
 
-      CARTUCHE SILVA GERARDO PATRICIO 
+      LOJAN PAZ CARLOS DIEGO 
 
-      id_ot: 175698",
+      id_ot: 175894",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2026-04-29 12:55:29")[
+#informativo("Informativo - 2026-05-07 12:23:55")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#error("ERROR - 2026-04-29 12:55:29")[
-  No coinciden las fechas en la HOJA UNO
-  $
-    "Fecha de la OT: 2026-04-25T00:00:00-05:00 Fecha Mitad:
-1969-12-31T00:00:00-05:00 Fecha String: miércoles, 31 de diciembre
-del 1969"
-  $
-]
-
-#error("ERROR - 2026-04-29 12:55:30")[
+#error("ERROR - 2026-05-07 12:23:56")[
   No ha descrito el TIEMPO ESTIMADO en la Hoja Uno
   $
-    "Dia de la semana: sábado"
+    "Dia de la semana: jueves"
   $
 ]

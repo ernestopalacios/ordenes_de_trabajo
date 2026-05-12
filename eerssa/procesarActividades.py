@@ -3,18 +3,55 @@ from unidecode import unidecode
 import pickle
 from   os.path import basename
 from datetime import datetime
-
+import eerssa.utils
 import re
-
 import logging
 from pprint import pprint
+
+from .constants import Chars
+
+DEFAULT_EMPTY_CHAR = Chars.DEFAULT_EMPTY_CHAR.value 
+CUADRILLA_AP_4 = "Zamora Z1 (Cuadrilla. AP Nro. 4)"
+
+#TODO:  Verificar el procesamiento de actividades en YQ ot
 
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-#TODO:  Verificar el procesamiento de actividades en YQ ot
+# Obtener listas de dias festivos y jornadas nocturnas
+dict_festivos = None
+try:    
+  dict_festivos = eerssa.utils.get_festivos()
+except:
+  logger.error( f"\n[ FESTIVOS ] Error: al intentar Obtener los dias festivos desde utils.py\n")
+
+def he_festivo(row):
+  """Aplica Horas Extra a los días Festivos en DATAFRAME ACTIVIDAD"""
+  try:
+    fecha = eerssa.utils.soloFecha_SinTimezone(row['Fecha'])
+    fecha = pd.to_datetime(fecha).date()
+    cuadrilla = row['Cuadrilla']
+    he_actual = row['HorasExtra']
+    #logger.info(f"\n  >>>> Debuger: Hora Extra Actual es: {he_actual}")
+
+    if dict_festivos == None:
+      return he_actual
+    
+    if(fecha,cuadrilla) in dict_festivos['ESPECIFICOS']:
+      #logger.info(f"\n  >>>> Debuger: Se aplica la hora Extra: 'Si' a la fecha: {fecha} para la cuadrilla: {cuadrilla}")
+      return 'Si'
+    elif fecha in dict_festivos['TODOS']:
+      #logger.info(f"\n  >>>> Debuger: Se aplica la hora Extra: 'Si' a la fecha: {fecha}")
+      return 'Si'
+    else:
+      #logger.info(f"\n  >>>> Debuger: No se aplica la hora Extra a la fecha: {fecha}")
+      return he_actual
+    
+  except:
+    logger.error( f"\n[ MATRIZ ] Error: al intentar asignar la etiqueta de Horas extra: FECHA ES: {row['Fecha']}\n")
+
 
 """
 Convertimos el Dataframe multidimensional a un formato de Matriz (2D) Filas-Columnas, 
@@ -28,11 +65,6 @@ Se transforma el texto expandiendo las abreviaciones y errores comunes de escrit
 A partir de esta matriz se generará los Informes y se podra Exportar/Importar a Excel 
 para la revisión manual y actualización de OT.
 """
-
-
-from .constants import Chars
-
-DEFAULT_EMPTY_CHAR = Chars.DEFAULT_EMPTY_CHAR.value 
 
 
 
@@ -563,9 +595,9 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   actividades ['fin'] = actividades['FinEvento'].apply( lambda x: convert_to_time(x) )
   
   corte_he_inicio = convert_to_time("h 07:55:00")
-  corte_he_fin    = convert_to_time("h 17:55:00")
+  corte_he_fin    = convert_to_time("h 17:45:00")
 
-
+  
   # Fin de semana
   if dia == "sábado" or dia == "domingo":
     actividades.insert( 6, 'HorasExtra'    , 'Si' )
@@ -573,9 +605,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
     actividades.insert( 6, 'HorasExtra'    , 'No' )
     actividades.loc[ actividades['inicio'] < corte_he_inicio, 'HorasExtra' ] = 'Si' 
     actividades.loc[ actividades['fin'] > corte_he_fin, 'HorasExtra' ] = 'Si' 
-     
   
-
 
 
   """
@@ -601,9 +631,13 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
     'Materiales' : materiales,
     'Archivo' : archivo
   }
-
+ 
   for col, value in datos_comunes.items():
     actividades[col] = value
+
+     
+  # Dias Festivos: coloca 'Si' en los días festivos y cantonales
+  actividades['HorasExtra'] = actividades.apply( he_festivo, axis=1 )
 
   
 

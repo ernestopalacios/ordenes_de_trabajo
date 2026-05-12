@@ -4,6 +4,34 @@ import argparse
 import re
 import os
 
+# ── Festivos / Obtener Festivos ────────────────────────────────────────────────
+def get_festivos():
+    path_festivos = 'models/hora_extra_template.xlsx'
+    # visualizar dias festivos
+    festivos = pd.read_excel(
+        path_festivos,
+        sheet_name='Revisar_primero',
+        usecols='A:C',      # Only columns A and B
+        header=0            # First row as column names
+    )
+
+
+    # visualizar cambios de horario en Cuadrilla Alumbrado
+    noche = pd.read_excel(
+        path_festivos,
+        sheet_name='Revisar_primero',
+        usecols='D',      # Only columns A and B
+        header=0            # First row as column names
+    ).squeeze("columns") # Turns the 1-column DataFrame into a Series
+    
+    festivos['Fecha'] = pd.to_datetime(festivos['Fecha']).dt.date
+    dict_todos = festivos[festivos['Aplica'] == 'TODOS'].set_index('Fecha')['Etiqueta'].to_dict()
+    dict_especificos = festivos[festivos['Aplica'] != 'TODOS'].set_index(['Fecha', 'Aplica'])['Etiqueta'].to_dict()
+    set_noche = set(pd.to_datetime(noche.dropna()).dt.date)
+
+    return { 'TODOS':dict_todos, 'ESPECIFICOS':dict_especificos, 'NOCHE':set_noche}
+ 
+
 
 # ── String / Timezone helpers ──────────────────────────────────────────────────
 
@@ -21,7 +49,6 @@ def elimina_timezone(fecha: str) -> str:
         return fecha_inicio[0] + ' ' + fecha_inicio[-1]
     except:
         return fecha
-
 
 def soloFecha_SinTimezone(fecha: str) -> str:
     """Elimina el componente TimeZone y retorna solo la fecha.

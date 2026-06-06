@@ -266,6 +266,7 @@ def organizarActividades( obj_ot ):
     # sino una fecha de referencia.
     if( ot_df['fecha'] != DEFAULT_EMPTY_CHAR ):
       fechaModa = ot_df['fecha'].split(' ')[0]
+      fechaModa = eerssa.utils.soloFecha_SinTimezone(fechaModa)
       obj_ot.Log2Ot("INFO", "Desde >> Obtener fechaModa. No se encontro fecha en las actividades", "Se utiliza como fechaModa la fecha de Inicio en la Hoja 1")
     
     elif( ot_df['fechaFinal'] != DEFAULT_EMPTY_CHAR ):
@@ -298,6 +299,15 @@ def organizarActividades( obj_ot ):
 
     #  |Labora_  // mayusculas o minusculas
     etiq_LABORA = etiq_labora.Evento.str.contains('^labora ', case = False, regex = True )
+    index_labora = etiq_LABORA[etiq_LABORA].index.values
+
+    for fila in index_labora:
+      actividades.at[fila,'Actividad'] = 'LABORA'
+      actividades.at[fila,'InicioEvento'] = fechaModa + " 00:00:01"
+      actividades.at[fila,'FinEvento'] = fechaModa + " 00:00:02"
+
+    #  |Laboran  // mayusculas o minusculas
+    etiq_LABORA = etiq_labora.Evento.str.contains('^laboran', case = False, regex = True )
     index_labora = etiq_LABORA[etiq_LABORA].index.values
 
     for fila in index_labora:

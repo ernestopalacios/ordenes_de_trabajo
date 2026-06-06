@@ -385,8 +385,8 @@ def download_he_db(result: pd.DataFrame, db_he_path: str) -> pd.DataFrame:
         return result
 
     for row_idx, key in matched:
-        result.at[row_idx, 'Evento'] = db_indexed.loc[key, 'Evento']#.iloc[0]
-        result.at[row_idx, 'Cuenta'] = db_indexed.loc[key, 'Cuenta']#.iloc[0]
+        result.at[row_idx, 'Evento'] = db_indexed.loc[key, 'Evento'].iloc[0]
+        result.at[row_idx, 'Cuenta'] = db_indexed.loc[key, 'Cuenta'].iloc[0]
     
     print(f">>> [download] Copied values into {len(matched)} matching rows.")
     return result

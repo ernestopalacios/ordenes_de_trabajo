@@ -6,27 +6,27 @@
     author: "
 TERMINADO",
     abstract: "
-      Gualaquiza Z1 (Cuadrilla. Nro. 3) 
+      Personal de GEICO 
 
-      jueves, 30 de abril del 2026 
+      jueves, 21 de mayo del 2026 
 
-      LOJAN PAZ CARLOS DIEGO 
+      MARQUEZ APOLO JHONNY FABIAN 
 
-      id_ot: 175894",
+      id_ot: 177396",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2026-05-07 12:23:55")[
+#informativo("Informativo - 2026-06-02 11:09:49")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#error("ERROR - 2026-05-07 12:23:56")[
-  No ha descrito el TIEMPO ESTIMADO en la Hoja Uno
+#revisar("Revisar - 2026-06-02 11:09:51")[
+  Se detectaron fechas inconsistentes
   $
-    "Dia de la semana: jueves"
+    "En actividades, revisar las fechas de fin de actividad"
   $
 ]

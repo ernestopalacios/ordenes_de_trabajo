@@ -18,15 +18,28 @@ import pymongo
 from pymongo.errors import ConnectionFailure
 import pandas as pd
 from deltalake import DeltaTable, write_deltalake
+from eerssa.utils import load_r2_credentials
 
 
 #Kafka Topic Name for concatenating to Delta Laje
 KAFKA_TO_DELTA = "to_delta"
 # Karka KEY for the Delta Topic
 KAFKA_KEY = "MBID"
-# Where is the DELTA LAKE TABLE
-# DELTA_TABLE_PATH_ON_HOST 
-table_path = "/home/vlad/delta_V30"
+# Where is the DELTA LAKE TABLE (Cloudflare R2)
+# DELTA_TABLE_PATH_ON_HOST
+R2_BUCKET = "delta-v30"
+CREDS_PATH = "secrets/r2_credentials.json"
+creds = load_r2_credentials(CREDS_PATH)
+R2_ENDPOINT = f"https://{creds['account_id']}.r2.cloudflarestorage.com"
+table_path =  f"s3://{R2_BUCKET}/delta_v30"
+
+storage_options = {
+    "AWS_ENDPOINT_URL": R2_ENDPOINT,
+    "AWS_ACCESS_KEY_ID": creds["access_key"],
+    "AWS_SECRET_ACCESS_KEY": creds["secret_key"],
+    "AWS_REGION": "auto",
+    "AWS_S3_ALLOW_UNSAFE_RENAME": "true",
+}
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -37,7 +50,7 @@ logger = logging.getLogger(__name__)
 
 # --- DELTA LAKE Database Check ---
 # Verify the existence of the DELTA LAKE table
-if not DeltaTable.is_deltatable(table_path):
+if not DeltaTable.is_deltatable(table_path, storage_options=storage_options):
     logger.error(
         f"No se ha encontrado la base de datos PARQUET-DELTALAKE en la direccion:\n NO_DELTA_LAKE : {table_path}"
     )
@@ -166,7 +179,7 @@ def process_batch(window_values):
     if new_data_frames:
         try:
             new_df = pd.concat(new_data_frames, ignore_index=True)
-            write_deltalake(table_path, new_df, mode='append')
+            write_deltalake(table_path, new_df, mode='append', storage_options=storage_options)
             logger.info(f" [ EXITO ] DELTA LAKE Se han añadido {len(new_df)} filas a la tabla Delta en '{table_path}'.")
         except Exception as e:
             logger.error(f"Fallo al escribir en la tabla Delta: {e}")
@@ -218,7 +231,7 @@ def process_batch(window_values):
                 unique_key_predicate = "target.id_ot = source.id_ot AND target.Item = source.Item"
 
                 # This merge operation will atomically update the activities for a given OT
-                dt = DeltaTable(table_path)
+                dt = DeltaTable(table_path, storage_options=storage_options)
                 (dt.merge(
                     source=new_activities_df,
                     predicate=unique_key_predicate,

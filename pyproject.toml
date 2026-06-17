@@ -27,4 +27,5 @@ dependencies = [
 [dependency-groups]
 dev = [
     "ipykernel>=6.29.5",
+    "marimo[recommended]>=0.23.9",
 ]

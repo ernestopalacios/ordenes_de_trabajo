@@ -20,8 +20,9 @@ import pandas as pd
 from deltalake import DeltaTable, write_deltalake
 from eerssa.utils import load_r2_credentials
 
+WINDOW_MILISECONDS = 15000  # Time Window Tumbling
 
-#Kafka Topic Name for concatenating to Delta Laje
+#Kafka Topic Name for concatenating to DeltaLake
 KAFKA_TO_DELTA = "to_delta"
 # Karka KEY for the Delta Topic
 KAFKA_KEY = "MBID"
@@ -126,6 +127,19 @@ def reducer(aggregated_values, new_value):
     return aggregated_values
 
 
+def enrich_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Añade las columnas 'Year' e 'Iniciales' requeridas por el esquema de R2.
+    """
+    df = df.copy()
+    # Extraer Year de la columna Fecha (formato: "2022-02-11T00:00:00-05:00")
+    df["Year"] = pd.to_datetime(df["Fecha"], errors="coerce").dt.year
+    df["Year"] = df["Year"].fillna(0).astype(int)
+    # Columna Iniciales con valor por defecto "."
+    df["Iniciales"] = "."
+    return df
+
+
 def process_batch(window_values):
     if not window_values:
         return
@@ -179,6 +193,7 @@ def process_batch(window_values):
     if new_data_frames:
         try:
             new_df = pd.concat(new_data_frames, ignore_index=True)
+            new_df = enrich_dataframe(new_df)
             write_deltalake(table_path, new_df, mode='append', storage_options=storage_options)
             logger.info(f" [ EXITO ] DELTA LAKE Se han añadido {len(new_df)} filas a la tabla Delta en '{table_path}'.")
         except Exception as e:
@@ -225,6 +240,7 @@ def process_batch(window_values):
                 updated_ot_doc = CurrentCollection.find_one({"id_ot": id_ot_value})
                 obj_ot = OrdenTrabajo.GestionOt.from_v30(updated_ot_doc)
                 new_activities_df = Actividades.ConvertirOT_a_ActividadesCSV(obj_ot)
+                new_activities_df = enrich_dataframe(new_activities_df)
 
                 # The predicate must uniquely identify each row. For activities, this is
                 # the combination of the work order ID and the item number.
@@ -252,8 +268,8 @@ def process_batch(window_values):
 
 
 
-# Apply a 5-second tumbling window to batch messages
-sdf = sdf.tumbling_window(duration_ms=5000)
+# Apply a 15-second tumbling window to batch messages
+sdf = sdf.tumbling_window(duration_ms=WINDOW_MILISECONDS)
 
 # The initializer for reduce receives the first value of the window
 # and must return the initial state of the aggregate.

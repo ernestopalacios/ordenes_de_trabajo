@@ -38,6 +38,7 @@ df_datos_cudarilla = gdrive.get_gsheet_df()
 # Global timer to track the time since the last message was produced.
 LAST_MESSAGE_TIMESTAMP = None
 IS_FIRST_MESSAGE_SENT = False
+WINDOW_SECONDS = 15
 
 # Kafka Topic Name with json format documents
 KAFKA_JSON = "json_ot_v30"
@@ -253,7 +254,7 @@ def main(event_handler):
         global IS_FIRST_MESSAGE_SENT
         global LAST_MESSAGE_TIMESTAMP
 
-        if IS_FIRST_MESSAGE_SENT and (time.time() - LAST_MESSAGE_TIMESTAMP > 5):
+        if IS_FIRST_MESSAGE_SENT and (time.time() - LAST_MESSAGE_TIMESTAMP > WINDOW_SECONDS):
         #     logging.warning("No messages produced to 'json_ot' in the last 30 seconds.")
         #     # Reset timer to avoid repeated warnings, or maybe send a heartbeat message.
             logging.info(" <3 Es momento de enviar un HeartBeat han transcurrido 5 segundos desde la ultima vez que se envio un mensaje al Broker")

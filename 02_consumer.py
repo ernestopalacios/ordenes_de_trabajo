@@ -15,6 +15,8 @@ from pymongo.errors import ConnectionFailure
 # Global timer to track the time since the last message was produced.
 LAST_MESSAGE_TIMESTAMP = None
 IS_FIRST_MESSAGE_SENT = False
+# Time to wait before sending the HeartBeat
+WINDOW_SECONDS = 15.5 
 # Event to signal the heartbeat thread to stop
 SHUTDOWN_EVENT = threading.Event()
 # Kafka Topic Name with json format documents
@@ -143,7 +145,7 @@ def heartbeat_loop():
         global LAST_MESSAGE_TIMESTAMP, IS_FIRST_MESSAGE_SENT, KAFKA_KEY
         
         # Check if a message has been sent and if 5 seconds have passed
-        if IS_FIRST_MESSAGE_SENT and (time.time() - LAST_MESSAGE_TIMESTAMP > 5.5):
+        if IS_FIRST_MESSAGE_SENT and (time.time() - LAST_MESSAGE_TIMESTAMP > WINDOW_SECONDS):
             logging.info(f" <3 Inactivity detected. Sending heartbeat to: {KAFKA_TO_DELTA}")
             try:
                 heartbeat_payload = {

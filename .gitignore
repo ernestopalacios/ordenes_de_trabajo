@@ -5,7 +5,9 @@ build/
 dist/
 wheels/
 secrets/
-*.egg-info
+marimo/
+pycache/
+__marimo__/
 
 reporte_code.typ
 

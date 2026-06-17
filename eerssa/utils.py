@@ -3,6 +3,70 @@ import pandas as pd
 import argparse
 import re
 import os
+import json
+from pathlib import Path
+
+
+# ── Cargar Credenciales R2 Cloudfare ───────────────────────────────────
+
+REQUIRED_KEYS = {"account_id", "api_token", "access_key", "secret_key"}
+
+def load_r2_credentials(json_path: str) -> dict:
+    """
+    Carga las credenciales de R2 desde un archivo JSON.
+
+    Parámetros
+    ----------
+    json_path : str
+        Ruta al archivo JSON con las credenciales.
+
+    Retorna
+    -------
+    dict
+        Diccionario con las claves: account_id, api_token, access_key, secret_key.
+
+    Lanza
+    -----
+    FileNotFoundError si el archivo no existe.
+    json.JSONDecodeError si el archivo no es JSON válido.
+    ValueError si faltan claves requeridas o hay valores vacíos.
+    """
+    path = Path(json_path)
+
+    # ── 1. Verificar que el archivo existe ────────────────────────────────────
+    if not path.exists():
+        raise FileNotFoundError(f"No se encontró el archivo: {path.resolve()}")
+
+    # ── 2. Leer y parsear JSON ───────────────────────────────────────────────
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            creds = json.load(f)
+    except json.JSONDecodeError as e:
+        raise json.JSONDecodeError(
+            f"El archivo no contiene JSON válido: {e.msg}", e.doc, e.pos
+        )
+
+    # ── 3. Verificar que sea un diccionario ───────────────────────────────────
+    if not isinstance(creds, dict):
+        raise ValueError("El archivo JSON debe contener un objeto (diccionario).")
+
+    # ── 4. Verificar claves requeridas ────────────────────────────────────────
+    missing = REQUIRED_KEYS - set(creds.keys())
+    if missing:
+        raise ValueError(
+            f"Faltan las siguientes claves en el archivo: {sorted(missing)}"
+        )
+
+    # ── 5. Verificar que ningún valor esté vacío ──────────────────────────────
+    empty = [k for k in REQUIRED_KEYS if not creds.get(k)]
+    if empty:
+        raise ValueError(
+            f"Las siguientes claves tienen valores vacíos: {sorted(empty)}"
+        )
+
+    return creds
+
+
 
 # ── Festivos / Obtener Festivos ────────────────────────────────────────────────
 def get_festivos():

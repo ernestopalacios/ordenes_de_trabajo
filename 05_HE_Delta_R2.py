@@ -78,6 +78,7 @@ def inicializacion():
         mo,
         pd,
         t_xls_activ_path,
+        t_xls_consol_path,
         toDate,
     )
 
@@ -132,7 +133,7 @@ def base_de_datos(DeltaTable, duckdb, load_r2_credentials, mo):
         mo.md(f"**✅ Conectado** a la tabla Delta Lake en: `{table_path}`"),
         kind="success",
     )
-    return storage_options, table_path
+    return con, storage_options, table_path
 
 
 @app.cell(hide_code=True)
@@ -385,7 +386,20 @@ def _(mo):
     """)
     return
 
-# Cell: Sync button (depends on modified_df to auto-reset)
+
+@app.cell
+def _(eerssa, t_xls_consol_path):
+    reglas = eerssa.utils.cargar_reglas_tipo(t_xls_consol_path)
+    return (reglas,)
+
+
+@app.cell
+def _(df, eerssa, reglas):
+    consolidado = eerssa.utils.consolidar_horas_extra(df, reglas)
+    consolidado.sample(20)
+    return (consolidado,)
+
+
 @app.cell
 def _(mo, modified_df):
     btn_sync_duck = mo.ui.run_button(label="🦆 Sincronizar DuckDB", kind="danger")
@@ -397,9 +411,8 @@ def _(mo, modified_df):
     return (btn_sync_duck,)
 
 
-# Cell: Execute sync (gated)
 @app.cell
-def _(btn_sync_duck, con, date_picker, eerssa, mo, modified_df):
+def _(btn_sync_duck, con, consolidado, date_picker, eerssa, mo):
     mo.stop(
         not btn_sync_duck.value,
         mo.callout(mo.md("⏸️ Presione 🦆 para sincronizar con DuckDB."), kind="warn"),
@@ -408,7 +421,7 @@ def _(btn_sync_duck, con, date_picker, eerssa, mo, modified_df):
     _inicio, _fin = date_picker.value
 
     n_act, n_part = eerssa.utils.sync_deltalake_to_duckdb(
-        con, modified_df, _inicio, _fin
+        con, consolidado, _inicio, _fin
     )
 
     mo.callout(
@@ -418,6 +431,14 @@ def _(btn_sync_duck, con, date_picker, eerssa, mo, modified_df):
         ),
         kind="success",
     )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    📎
+    """)
     return
 
 

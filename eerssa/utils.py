@@ -6,6 +6,9 @@ import os
 import json
 from pathlib import Path
 
+# ── Cuadrilla que labora en tiempo Nocturno ───────────────────────────────────
+
+CUADRILLA_AP_4 = "Zamora Z1 (Cuadrilla. AP Nro. 4)"
 
 # ── Cargar Credenciales R2 Cloudfare ───────────────────────────────────
 
@@ -616,6 +619,242 @@ def exportar_actividades_excel(
 
     wb.save(output_path)
     return len(excel)
+
+
+# ── Consolidación de Horas Extra ────────────────────────────────────────
+
+def agrupar_eventos(df):
+    """
+    Groups consecutive events by id_ot + time continuity into
+    consolidated overtime activities.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Raw event data (already filtered to HorasExtra == 'Si').
+    
+    Returns
+    -------
+    pd.DataFrame
+        Consolidated activities, one row per continuous work block.
+    """
+
+    he = df.copy()
+    he['Fecha'] = he['Fecha'].apply(lambda x: soloFecha_SinTimezone( x ))
+    he['Date']  = he['Fecha'].apply(lambda x: toDateObject( x ))
+
+    he = he[[
+        'Cuadrilla', 'Iniciales', 'Dia', 'Date', 'Item',
+        'InicioEvento', 'FinEvento', 'Duracion', 'Evento', 'Cuenta',
+        'id_ot', 'Archivo',
+    ]]
+
+    # Parse + truncate to minute
+    he['InicioEvento'] = pd.to_datetime(he['InicioEvento'])
+    he['FinEvento']    = pd.to_datetime(he['FinEvento'])
+    he['Inicio_min']   = he['InicioEvento'].dt.floor('min')
+    he['Fin_min']      = he['FinEvento'].dt.floor('min')
+
+    # Sort and detect breaks
+    he = he.sort_values(['id_ot', 'InicioEvento']).reset_index(drop=True)
+
+    new_group = (
+        (he['id_ot'] != he['id_ot'].shift()) |
+        (he['Inicio_min'] != he['Fin_min'].shift())
+    )
+    he['group'] = new_group.cumsum()
+
+    # Aggregate
+    result = he.groupby('group').agg(
+        Cuadrilla     = ('Cuadrilla', 'first'),
+        Colaboradores = ('Iniciales', 'first'),
+        Dia           = ('Dia', 'first'),
+        Fecha         = ('Date', 'first'),
+        InicioEvento  = ('InicioEvento', 'min'),
+        FinEvento     = ('FinEvento', 'max'),
+        Duracion      = ('Duracion', 'sum'),
+        Evento        = ('Evento', list),
+        Cuenta        = ('Cuenta', list),
+        id_ot         = ('id_ot', 'first'),
+        Items         = ('Item', list),
+        Num_Filas     = ('Evento', 'count'),
+        Archivo       = ('Archivo', 'first'),
+    ).reset_index(drop=True)
+
+    result = result.query('Duracion != 0.0') \
+                   .sort_values(['Archivo', 'InicioEvento']) \
+                   .reset_index(drop=True)
+
+    # Clean aggregated lists (using existing utils functions)
+    result['Evento'] = result['Evento'].apply(limpiar_lista_eventos)
+    result['Cuenta'] = result['Cuenta'].apply(limpiar_cuentas)
+    result['Cuenta'] = result['Cuenta'].apply(cuenta_to_dict)
+    result['Items']  = result['Items'].apply(limpiar_items)
+
+    # Extract time objects
+    result['InicioEvento'] = result['InicioEvento'].dt.time
+    result['FinEvento']    = result['FinEvento'].dt.time
+
+    return result
+
+
+def cargar_reglas_tipo(xls_path):
+    """
+    Load holiday calendar and night-shift dates from the template Excel.
+
+    Returns
+    -------
+    dict with keys: 'dict_todos', 'dict_especificos', 'set_noche'
+    """
+    festivos = pd.read_excel(xls_path, sheet_name='Revisar_primero',
+                             usecols='A:C', header=0)
+    festivos['Fecha'] = pd.to_datetime(festivos['Fecha']).dt.date
+
+    dict_todos = (festivos[festivos['Aplica'] == 'TODOS']
+                  .set_index('Fecha')['Etiqueta'].to_dict())
+    dict_especificos = (festivos[festivos['Aplica'] != 'TODOS']
+                        .set_index(['Fecha', 'Aplica'])['Etiqueta'].to_dict())
+
+    noche = pd.read_excel(xls_path, sheet_name='Revisar_primero',
+                          usecols='D', header=0).squeeze('columns')
+    set_noche = set(pd.to_datetime(noche.dropna()).dt.date)
+
+    return {
+        'dict_todos': dict_todos,
+        'dict_especificos': dict_especificos,
+        'set_noche': set_noche,
+    }
+
+
+def clasificar_tipo(row, dict_todos, dict_especificos, set_noche):
+    """Classify a single row's overtime type."""
+    fecha     = row['Fecha'] if not hasattr(row['Fecha'], 'date') else row['Fecha'].date()
+    cuadrilla = row['Cuadrilla']
+    dia       = row['Dia']
+    inicio    = row['InicioEvento']
+
+    if cuadrilla == CUADRILLA_AP_4 and fecha in set_noche:
+        return 'CAMBIO_HORARIO'
+    if fecha in dict_todos:
+        return 'FESTIVO'
+    if (fecha, cuadrilla) in dict_especificos:
+        return 'CANTONIZACION'
+    if dia in ('sábado', 'domingo'):
+        return 'DESCANSO'
+    if inicio.hour < 6:
+        return 'MAD'
+    return 'NORMAL'
+
+
+def etiquetar_tipo(result, reglas):
+    """
+    Apply clasificar_tipo to every row using pre-loaded rules.
+
+    Parameters
+    ----------
+    result : pd.DataFrame
+        Output of agrupar_eventos().
+    reglas : dict
+        Output of cargar_reglas_tipo().
+
+    Returns
+    -------
+    pd.DataFrame with 'Tipo' column added.
+    """
+    result = result.copy()
+    result['Tipo'] = result.apply(
+        clasificar_tipo, axis=1,
+        dict_todos=reglas['dict_todos'],
+        dict_especificos=reglas['dict_especificos'],
+        set_noche=reglas['set_noche'],
+    )
+    return result
+
+
+def dividir_almuerzo(result):
+    """
+    Split holiday/weekend activities that span lunch (>4h crossing 12:00–15:00)
+    into two rows with a 13:00–14:00 lunch break.
+
+    Returns
+    -------
+    pd.DataFrame with split rows.
+    """
+    mask = (
+        result['Tipo'].isin(['DESCANSO', 'FESTIVO', 'CANTONIZACION']) &
+        (result['FinEvento'] > time(15, 0, 0)) &
+        (result['InicioEvento'] < time(12, 0, 0)) &
+        (
+            (pd.to_datetime(result['FinEvento'].astype(str))
+             - pd.to_datetime(result['InicioEvento'].astype(str)))
+            .dt.total_seconds() > 4 * 3600
+        )
+    )
+
+    no_split = result[~mask].copy()
+    to_split = result[mask].copy()
+
+    part1 = to_split.copy()
+    part1['FinEvento'] = time(13, 0, 0)
+    part1['Items'] =  "['1', '2']"
+
+    part2 = to_split.copy()
+    part2['InicioEvento'] = time(14, 0, 0)
+    part2['Items'] = "['3', '4']"
+
+    return (pd.concat([no_split, part1, part2], ignore_index=True)
+              .sort_values(['Archivo', 'InicioEvento'])
+              .reset_index(drop=True))
+
+
+def formulas_duracion_excel(result):
+    """Add Excel duration formulas. Call only before Excel export."""
+    result = result.copy()
+    result['Duracion'] = [f'=F{i}-E{i}' for i in range(2, len(result) + 2)]
+    return result
+
+
+def consolidar_horas_extra(df, reglas):
+    """
+    Full pipeline: filter → group → label → adjust times → split lunch.
+
+    This is the main entry point.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Raw event data with 'HorasExtra' column.
+    reglas : dict
+        Output of cargar_reglas_tipo().
+
+    Returns
+    -------
+    pd.DataFrame
+        Consolidated, classified, lunch-split overtime records.
+    """
+    # 1. Filter
+    he = df[df['HorasExtra'] == 'Si'].copy()
+
+    # 2. Group
+    result = agrupar_eventos(he)
+
+    # 3. Classify
+    result = etiquetar_tipo(result, reglas)
+
+    # 4. Adjust start/end times (existing utils functions)
+    result['InicioEvento'] = result.apply(ajustar_horario_inicio, axis=1)
+    result['FinEvento']    = result.apply(ajustar_horario_fin, axis=1)
+
+    # 5. Prepend OT number to event text
+    result['Evento'] = result.apply(
+        lambda row: f"OT # {row['id_ot']}. {row['Evento']}", axis=1
+    )
+
+    # 6. Split lunch on holidays
+    result = dividir_almuerzo(result)
+
+    return result
+
 
 # ── DuckDB Sync Utilities ──────────────────────────────────────────────
 

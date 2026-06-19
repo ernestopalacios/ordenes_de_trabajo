@@ -1,0 +1,425 @@
+import marimo
+
+__generated_with = "0.23.9"
+app = marimo.App(width="medium")
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    #Horas Extra desde R2-Deltalake
+    Fecha: 📅 17 de junio 2026 <br>
+    #####Autor: 👨‍💻 Ernesto Palacios <br>
+    Objetivo: 🚀 Generar los informes de Horas Extra a partir de los datos procesados de Ordenes de Trabajo. ⛈️
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def inicializacion():
+    # Importar librerias
+    import marimo as mo
+    from openpyxl import load_workbook
+    from openpyxl.utils.dataframe import dataframe_to_rows
+    from openpyxl.worksheet.datavalidation import DataValidation
+    from openpyxl import load_workbook
+    from openpyxl.styles import Alignment
+    from openpyxl.styles import Alignment, numbers
+    from openpyxl.utils import get_column_letter
+
+    import shutil
+    import os
+    import sys
+    import time
+    from pathlib import Path
+
+    import pandas as pd
+    import numpy as np
+    import re
+    import duckdb
+
+    from natsort import order_by_index, index_natsorted
+    from deltalake import DeltaTable, write_deltalake
+    from datetime import datetime, time
+    from datetime import date as toDate
+    import calendar
+    import locale
+
+    import eerssa.utils
+    from eerssa.utils import load_r2_credentials
+
+    import warnings
+
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", message="invalid value encountered in cast")
+
+
+
+    ecuador = locale.setlocale(locale.LC_TIME, "es_EC.UTF-8")
+
+    # ── Nombres y Ubicaciones de Archivos Plantilla de Excel ──────────────────────────────────────────────────────────
+    t_xls_activ_path = os.path.join('models','plantilla_actividades.xlsx')
+    t_xls_consol_path = os.path.join('models','plantilla_consolidado_he.xlsx')
+    t_xls_informe_path = os.path.join('models','plantilla_informe_he.xlsx')
+
+    today =  datetime.today().strftime('%Y%m%d')
+    new_actividades_file = f"actividades_{today}.xlsx"
+    new_base_he_file  = f"base_HE_{today}.xlsx"
+
+    actividades_path = os.path.join('reporte', new_actividades_file)
+    base_he_path   = os.path.join('reporte', new_base_he_file )
+    return (
+        DeltaTable,
+        actividades_path,
+        calendar,
+        duckdb,
+        eerssa,
+        load_r2_credentials,
+        mo,
+        pd,
+        t_xls_activ_path,
+        toDate,
+    )
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    # Cell: state counter (put this early, near imports)
+    get_refresh, set_refresh = mo.state(0)
+    return get_refresh, set_refresh
+
+
+@app.cell(hide_code=True)
+def base_de_datos(DeltaTable, duckdb, load_r2_credentials, mo):
+    # Conectar con DELTA LAKE TABLE (Cloudflare R2)
+    # DELTA_TABLE_PATH_ON_HOST
+    R2_BUCKET = "delta-v30"
+    CREDS_PATH = "secrets/r2_credentials.json"
+    creds = load_r2_credentials(CREDS_PATH)
+    R2_ENDPOINT = f"https://{creds['account_id']}.r2.cloudflarestorage.com"
+    table_path =  f"s3://{R2_BUCKET}/delta_v30"
+
+    storage_options = {
+        "AWS_ENDPOINT_URL": R2_ENDPOINT,
+        "AWS_ACCESS_KEY_ID": creds["access_key"],
+        "AWS_SECRET_ACCESS_KEY": creds["secret_key"],
+        "AWS_REGION": "auto",
+        "AWS_S3_ALLOW_UNSAFE_RENAME": "true",
+    }
+
+    # ------  MotherDuck DuckDB  --------- #
+    HE_DB_DUCK = f"md:horas_extra?motherduck_token={creds['duckdb_he_token']}"
+    con = duckdb.connect(HE_DB_DUCK)
+
+    # ------  Delta Lake  --------- #
+
+    if not DeltaTable.is_deltatable(table_path, storage_options=storage_options):
+        mo.stop(
+            True,
+            mo.callout(
+                mo.md(
+                    f"""**❌ Error:** No se ha podido conectar la base de datos DELTALAKE en CloudFlare R2 ⛈️ .
+
+    `{table_path}`"""
+                ),
+                kind="danger",
+            ),
+        )
+
+
+
+    mo.callout(
+        mo.md(f"**✅ Conectado** a la tabla Delta Lake en: `{table_path}`"),
+        kind="success",
+    )
+    return storage_options, table_path
+
+
+@app.cell(hide_code=True)
+def rango_fechas(calendar, mo, toDate):
+
+    # Defaults: first and last day of current month
+    _today = toDate.today()
+    _first_day = _today.replace(day=1)
+    _last_day = _today.replace(day=calendar.monthrange(_today.year, _today.month)[1])
+
+    date_picker = mo.ui.date_range(
+        start=_first_day,
+        stop=_last_day,
+        value=(_first_day, _last_day),
+        label="📅 Rango del Reporte",
+    )
+
+    mo.md(f"## 1. Seleccione el rango de fechas\n{date_picker}")
+    return (date_picker,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    # Cell: refresh button
+    refrescar = mo.ui.run_button(label="🔄 Refrescar datos")
+    mo.callout(
+        mo.md(f" ❗ Si ha agregado nuevas órdenes de trabajo, por favor refresque los datos:\n\n{refrescar}"),kind="info",
+    )
+    return (refrescar,)
+
+
+@app.cell(hide_code=True)
+def _(
+    DeltaTable,
+    date_picker,
+    get_refresh,
+    mo,
+    refrescar,
+    storage_options,
+    table_path,
+):
+    # Cell: load data (re-runs on date change OR button click)
+    get_refresh()  # dependency — re-runs when state changes
+    refrescar.value  # dependency — triggers re-run when clicked
+
+    reporte_inicia, reporte_finaliza = date_picker.value
+    _inicio = f"{reporte_inicia}T00:00:00-05:00"
+    _fin = f"{reporte_finaliza}T00:00:00-05:00"
+
+    dt = DeltaTable(table_path, storage_options=storage_options)
+
+    df = dt.to_pandas(
+        filters=[
+            ("Fecha", ">=", _inicio),
+            ("Fecha", "<=", _fin),
+        ]
+    )
+
+    mo.callout(
+        mo.md(
+            f"**Reporte:** Desde el | _`{reporte_inicia:%A, %d %B %Y}`_ | → hasta el → | _`{reporte_finaliza:%A, %d %B %Y}`_ | 📅  <br> **Version** de la base de datos: #`{dt.version()}`"
+        ),
+        kind="info",
+    )
+    return df, dt
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    # Cell: Controls
+    solo_he = mo.ui.switch(label="Activar para Solo OTs con Horas Extra", value=False)
+    btn_crear_excel = mo.ui.run_button(label="📄 Crear archivos Excel")
+    return btn_crear_excel, solo_he
+
+
+@app.cell(hide_code=True)
+def _(btn_crear_excel, mo, solo_he):
+    # Cell: Display controls
+    _label = "**Solo OTs con Horas Extra** 🔥" if solo_he.value else "**Todas las actividades**"
+
+    mo.md(
+        f"## 2. Creación de archivo Excel con Actividades\n"
+        f"{solo_he} {_label}\n\n"
+        f"<br>{btn_crear_excel}"
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(
+    actividades_path,
+    btn_crear_excel,
+    df,
+    dt,
+    eerssa,
+    mo,
+    solo_he,
+    t_xls_activ_path,
+):
+    # Cell: Generate Excel (gated)
+    mo.stop(
+        not btn_crear_excel.value,
+        mo.callout(mo.md("⏸️ Presione el botón para crear los archivos Excel."), kind="warn"),
+    )
+
+    if solo_he.value:
+        # Keep only OTs where at least one row has HorasExtra == 'Si'
+        _ots_con_he = df.loc[df['HorasExtra'] == 'Si', 'id_ot'].unique()
+        df_export = df[df['id_ot'].isin(_ots_con_he)]
+    else:
+        df_export = df.copy()
+
+    n_rows = eerssa.utils.exportar_actividades_excel(
+        df=df_export,
+        plantilla_path=t_xls_activ_path,
+        output_path=actividades_path,
+    )
+
+    _mode = "Solo Horas Extra 🔥" if solo_he.value else "Todas las actividades"
+    mo.callout(
+        mo.md(
+            f"✅ **Excel generado** — `{n_rows}` filas ({_mode})"
+            f"<br>Version DeltaLake: `{dt.version()}`"
+            f"<br>Archivo: `{actividades_path}`"
+        ),
+        kind="success",
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## 3. Recuperar actividades desde Excel
+    Una vez se han editado y limpiado los datos de actividades en el archivo Excel se procede a cargar los datos y posterior actualizar la base de datos
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    btn_leer_excel = mo.ui.run_button(label="👓 Cargar cambios desde Excel Actividades") 
+    btn_leer_excel
+    return (btn_leer_excel,)
+
+
+@app.cell(hide_code=True)
+def _(actividades_path, btn_leer_excel, df, eerssa, mo, pd):
+    # 1. Load the modified Excel file: ACTIVIDADES_2026XXXXXX
+
+    btn_leer_excel.value
+
+    excel_file_path = actividades_path
+    # Aqui puedo escoger recargar desde algun archivo Excel para pruebas,
+    # por defecto es el generado en el paso anterior
+
+    modified_df = pd.read_excel(excel_file_path, sheet_name = "ACTIVIDADES")
+
+
+    # 2. Se vuelva a colocar el String de TimeZone en la Fecha
+    modified_df['Fecha'] = modified_df['Fecha'].apply(lambda x: eerssa.utils.ColocarTimezone( x ))
+
+    # 3. Convertir de String a TimeObject y se vuelve a calcular la duración en minutos
+    modified_df['Ini'] = pd.to_datetime(modified_df['InicioEvento'], errors='coerce')
+    modified_df['Fin'] = pd.to_datetime(modified_df['FinEvento'], errors='coerce')
+
+    modified_df['Duracion'] = eerssa.utils.calcular_minutos_transcurridos(
+        modified_df['Ini'],
+        modified_df['Fin']
+    )
+
+    #4. Convert everything to datetime objects first, then format them all as uniform strings
+    modified_df['InicioEvento'] = pd.to_datetime(modified_df['InicioEvento'], errors='coerce').dt.strftime('%Y-%m-%d %H:%M:%S')
+    modified_df['FinEvento'] = pd.to_datetime(modified_df['FinEvento'], errors='coerce').dt.strftime('%Y-%m-%d %H:%M:%S')
+
+    # 5. Ensure Schema Consistency
+    # Excel often introduces new columns (like empty comments) or reorders them.
+    # We force the modified_df to have the same columns as the original df.
+
+    modified_df = modified_df.drop(columns=['Ini', 'Fin'])
+    modified_df = modified_df[list(df.columns)]
+
+    # Visualize the changes
+    mo.md(f"### Vista previa: `{len(modified_df)}` filas a guardar")
+    mo.ui.table(modified_df)
+    return (modified_df,)
+
+
+@app.cell(hide_code=True)
+def _(mo, modified_df):
+    btn_guardar = mo.ui.run_button(label="💾 Guardar en Delta Lake", kind="danger")
+    mo.md(
+        f"## 4. Actualizar Delta-Lake\n"
+        f"`{len(modified_df)}` filas pendientes de guardar\n\n"
+        f"{btn_guardar}"
+    )
+    return (btn_guardar,)
+
+
+@app.cell(hide_code=True)
+def _(btn_guardar, dt, get_refresh, mo, modified_df, set_refresh):
+    # Con el archivo modificado en Excel, se actualizan las filas en DeltaLake
+    mo.stop(not btn_guardar.value, mo.callout(mo.md("⏸️ Revise los datos antes de guardar."), kind="warn"))
+    # ... your merge code ...
+    try:
+        # --- Start of new logic ---
+        # 1. Get a list of all unique 'id_ot' values from the source DataFrame.
+        ids_to_update = modified_df['id_ot'].unique()
+
+        # 2. Format the list into a SQL-compatible string like "(101, 102, 103)".
+        # This is crucial for the IN clause to work correctly.
+        ids_predicate_string = ", ".join(map(str, ids_to_update))
+
+        # 3. Define the delete predicate to scope deletions to only the OTs being updated.
+        delete_predicate = f"target.id_ot IN ({ids_predicate_string})"
+        # --- End of new logic ---
+
+        # The unique key for matching rows remains the same.
+        unique_key_predicate = "target.id_ot = source.id_ot AND target.Item = source.Item"
+
+        (dt.merge(
+                source=modified_df,
+                predicate=unique_key_predicate,
+                source_alias="source",
+                target_alias="target"
+            )
+            .when_matched_update_all()  # Rule 1: If a row exists, update it.
+            .when_not_matched_insert_all()  # Rule 2: If it's a new row, insert it.
+            .when_not_matched_by_source_delete(  # Rule 3: If an old row is now gone...
+                predicate=delete_predicate  # ...delete it, but ONLY if it belongs to an OT we are modifying.
+            )
+            .execute()
+        )
+        # ✅ Bump the refresh counter → triggers df reload
+        set_refresh(get_refresh() + 1)
+
+        saved = "✅ **Successfully saved changes for all modified OTs to Delta Lake!**"
+    except Exception as e:
+        saved = f"❌ **Error saving to Delta Lake:** {e}"
+
+
+    mo.callout(mo.md(f"{saved}<br>**VERSION Actual:** `{dt.version()}`"), kind="success")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    --------------------
+    """)
+    return
+
+# Cell: Sync button (depends on modified_df to auto-reset)
+@app.cell
+def _(mo, modified_df):
+    btn_sync_duck = mo.ui.run_button(label="🦆 Sincronizar DuckDB", kind="danger")
+    mo.md(
+        f"## 5. Sincronizar con DuckDB (MotherDuck)\n"
+        f"`{len(modified_df)}` filas pendientes de sincronizar\n\n"
+        f"{btn_sync_duck}"
+    )
+    return (btn_sync_duck,)
+
+
+# Cell: Execute sync (gated)
+@app.cell
+def _(btn_sync_duck, con, date_picker, eerssa, mo, modified_df):
+    mo.stop(
+        not btn_sync_duck.value,
+        mo.callout(mo.md("⏸️ Presione 🦆 para sincronizar con DuckDB."), kind="warn"),
+    )
+
+    _inicio, _fin = date_picker.value
+
+    n_act, n_part = eerssa.utils.sync_deltalake_to_duckdb(
+        con, modified_df, _inicio, _fin
+    )
+
+    mo.callout(
+        mo.md(
+            f"✅ **DuckDB sincronizado**"
+            f"<br>Actividades: `{n_act}` — Participaciones: `{n_part}`"
+        ),
+        kind="success",
+    )
+    return
+
+
+if __name__ == "__main__":
+    app.run()

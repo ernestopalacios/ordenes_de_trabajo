@@ -9,7 +9,9 @@ from pathlib import Path
 
 # ── Cargar Credenciales R2 Cloudfare ───────────────────────────────────
 
-REQUIRED_KEYS = {"account_id", "api_token", "access_key", "secret_key"}
+REQUIRED_KEYS = {"account_id", "api_token", "access_key", "secret_key","duckdb_he_token"}
+
+
 
 def load_r2_credentials(json_path: str) -> dict:
     """
@@ -523,3 +525,221 @@ if __name__ == "__main__":
     if args.output:
         resultado.to_csv(args.output, index=False)
         print(f"\nGuardado en: {args.output}")
+
+
+# CREAR EXCEL DE ACTIVIDADES
+
+def exportar_actividades_excel(
+    df: "pd.DataFrame",
+    plantilla_path: str,
+    output_path: str,
+    *,
+    sheet_index: int = 1,
+) -> int:
+    """
+    Export a DataFrame of actividades into an Excel template with data validations.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        The filtered/conditioned DataFrame to export.
+    plantilla_path : str
+        Path to the Excel template (.xlsx) to copy from.
+    output_path : str
+        Path where the populated Excel file will be saved.
+    sheet_index : int
+        Index of the worksheet to populate (default: 1).
+
+    Returns
+    -------
+    int
+        Number of rows written.
+    """
+    import shutil
+    from openpyxl import load_workbook
+    from openpyxl.utils.dataframe import dataframe_to_rows
+    from openpyxl.worksheet.datavalidation import DataValidation
+    from natsort import index_natsorted
+
+    # 1. Copy template → output
+    shutil.copyfile(plantilla_path, output_path)
+
+    # 2. Condition the DataFrame
+    excel = df.copy()
+
+    # Move last column to position 3
+    reubica_cols = list(excel.columns)
+    reubica_cols.insert(3, reubica_cols.pop())
+    excel = excel[reubica_cols]
+
+    # Data transformations
+    excel['Fecha'] = excel['Fecha'].apply(lambda x: soloFecha_SinTimezone(x))
+    excel['Duracion'] = excel['Duracion'] / (60 * 24)
+    excel.loc[excel['Cuenta'] == 'se_labora', 'HorasExtra'] = 'No'
+    excel = excel.iloc[index_natsorted(zip(excel['Archivo'], excel['Item']))]
+
+    # 3. Write to workbook
+    wb = load_workbook(output_path)
+    sheet = wb.worksheets[sheet_index]
+
+    # Clear existing data (preserve headers and formatting)
+    for row in sheet.iter_rows(min_row=2, max_row=sheet.max_row, min_col=1, max_col=sheet.max_column):
+        for cell in row:
+            cell.value = None
+
+    # Insert DataFrame rows
+    for r_idx, row in enumerate(dataframe_to_rows(excel, index=False, header=False), 2):
+        for c_idx, value in enumerate(row, 1):
+            sheet.cell(row=r_idx, column=c_idx, value=value)
+
+    # 4. Data validations
+    max_row = sheet.max_row
+
+    _validations = [
+        ('=LISTAS!B$3:B$30', True,  ['B']),          # Cuenta
+        ('=LISTAS!E$3:E$30', True,  ['J']),          # Tipo
+        ('=LISTAS!G$3:G$30', True,  ['E']),          # Actividad
+        ('=LISTAS!I$3:I$100', True, ['F']),          # Alimentador
+        ('"Si,No"',          False, ['G','H','I','T']),  # Binario
+    ]
+
+    for formula, allow_blank, columns in _validations:
+        dv = DataValidation(
+            type="list",
+            formula1=formula,
+            allow_blank=allow_blank,
+            showErrorMessage=not allow_blank,
+        )
+        for col in columns:
+            dv.add(f'{col}2:{col}{max_row}')
+        sheet.add_data_validation(dv)
+
+    wb.save(output_path)
+    return len(excel)
+
+# ── DuckDB Sync Utilities ──────────────────────────────────────────────
+
+def parse_cuenta(cuenta_str) -> dict:
+    """Parse 'REDES:50, MEDIDORES:50' → {'REDES': 50, 'MEDIDORES': 50}.
+       Single values like 'REDES' become {'REDES': 100}."""
+    if not cuenta_str or (hasattr(cuenta_str, '__class__') and str(cuenta_str) == 'nan'):
+        return {}
+    result = {}
+    for part in str(cuenta_str).split(','):
+        part = part.strip()
+        if ':' in part:
+            key, val = part.split(':', 1)
+            result[key.strip()] = int(val.strip())
+        elif part:
+            result[part.strip()] = 100
+    return result
+
+
+def parse_colaboradores(responsable_str) -> list:
+    """Parse 'RS, JCR, VZH' → ['RS', 'JCR', 'VZH']."""
+    if not responsable_str or (hasattr(responsable_str, '__class__') and str(responsable_str) == 'nan'):
+        return []
+    return [x.strip() for x in str(responsable_str).split(',') if x.strip()]
+
+
+def parse_items(items_val) -> list:
+    """Parse Items to a clean list. Handles "['11','12']" and "1, 2" formats."""
+    if not items_val or (hasattr(items_val, '__class__') and str(items_val) == 'nan'):
+        return []
+    s = str(items_val).strip().strip('[]')
+    return [x.strip().strip("'\"") for x in s.split(',') if x.strip()]
+
+
+def _fecha_to_date(fecha_val):
+    """Extract a clean date string from Delta Lake Fecha (ISO with TZ)."""
+    s = str(fecha_val)[:10]  # '2026-06-01T00:00:00-05:00' → '2026-06-01'
+    return s
+
+
+def _time_str(time_val):
+    """Normalize time values to 'HH:MM:SS' string for DuckDB TIME column."""
+    if hasattr(time_val, 'strftime'):
+        return time_val.strftime('%H:%M:%S')
+    s = str(time_val).strip()
+    # Handle '2026-01-01 17:40:00' format from Excel roundtrip
+    if ' ' in s:
+        s = s.split(' ')[-1]
+    return s[:8]  # 'HH:MM:SS'
+
+
+def sync_deltalake_to_duckdb(con, df, fecha_inicio, fecha_fin):
+    """
+    Sync a Delta Lake DataFrame into DuckDB actividades + participaciones.
+
+    Strategy: delete existing records in the date range, then re-insert.
+    This keeps DuckDB in sync with whatever Delta Lake has.
+
+    Parameters
+    ----------
+    con : duckdb.DuckDBPyConnection
+        Active MotherDuck/DuckDB connection.
+    df : pd.DataFrame
+        The Delta Lake DataFrame (same date range).
+    fecha_inicio : date
+        Start date of the sync range.
+    fecha_fin : date
+        End date of the sync range.
+
+    Returns
+    -------
+    tuple (int, int)
+        (n_actividades, n_participaciones) inserted.
+    """
+    f_inicio = str(fecha_inicio)
+    f_fin = str(fecha_fin)
+
+    # 1. Delete existing data in range (participaciones first — FK)
+    con.execute("""
+        DELETE FROM participaciones
+        WHERE id_actividad IN (
+            SELECT id_actividad FROM actividades
+            WHERE Fecha BETWEEN $1 AND $2
+        )
+    """, [f_inicio, f_fin])
+
+    con.execute(
+        "DELETE FROM actividades WHERE Fecha BETWEEN $1 AND $2",
+        [f_inicio, f_fin],
+    )
+
+    # 2. Insert row by row (need RETURNING for participaciones FK)
+    n_act = 0
+    n_part = 0
+
+    for _, row in df.iterrows():
+        colaboradores = parse_colaboradores(row.get('Iniciales'))
+        cuenta = parse_cuenta(row.get('Cuenta'))
+        items = parse_items(row.get('Items'))
+        fecha = _fecha_to_date(row['Fecha'])
+        inicio = _time_str(row['InicioEvento'])
+        fin = _time_str(row['FinEvento'])
+
+        result = con.execute("""
+            INSERT INTO actividades
+                (id_ot, Fecha, Cuadrilla, Colaboradores, InicioEvento, FinEvento,
+                 Evento, Cuenta, Items, Num_Filas, Archivo, Tipo, Dia)
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
+            RETURNING id_actividad
+        """, [
+            int(row['id_ot']), fecha, row['Cuadrilla'], colaboradores,
+            inicio, fin, row['Evento'], cuenta, items,
+            int(row['Num_Filas']), row['Archivo'], row['Tipo'], row['Dia'],
+        ])
+
+        id_actividad = result.fetchone()[0]
+        n_act += 1
+
+        # 3. One participación per collaborator (default times = NULL → use group)
+        for persona in colaboradores:
+            con.execute("""
+                INSERT INTO participaciones (id_actividad, Responsable)
+                VALUES ($1, $2)
+            """, [id_actividad, persona])
+            n_part += 1
+
+    return n_act, n_part

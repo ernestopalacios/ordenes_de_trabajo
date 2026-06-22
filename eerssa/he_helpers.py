@@ -966,17 +966,11 @@ def sincronizar_a_duckdb(con, consolidado_editado, fecha_inicio, fecha_fin):
     orphan_ids = all_existing_ids - touched_ids
     
     for oid in orphan_ids:
-        try:
-            con.begin()
-            con.execute("DELETE FROM participaciones WHERE id_actividad = $1", [oid])
-            # delete from any other child tables here
-            con.execute("DELETE FROM actividades WHERE id_actividad = $1", [oid])
-            con.commit()
-            stats['deleted'] += 1
-        except Exception:
-            con.rollback()
-            raise    
-    
+        con.execute("DELETE FROM participaciones WHERE id_actividad = $1", [oid])
+        con.execute("DELETE FROM actividades WHERE id_actividad = $1", [oid])
+
+    stats['deleted'] = len(orphan_ids)
+
     return stats
 
 

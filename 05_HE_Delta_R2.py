@@ -397,7 +397,7 @@ def _(eerssa, t_xls_consol_path):
 @app.cell
 def _(df, eerssa, reglas):
     consolidado = eerssa.he_helpers.consolidar_horas_extra(df, reglas)
-    consolidado.query( " id_ot == 178213")
+    consolidado.query( " Colaboradores == 'CQ' ")
     return (consolidado,)
 
 

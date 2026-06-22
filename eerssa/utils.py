@@ -79,7 +79,7 @@ def load_r2_credentials(json_path: str) -> dict:
 
 # ── Festivos / Obtener Festivos ────────────────────────────────────────────────
 def get_festivos():
-    path_festivos = 'models/hora_extra_template.xlsx'
+    path_festivos = 'models/plantilla_consolidado_he.xlsx'
     # visualizar dias festivos
     festivos = pd.read_excel(
         path_festivos,

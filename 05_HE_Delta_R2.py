@@ -46,6 +46,7 @@ def inicializacion():
     import locale
 
     import eerssa.utils
+    import eerssa.he_helpers
     from eerssa.utils import load_r2_credentials
 
     import warnings
@@ -246,7 +247,7 @@ def _(
     else:
         df_export = df.copy()
 
-    n_rows = eerssa.utils.exportar_actividades_excel(
+    n_rows = eerssa.he_helpers.exportar_actividades_excel(
         df=df_export,
         plantilla_path=t_xls_activ_path,
         output_path=actividades_path,
@@ -294,13 +295,13 @@ def _(actividades_path, btn_leer_excel, df, eerssa, mo, pd):
 
 
     # 2. Se vuelva a colocar el String de TimeZone en la Fecha
-    modified_df['Fecha'] = modified_df['Fecha'].apply(lambda x: eerssa.utils.ColocarTimezone( x ))
+    modified_df['Fecha'] = modified_df['Fecha'].apply(lambda x: eerssa.he_helpers.ColocarTimezone( x ))
 
     # 3. Convertir de String a TimeObject y se vuelve a calcular la duración en minutos
     modified_df['Ini'] = pd.to_datetime(modified_df['InicioEvento'], errors='coerce')
     modified_df['Fin'] = pd.to_datetime(modified_df['FinEvento'], errors='coerce')
 
-    modified_df['Duracion'] = eerssa.utils.calcular_minutos_transcurridos(
+    modified_df['Duracion'] = eerssa.he_helpers.calcular_minutos_transcurridos(
         modified_df['Ini'],
         modified_df['Fin']
     )
@@ -389,13 +390,13 @@ def _(mo):
 
 @app.cell
 def _(eerssa, t_xls_consol_path):
-    reglas = eerssa.utils.cargar_reglas_tipo(t_xls_consol_path)
+    reglas = eerssa.he_helpers.cargar_reglas_tipo(t_xls_consol_path)
     return (reglas,)
 
 
 @app.cell
 def _(df, eerssa, reglas):
-    consolidado = eerssa.utils.consolidar_horas_extra(df, reglas)
+    consolidado = eerssa.he_helpers.consolidar_horas_extra(df, reglas)
     consolidado.sample(20)
     return (consolidado,)
 
@@ -420,7 +421,7 @@ def _(btn_sync_duck, con, consolidado, date_picker, eerssa, mo):
 
     _inicio, _fin = date_picker.value
 
-    n_act, n_part = eerssa.utils.sync_deltalake_to_duckdb(
+    n_act, n_part = eerssa.he_helpers.sync_deltalake_to_duckdb(
         con, consolidado, _inicio, _fin
     )
 

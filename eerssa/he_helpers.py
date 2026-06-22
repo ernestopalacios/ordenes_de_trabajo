@@ -1,10 +1,6 @@
 from datetime import datetime, date, time
 import pandas as pd
-import argparse
 import re
-import os
-import json
-from pathlib import Path
 import ast
 
 
@@ -277,105 +273,6 @@ def build_horas_extra_final(horasExtra_validado: dict) -> dict:
         horasExtra_final[key] = df_transformado[COLUMNAS_FINALES].copy()
 
     return horasExtra_final
-
-
-# ---------------------------------------------------------------------------
-# PICKLE DATADABASE
-# ---------------------------------------------------------------------------
-
-def download_he_db(result: pd.DataFrame, db_he_path: str) -> pd.DataFrame:
-    """
-    Downloads data from pickle DB into result DataFrame.
-    For matching rows (id_ot + Num_Filas), copies 'Evento' and 'Cuenta' 
-    columns from pickle into result.
-    """
-    if not os.path.exists(db_he_path):
-        print(f">>> [download] DB not found at {db_he_path}, returning result unchanged.")
-        return result
-
-    db = pd.read_pickle(db_he_path)
-    db_indexed = db.set_index(['id_ot', 'Items'])[['Evento', 'Cuenta']]
-    result_keys = list(zip(result['id_ot'], result['Items']))
-    db_keys = set(db_indexed.index)
-
-    matched = [(i, key) for i, key in enumerate(result_keys) if key in db_keys]
-
-    if not matched:
-        print(">>> [download] No matching rows found.")
-        return result
-
-    for row_idx, key in matched:
-        result.at[row_idx, 'Evento'] = db_indexed.loc[key, 'Evento'].iloc[0]
-        result.at[row_idx, 'Cuenta'] = db_indexed.loc[key, 'Cuenta'].iloc[0]
-    
-    print(f">>> [download] Copied values into {len(matched)} matching rows.")
-    return result
-
-
-def upload_he_db(result: pd.DataFrame, db_he_path: str) -> None:
-    """
-    Uploads data from result DataFrame into the pickle DB.
-    - Matching rows (id_ot + Items): overwrites entire row in DB.
-    - New rows (no match): appends to DB.
-    Saves the updated DB back to db_he_path.
-    """
-    
-    COLS = ['Cuadrilla', 'Responsable', 'Dia', 'Fecha', 'InicioEvento', 'FinEvento',
-            'Duracion', 'Evento', 'Cuenta', 'id_ot', 'Items', 'Num_Filas',
-            'Archivo', 'Tipo']
-
-    if not os.path.exists(db_he_path):
-        print(f">>> [upload] DB not found, creating new DB at {db_he_path}.")
-        result[COLS].to_pickle(db_he_path)
-        return
-
-    db = pd.read_pickle(db_he_path)
-
-    existing_keys = set(db.set_index(['id_ot', 'Items']).index)
-
-    updated = 0
-    appended = 0
-    rows_to_add = []
-
-    for _, row in result.iterrows():
-        key = (row['id_ot'], row['Items'])
-        if key in existing_keys:
-            mask = (db['id_ot'] == key[0]) & (db['Items'] == key[1])
-            db = db[~mask]
-            updated += 1
-        else:
-            appended += 1
-        rows_to_add.append(row)
-
-    db = pd.concat([db, pd.DataFrame(rows_to_add)], ignore_index=True)
-    db = db[COLS].sort_values(['id_ot', 'Items']).reset_index(drop=True)
-    db.to_pickle(db_he_path)
-    print(f">>> [upload] Updated: {updated} rows | Appended: {appended} rows | "
-          f">>> DB total: {len(db)} rows.")
-
-
-# ---------------------------------------------------------------------------
-# Ejecución como script independiente
-# ---------------------------------------------------------------------------
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Transforma horasExtra_validado -> horasExtra_final")
-    parser.add_argument("--csv",    required=True, help="Ruta al CSV de entrada")
-    parser.add_argument("--key",    default="df",  help="Clave a usar en el diccionario")
-    parser.add_argument("--output", default=None,  help="Ruta CSV de salida (opcional)")
-    args = parser.parse_args()
-
-    df_cargado = pd.read_csv(args.csv)
-    horasExtra_validado = {args.key: df_cargado}
-
-    horasExtra_final = build_horas_extra_final(horasExtra_validado)
-
-    resultado = horasExtra_final[args.key]
-    print(f"\n>>> horasExtra_final['{args.key}'] — {len(resultado)} filas\n")
-    print(resultado.to_string())
-
-    if args.output:
-        resultado.to_csv(args.output, index=False)
-        print(f"\nGuardado en: {args.output}")
 
 
 # CREAR EXCEL DE ACTIVIDADES
@@ -714,6 +611,93 @@ def parse_cuenta_consolidado(cuenta_str):
         return {}
 
 
+# ── Cuenta Format Conversions ──────────────────────────────────────────
+
+def cuenta_consolidado_to_str(cuenta_val) -> str:
+    """
+    Convert consolidado Cuenta format (list of dicts with weight)
+    to legible Excel string.
+
+    [{'cuenta':'REDES','peso':1.0}, {'cuenta':'MEDIDORES','peso':1.0}]
+    → "REDES:50, MEDIDORES:50"
+    """
+    if not cuenta_val or str(cuenta_val) == 'nan':
+        return ""
+    try:
+        items = ast.literal_eval(str(cuenta_val)) if isinstance(cuenta_val, str) else cuenta_val
+    except (ValueError, SyntaxError):
+        return str(cuenta_val)
+    if not isinstance(items, list):
+        return str(items)
+    if items and isinstance(items[0], str):
+        total = len(items)
+        pct = round(100 / total)
+        return ", ".join(f"{c}:{pct}" for c in items)
+    total_peso = sum(d.get('peso', 0) for d in items)
+    if total_peso == 0:
+        return ""
+    parts = []
+    for d in items:
+        pct = round(d['peso'] / total_peso * 100)
+        parts.append(f"{d['cuenta']}:{pct}")
+    return ", ".join(parts)
+
+
+def cuenta_str_to_map(s) -> dict:
+    """
+    Convert legible string to MAP(VARCHAR, INTEGER) for DuckDB.
+
+    "REDES:50, MEDIDORES:50" → {'REDES': 50, 'MEDIDORES': 50}
+    "MEDIDORES"              → {'MEDIDORES': 100}
+    """
+    if not s or str(s) == 'nan':
+        return {}
+    s = str(s).strip()
+    if s.startswith('{'):
+        try:
+            return ast.literal_eval(s)
+        except (ValueError, SyntaxError):
+            pass
+    if s.startswith('['):
+        try:
+            items = ast.literal_eval(s)
+            if isinstance(items, list) and items:
+                if isinstance(items[0], dict):
+                    total = sum(d.get('peso', 0) for d in items)
+                    if total == 0:
+                        return {}
+                    return {d['cuenta']: round(d['peso'] / total * 100) for d in items}
+                pct = round(100 / len(items))
+                return {c: pct for c in items}
+        except (ValueError, SyntaxError):
+            pass
+    result = {}
+    for part in s.split(','):
+        part = part.strip()
+        if ':' in part:
+            k, v = part.rsplit(':', 1)
+            try:
+                result[k.strip()] = int(v.strip())
+            except ValueError:
+                result[k.strip()] = 0
+        elif part:
+            result[part] = 100
+    return result
+
+
+def map_to_cuenta_str(m) -> str:
+    """
+    Convert DuckDB MAP to legible string.
+
+    {'REDES': 50, 'MEDIDORES': 50} → "REDES:50, MEDIDORES:50"
+    """
+    if not m:
+        return ""
+    if isinstance(m, str):
+        return m
+    return ", ".join(f"{k}:{v}" for k, v in m.items())
+
+
 def parse_items_consolidado(items_val):
     """Parse Items from consolidado (handles both "['1','2']" and "1, 2")."""
     if not items_val or str(items_val) == 'nan':
@@ -728,15 +712,22 @@ def parse_items_consolidado(items_val):
     return [x.strip().strip("'\"") for x in s.split(',') if x.strip()]
 
 
-def parse_colaboradores(colab_str):
-    """Parse 'AO, LP' → ['AO', 'LP']."""
-    if not colab_str or str(colab_str) == 'nan':
+def parse_colaboradores(colab_val):
+    """
+    'AO, LP' → ['AO', 'LP']
+    ['AO', 'LP'] → ['AO', 'LP']  (passthrough)
+    """
+    if isinstance(colab_val, list):
+        return colab_val
+    if not colab_val or str(colab_val) == 'nan':
         return []
-    return [x.strip() for x in str(colab_str).split(',') if x.strip()]
+    return [x.strip() for x in str(colab_val).split(',') if x.strip()]
 
 
 def _to_time_str(val):
     """Normalize to 'HH:MM:SS' string for DuckDB TIME."""
+    if val is None or (isinstance(val, float) and str(val) == 'nan'):
+        return None
     if hasattr(val, 'strftime'):
         return val.strftime('%H:%M:%S')
     s = str(val).strip()
@@ -806,12 +797,13 @@ def enriquecer_desde_duckdb(con, consolidado, fecha_inicio, fecha_fin):
     result['items_key'] = result['Items'].apply(items_to_key)
     
     duck_df = con.execute("""
-        SELECT id_ot, items_key, Evento, Cuenta, Colaboradores
+        SELECT id_ot, items_key, Evento, Cuenta
         FROM actividades
         WHERE Fecha BETWEEN $1 AND $2
     """, [str(fecha_inicio), str(fecha_fin)]).df()
     
     if duck_df.empty:
+        result['Cuenta'] = result['Cuenta'].apply(cuenta_consolidado_to_str)
         result.drop(columns='items_key', inplace=True)
         return result, 0
     
@@ -828,8 +820,10 @@ def enriquecer_desde_duckdb(con, consolidado, fecha_inicio, fecha_fin):
         key = (int(row['id_ot']), row['items_key'])
         if key in duck_lookup:
             result.at[idx, 'Evento'] = duck_lookup[key]['Evento']
-            result.at[idx, 'Cuenta'] = duck_lookup[key]['Cuenta']
+            result.at[idx, 'Cuenta'] = map_to_cuenta_str(duck_lookup[key]['Cuenta'])
             n_matches += 1
+        else:
+            result.at[idx, 'Cuenta'] = cuenta_consolidado_to_str(row['Cuenta'])
     
     result.drop(columns='items_key', inplace=True)
     return result, n_matches
@@ -869,7 +863,7 @@ def sincronizar_a_duckdb(con, consolidado_editado, fecha_inicio, fecha_fin):
         key = (int(row['id_ot']), row['items_key'])
         existing_lookup[key] = {
             'id_actividad': int(row['id_actividad']),
-            'Colaboradores': row['Colaboradores'],
+            'Colaboradores': set(row['Colaboradores'] or []),
         }
     
     touched_ids = set()
@@ -877,10 +871,12 @@ def sincronizar_a_duckdb(con, consolidado_editado, fecha_inicio, fecha_fin):
     for _, row in consolidado_editado.iterrows():
         key = (int(row['id_ot']), row['items_key'])
         new_colabs = parse_colaboradores(row['Colaboradores'])
-        cuenta = parse_cuenta_consolidado(row['Cuenta'])
+        new_colabs_set = set(new_colabs)
+        cuenta = cuenta_str_to_map(row['Cuenta'])
         fecha = str(row['Fecha'])[:10]
         inicio = _to_time_str(row['InicioEvento'])
         fin = _to_time_str(row['FinEvento'])
+        items_list = parse_items_consolidado(row['Items'])
         
         if key in existing_lookup:
             info = existing_lookup[key]
@@ -889,27 +885,27 @@ def sincronizar_a_duckdb(con, consolidado_editado, fecha_inicio, fecha_fin):
             
             con.execute("""
                 UPDATE actividades SET
-                    Evento       = $1,
-                    Cuenta       = $2,
-                    Colaboradores= $3,
-                    InicioEvento = $4::TIME,
-                    FinEvento    = $5::TIME,
-                    Tipo         = $6,
-                    Cuadrilla    = $7,
-                    Dia          = $8,
-                    Num_Filas    = $9,
-                    Archivo      = $10
-                WHERE id_actividad = $11
+                    Evento        = $1,
+                    Cuenta        = $2,
+                    Colaboradores = $3,
+                    InicioEvento  = $4::TIME,
+                    FinEvento     = $5::TIME,
+                    Tipo          = $6,
+                    Cuadrilla     = $7,
+                    Dia           = $8,
+                    Num_Filas     = $9,
+                    Archivo       = $10,
+                    Duracion      = $11
+                WHERE id_actividad = $12
             """, [
                 row['Evento'], cuenta, new_colabs,
                 inicio, fin, row['Tipo'], row['Cuadrilla'],
                 row['Dia'], int(row['Num_Filas']), row['Archivo'],
-                id_act,
+                int(row.get('Duracion', 0)), id_act,
             ])
             stats['updated'] += 1
             
-            old_colabs = set(info['Colaboradores'] or [])
-            new_colabs_set = set(new_colabs)
+            old_colabs = info['Colaboradores']
             
             removed = old_colabs - new_colabs_set
             if removed:
@@ -932,15 +928,15 @@ def sincronizar_a_duckdb(con, consolidado_editado, fecha_inicio, fecha_fin):
         else:
             result = con.execute("""
                 INSERT INTO actividades
-                    (id_ot, Fecha, Cuadrilla, Colaboradores, InicioEvento, FinEvento,
+                    (id_ot, Fecha, Cuadrilla, Colaboradores, InicioEvento, FinEvento, Duracion,
                      Evento, Cuenta, Items, items_key, Num_Filas, Archivo, Tipo, Dia)
-                VALUES ($1, $2::DATE, $3, $4, $5::TIME, $6::TIME,
-                        $7, $8, $9, $10, $11, $12, $13, $14)
+                VALUES ($1, $2::DATE, $3, $4, $5::TIME, $6::TIME, $7,
+                        $8, $9, $10, $11, $12, $13, $14, $15)
                 RETURNING id_actividad
             """, [
                 int(row['id_ot']), fecha, row['Cuadrilla'], new_colabs,
-                inicio, fin, row['Evento'], cuenta,
-                parse_items_consolidado(row['Items']), row['items_key'],
+                inicio, fin, int(row.get('Duracion', 0)),
+                row['Evento'], cuenta, items_list, row['items_key'],
                 int(row['Num_Filas']), row['Archivo'], row['Tipo'], row['Dia'],
             ])
             
@@ -958,17 +954,10 @@ def sincronizar_a_duckdb(con, consolidado_editado, fecha_inicio, fecha_fin):
     all_existing_ids = {info['id_actividad'] for info in existing_lookup.values()}
     orphan_ids = all_existing_ids - touched_ids
     
-    if orphan_ids:
-        ids_list = list(orphan_ids)
-        con.execute(f"""
-            DELETE FROM participaciones
-            WHERE id_actividad IN ({','.join('?' for _ in ids_list)})
-        """, ids_list)
-        con.execute(f"""
-            DELETE FROM actividades
-            WHERE id_actividad IN ({','.join('?' for _ in ids_list)})
-        """, ids_list)
-        stats['deleted'] = len(orphan_ids)
+    for oid in orphan_ids:
+        con.execute("DELETE FROM participaciones WHERE id_actividad = $1", [oid])
+        con.execute("DELETE FROM actividades WHERE id_actividad = $1", [oid])
+    stats['deleted'] = len(orphan_ids)
     
     return stats
 

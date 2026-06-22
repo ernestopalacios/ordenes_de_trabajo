@@ -2,6 +2,7 @@ from datetime import datetime, date, time
 import pandas as pd
 import re
 import ast
+import numpy as np
 
 
 # ── Cuadrilla que labora en tiempo Nocturno ───────────────────────────────────
@@ -861,10 +862,20 @@ def sincronizar_a_duckdb(con, consolidado_editado, fecha_inicio, fecha_fin):
     existing_lookup = {}
     for _, row in existing.iterrows():
         key = (int(row['id_ot']), row['items_key'])
+        
+        # Safely extract the array
+        colabs_raw = row['Colaboradores']
+        
+        # If it's a valid list or NumPy array, make it a set. Otherwise, empty set.
+        if isinstance(colabs_raw, (list, np.ndarray)):
+            colabs_set = set(colabs_raw)
+        else:
+            colabs_set = set()
+            
         existing_lookup[key] = {
             'id_actividad': int(row['id_actividad']),
-            'Colaboradores': set(row['Colaboradores'] or []),
-        }
+            'Colaboradores': colabs_set,
+        }   
     
     touched_ids = set()
     
@@ -955,9 +966,16 @@ def sincronizar_a_duckdb(con, consolidado_editado, fecha_inicio, fecha_fin):
     orphan_ids = all_existing_ids - touched_ids
     
     for oid in orphan_ids:
-        con.execute("DELETE FROM participaciones WHERE id_actividad = $1", [oid])
-        con.execute("DELETE FROM actividades WHERE id_actividad = $1", [oid])
-    stats['deleted'] = len(orphan_ids)
+        try:
+            con.begin()
+            con.execute("DELETE FROM participaciones WHERE id_actividad = $1", [oid])
+            # delete from any other child tables here
+            con.execute("DELETE FROM actividades WHERE id_actividad = $1", [oid])
+            con.commit()
+            stats['deleted'] += 1
+        except Exception:
+            con.rollback()
+            raise    
     
     return stats
 

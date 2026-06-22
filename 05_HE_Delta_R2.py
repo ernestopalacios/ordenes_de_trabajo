@@ -397,23 +397,46 @@ def _(eerssa, t_xls_consol_path):
 @app.cell
 def _(df, eerssa, reglas):
     consolidado = eerssa.he_helpers.consolidar_horas_extra(df, reglas)
-    consolidado.sample(20)
+    consolidado.query( " id_ot == 178213")
     return (consolidado,)
 
 
 @app.cell
-def _(mo, modified_df):
+def paso_2_enriquecer(con, consolidado, date_picker, eerssa, mo):
+    _inicio, _fin = date_picker.value
+
+    consolidado_enriquecido, n_coincidencias = eerssa.he_helpers.enriquecer_desde_duckdb(
+        con, consolidado, _inicio, _fin
+    )
+
+    _total = len(consolidado_enriquecido)
+    _nuevos = _total - n_coincidencias
+
+    mo.callout(
+        mo.md(
+            f"**Paso 2 — Enriquecimiento desde DuckDB**<br>"
+            f"Total: `{_total}` filas · "
+            f"Coincidencias: `{n_coincidencias}` (ediciones preservadas) · "
+            f"Nuevos: `{_nuevos}` (auto-generados)"
+        ),
+        kind="info" if n_coincidencias > 0 else "neutral",
+    )
+    return (consolidado_enriquecido,)
+
+
+@app.cell
+def _(consolidado, mo):
     btn_sync_duck = mo.ui.run_button(label="🦆 Sincronizar DuckDB", kind="danger")
     mo.md(
         f"## 5. Sincronizar con DuckDB (MotherDuck)\n"
-        f"`{len(modified_df)}` filas pendientes de sincronizar\n\n"
+        f"`{len(consolidado)}` filas pendientes de sincronizar\n\n"
         f"{btn_sync_duck}"
     )
     return (btn_sync_duck,)
 
 
 @app.cell
-def _(btn_sync_duck, con, consolidado, date_picker, eerssa, mo):
+def _(btn_sync_duck, con, consolidado_enriquecido, date_picker, eerssa, mo):
     mo.stop(
         not btn_sync_duck.value,
         mo.callout(mo.md("⏸️ Presione 🦆 para sincronizar con DuckDB."), kind="warn"),
@@ -422,7 +445,7 @@ def _(btn_sync_duck, con, consolidado, date_picker, eerssa, mo):
     _inicio, _fin = date_picker.value
 
     n_act, n_part = eerssa.he_helpers.sync_deltalake_to_duckdb(
-        con, consolidado, _inicio, _fin
+        con, consolidado_enriquecido, _inicio, _fin
     )
 
     mo.callout(

@@ -33,6 +33,8 @@ def inicializacion():
     import time
     from pathlib import Path
 
+
+
     import pandas as pd
     import numpy as np
     import re
@@ -47,7 +49,10 @@ def inicializacion():
 
     import eerssa.utils
     import eerssa.he_helpers
+    import eerssa.excel_styles
     from eerssa.utils import load_r2_credentials
+    import eerssa.excel_styles as excel_styles
+
 
     import warnings
 
@@ -73,11 +78,17 @@ def inicializacion():
         DeltaTable,
         actividades_path,
         calendar,
+        dataframe_to_rows,
+        datetime,
         duckdb,
         eerssa,
+        excel_styles,
         load_r2_credentials,
+        load_workbook,
         mo,
+        os,
         pd,
+        shutil,
         t_xls_activ_path,
         t_xls_consol_path,
         toDate,
@@ -397,7 +408,7 @@ def _(eerssa, t_xls_consol_path):
 @app.cell
 def _(df, eerssa, reglas):
     consolidado = eerssa.he_helpers.consolidar_horas_extra(df, reglas)
-    consolidado.query( " Colaboradores == 'CQ' ")
+    consolidado
     return (consolidado,)
 
 
@@ -425,18 +436,127 @@ def paso_2_enriquecer(con, consolidado, date_picker, eerssa, mo):
 
 
 @app.cell
-def _(consolidado, mo):
+def paso_3_controles(mo):
+    btn_exportar_consol = mo.ui.run_button(label="📤 Exportar Consolidado a Excel")
+    mo.md(
+        f"### Paso 3 — Exportar Consolidado\n"
+        f"Exporte el consolidado enriquecido a Excel para revisar **Evento** y **Cuenta**.\n\n"
+        f"{btn_exportar_consol}"
+    )
+    return (btn_exportar_consol,)
+
+
+@app.cell
+def paso_3_exportar(
+    btn_exportar_consol,
+    consolidado_enriquecido,
+    dataframe_to_rows,
+    datetime,
+    excel_styles,
+    load_workbook,
+    mo,
+    os,
+    shutil,
+    t_xls_consol_path,
+):
+    mo.stop(
+        not btn_exportar_consol.value,
+        mo.callout(mo.md("⏸️ Presione el botón para exportar."), kind="warn"),
+    )
+
+    _today = datetime.today().strftime('%Y%m%d')
+    _path = os.path.join('reporte', f"consolidado_he_{_today}.xlsx")
+
+    shutil.copyfile(t_xls_consol_path, _path)
+
+    _wb = load_workbook(_path)
+    _ws = _wb.worksheets[1]
+
+    # Clear existing data before writing
+    for _row in _ws.iter_rows(min_row=2, max_row=_ws.max_row, min_col=1, max_col=_ws.max_column):
+        for _cell in _row:
+            _cell.value = None
+
+    for r_idx, _row in enumerate(dataframe_to_rows(consolidado_enriquecido, index=False, header=False), 2):
+        for c_idx, value in enumerate(_row, 1):
+            _ws.cell(row=r_idx, column=c_idx, value=value)
+
+    excel_styles.apply_conditional_formatting(_ws)
+
+    _wb.save(_path)
+
+    mo.callout(
+        mo.md(f"✅ **Excel exportado:** `{_path}`<br>Edite **Evento** y **Cuenta**. Formato: `REDES:50, MEDIDORES:50`"),
+        kind="success",
+    )
+    return
+
+
+@app.cell
+def paso_3b_controles(mo):
+    btn_leer_consol = mo.ui.run_button(label="👓 Cargar Consolidado editado")
+    mo.md(
+        f"### Paso 3b — Cargar Excel editado\n"
+        f"Una vez terminada la revisión en Excel:\n\n"
+        f"{btn_leer_consol}"
+    )
+    return (btn_leer_consol,)
+
+
+@app.cell
+def paso_3b_leer(btn_leer_consol, datetime, eerssa, load_workbook, mo, os, pd):
+    mo.stop(
+        not btn_leer_consol.value,
+        mo.callout(mo.md("⏸️ Presione el botón para cargar el Excel editado."), kind="warn"),
+    )
+
+    _today = datetime.today().strftime('%Y%m%d')
+    _path = os.path.join('reporte', f"consolidado_he_{_today}.xlsx")
+
+    _wb = load_workbook(_path, data_only=False)
+    _ws = _wb["result"]
+    data = _ws.values
+    cols = next(data)
+    consolidado_editado = pd.DataFrame(data, columns=cols)
+    consolidado_editado = consolidado_editado.dropna(subset=['Cuadrilla'])
+
+    consolidado_editado['Cuenta'] = consolidado_editado['Cuenta'].apply(
+        eerssa.he_helpers.cuenta_str_to_map
+    )
+    consolidado_editado['id_ot'] = consolidado_editado['id_ot'].apply(lambda x: int(x))
+    consolidado_editado['Fecha'] = pd.to_datetime(consolidado_editado['Fecha']).dt.date
+    consolidado_editado['InicioEvento'] = pd.to_datetime(
+        consolidado_editado['InicioEvento'], format='%H:%M:%S'
+    ).dt.time
+    consolidado_editado['FinEvento'] = pd.to_datetime(
+        consolidado_editado['FinEvento'], format='%H:%M:%S'
+    ).dt.time
+    consolidado_editado['Duracion'] = (
+        pd.to_datetime(consolidado_editado['FinEvento'].astype(str))
+        - pd.to_datetime(consolidado_editado['InicioEvento'].astype(str))
+    ).dt.total_seconds() // 60
+
+    mo.callout(
+        mo.md(f"✅ **Excel cargado:** `{len(consolidado_editado)}` filas"),
+        kind="success",
+    )
+    mo.ui.table(consolidado_editado)
+    return (consolidado_editado,)
+
+
+@app.cell
+def _(consolidado_editado, mo):
     btn_sync_duck = mo.ui.run_button(label="🦆 Sincronizar DuckDB", kind="danger")
     mo.md(
         f"## 5. Sincronizar con DuckDB (MotherDuck)\n"
-        f"`{len(consolidado)}` filas pendientes de sincronizar\n\n"
+        f"`{len(consolidado_editado)}` filas pendientes de sincronizar\n\n"
         f"{btn_sync_duck}"
     )
     return (btn_sync_duck,)
 
 
 @app.cell
-def _(btn_sync_duck, con, consolidado_enriquecido, date_picker, eerssa, mo):
+def _(btn_sync_duck, con, consolidado_editado, date_picker, eerssa, mo):
     mo.stop(
         not btn_sync_duck.value,
         mo.callout(mo.md("⏸️ Presione 🦆 para sincronizar con DuckDB."), kind="warn"),
@@ -445,7 +565,7 @@ def _(btn_sync_duck, con, consolidado_enriquecido, date_picker, eerssa, mo):
     _inicio, _fin = date_picker.value
 
     n_act, n_part = eerssa.he_helpers.sync_deltalake_to_duckdb(
-        con, consolidado_enriquecido, _inicio, _fin
+        con, consolidado_editado, _inicio, _fin
     )
 
     mo.callout(

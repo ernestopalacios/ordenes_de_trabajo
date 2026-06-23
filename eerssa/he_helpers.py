@@ -991,9 +991,9 @@ def sync_deltalake_to_duckdb(con, consolidado, fecha_inicio, fecha_fin):
         n_act  : total actividades affected (updated + inserted + deleted)
         n_part : total participaciones affected (added + removed)
     """
-    enriched, _ = enriquecer_desde_duckdb(con, consolidado, fecha_inicio, fecha_fin)
-    stats = sincronizar_a_duckdb(con, enriched, fecha_inicio, fecha_fin)
-
+    stats = sincronizar_a_duckdb(con, consolidado, fecha_inicio, fecha_fin)
     n_act = stats['updated'] + stats['inserted'] + stats['deleted']
     n_part = stats['part_added'] + stats['part_removed']
+
+    
     return n_act, n_part

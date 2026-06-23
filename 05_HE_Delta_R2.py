@@ -303,7 +303,7 @@ def _(actividades_path, btn_leer_excel, df, eerssa, mo, pd):
     # por defecto es el generado en el paso anterior
 
     modified_df = pd.read_excel(excel_file_path, sheet_name = "ACTIVIDADES")
-
+    modified_df = modified_df.dropna(subset=['Item'])
 
     # 2. Se vuelva a colocar el String de TimeZone en la Fecha
     modified_df['Fecha'] = modified_df['Fecha'].apply(lambda x: eerssa.he_helpers.ColocarTimezone( x ))
@@ -400,20 +400,16 @@ def _(mo):
 
 
 @app.cell
-def _(eerssa, t_xls_consol_path):
+def _(df, eerssa, t_xls_consol_path):
     reglas = eerssa.he_helpers.cargar_reglas_tipo(t_xls_consol_path)
-    return (reglas,)
-
-
-@app.cell
-def _(df, eerssa, reglas):
     consolidado = eerssa.he_helpers.consolidar_horas_extra(df, reglas)
-    consolidado
+
     return (consolidado,)
 
 
 @app.cell
 def paso_2_enriquecer(con, consolidado, date_picker, eerssa, mo):
+
     _inicio, _fin = date_picker.value
 
     consolidado_enriquecido, n_coincidencias = eerssa.he_helpers.enriquecer_desde_duckdb(
@@ -433,6 +429,12 @@ def paso_2_enriquecer(con, consolidado, date_picker, eerssa, mo):
         kind="info" if n_coincidencias > 0 else "neutral",
     )
     return (consolidado_enriquecido,)
+
+
+@app.cell
+def _(consolidado_enriquecido):
+    consolidado_enriquecido
+    return
 
 
 @app.cell
@@ -477,7 +479,11 @@ def paso_3_exportar(
         for _cell in _row:
             _cell.value = None
 
-    for r_idx, _row in enumerate(dataframe_to_rows(consolidado_enriquecido, index=False, header=False), 2):
+    # Duracion en Formato Excel
+    _consolidado_excel = consolidado_enriquecido.copy()
+    _consolidado_excel['Duracion'] = _consolidado_excel['Duracion'] / (60*24)
+
+    for r_idx, _row in enumerate(dataframe_to_rows(_consolidado_excel, index=False, header=False), 2):
         for c_idx, value in enumerate(_row, 1):
             _ws.cell(row=r_idx, column=c_idx, value=value)
 

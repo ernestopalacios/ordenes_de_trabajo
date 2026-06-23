@@ -997,3 +997,229 @@ def sync_deltalake_to_duckdb(con, consolidado, fecha_inicio, fecha_fin):
 
     
     return n_act, n_part
+
+
+# ── Informe Final HE ──────────────────────────────────────────────
+
+# Multiplier map for each Tipo
+TIPO_MULTIPLIER = {
+    "NORMAL":          1.5,
+    "MAD":             2.0,
+    "FESTIVO":         2.0,
+    "DESCANSO":        2.0,
+    "CANTONIZACION":   2.0,
+    "CAMBIO_HORARIO":  0.25,
+}
+
+
+def fetch_base_desde_duckdb(con, fecha_inicio, fecha_fin):
+    """
+    Fetch base data from DuckDB joined with participaciones.
+    One row per person per actividad.
+
+    Returns DataFrame with same schema as consolidado_editado.
+    """
+    query = """
+        SELECT
+            a.Cuadrilla,
+            p.Responsable AS Colaboradores,
+            a.Dia,
+            a.Fecha,
+            COALESCE(p.InicioEvento, a.InicioEvento) AS InicioEvento,
+            COALESCE(p.FinEvento, a.FinEvento) AS FinEvento,
+            a.Duracion,
+            a.Evento,
+            a.Cuenta,
+            a.id_ot,
+            a.Items,
+            a.Num_Filas,
+            a.Archivo,
+            a.Tipo,
+            a.items_key
+        FROM actividades a
+        JOIN participaciones p ON a.id_actividad = p.id_actividad
+        WHERE a.Fecha BETWEEN $1 AND $2
+        ORDER BY a.Fecha, a.InicioEvento
+    """
+    base = con.execute(query, [str(fecha_inicio), str(fecha_fin)]).df()
+    base['Fecha'] = pd.to_datetime(base['Fecha']).dt.date
+    return base
+
+
+def pivot_time_events(filtered_df):
+    """
+    Pivot time events so each day has up to 3 block columns.
+    Produces Extra_1/Fin_1, Extra_2/Fin_2, Extra_3/Fin_3.
+    """
+    df_pivot = filtered_df.copy()
+    df_pivot['_occurrence'] = df_pivot.groupby('Fecha').cumcount()
+    df_pivot = df_pivot[df_pivot['_occurrence'] < 3].copy()
+
+    for i in range(1, 4):
+        df_pivot[f'Extra_{i}'] = np.nan
+        df_pivot[f'Fin_{i}'] = np.nan
+
+    result_rows = []
+    for fecha, group in df_pivot.groupby('Fecha', sort=False):
+        group = group.sort_values('InicioEvento').reset_index(drop=True)
+        base_row = group.iloc[0].copy()
+        for i, (_, row) in enumerate(group.iterrows()):
+            if i < 3:
+                base_row[f'Extra_{i+1}'] = row['InicioEvento']
+                base_row[f'Fin_{i+1}'] = row['FinEvento']
+
+        base_row['Lista_tipos'] = group['Tipo'].tolist()
+        base_row['Lista_Eventos'] = ' '.join(group['Evento'].astype(str).tolist())
+        result_rows.append(base_row)
+
+    result = pd.DataFrame(result_rows)
+
+    cols = result.columns.tolist()
+    inicio_pos = cols.index('InicioEvento')
+    new_cols = ['Extra_1', 'Fin_1', 'Extra_2', 'Fin_2', 'Extra_3', 'Fin_3']
+    cols_clean = [c for c in cols if c not in new_cols + ['InicioEvento', 'FinEvento', '_occurrence']]
+    final_cols = cols_clean[:inicio_pos] + new_cols + cols_clean[inicio_pos:]
+
+    return result[final_cols].reset_index(drop=True)
+
+
+def complete_date_range(df_pivot, reporte_inicia, reporte_finaliza):
+    """Fill missing dates with NaN between reporte_inicia and reporte_finaliza."""
+    all_dates = pd.DataFrame({
+        'Fecha': pd.date_range(reporte_inicia, reporte_finaliza)
+    })
+    df_pivot['Fecha'] = pd.to_datetime(df_pivot['Fecha'])
+    result = all_dates.merge(df_pivot, on='Fecha', how='left')
+    return result
+
+
+def build_sobretiempos_formula(lista_tipos, row_i, fila_offset=6):
+    """
+    Build Excel SUM formula for overtime based on Lista_tipos.
+    Pairs are (C,D), (E,F), (G,H). Multiplier from TIPO_MULTIPLIER.
+    """
+    col_pairs = [('C', 'D'), ('E', 'F'), ('G', 'H')]
+    xl_row = row_i + fila_offset
+
+    terms = []
+    for idx, tipo in enumerate(lista_tipos):
+        if idx >= 3:
+            break
+        tipo = str(tipo).strip()
+        multiplier = TIPO_MULTIPLIER.get(tipo, 1.5)
+        start_col, end_col = col_pairs[idx]
+        terms.append(f"({end_col}{xl_row}-{start_col}{xl_row})*{multiplier}*24")
+
+    if not terms:
+        return ''
+    return f'=SUM({",".join(terms)})'
+
+
+def generar_informe_he(con, fecha_inicio, fecha_fin, template_path, output_path):
+    """
+    Generate the final HE report Excel workbook.
+    One sheet per person, using plantilla_informe_he.xlsx as template.
+
+    Returns list of person initials that were processed.
+    """
+    import shutil
+    from openpyxl import load_workbook
+    import eerssa.organizar as gdrive
+    from eerssa.excel_styles import apply_he_informe
+
+    # 1. Fetch base from DuckDB
+    base = fetch_base_desde_duckdb(con, fecha_inicio, fecha_fin)
+
+    if base.empty:
+        return []
+
+    # 2. Split Colaboradores into lists
+    base_div = base.copy()
+    for col in ['Colaboradores']:
+        base_div[col] = base_div[col].apply(
+            lambda x: str(x).split(", ") if pd.notnull(x) else []
+        )
+
+    unique_colaboradores = base_div['Colaboradores'].explode().dropna().unique()
+
+    # 3. Build per-person DataFrames
+    horasExtra_todos = {}
+    for person in unique_colaboradores:
+        filtered_df = base_div[
+            base_div['Colaboradores'].apply(
+                lambda x: person in x if isinstance(x, list) else False
+            )
+        ].copy()
+
+        filtered_df = filtered_df.sort_values(by=['Fecha', 'InicioEvento'])
+        filtered_df = filtered_df.reset_index(drop=True)
+
+        filtered_df = pivot_time_events(filtered_df)
+        filtered_df = complete_date_range(filtered_df, fecha_inicio, fecha_fin)
+
+        fila_inicial_xl = 6
+        filtered_df['Duracion'] = [
+            f'=SUM(D{i+fila_inicial_xl}-C{i+fila_inicial_xl},'
+            f'F{i+fila_inicial_xl}-E{i+fila_inicial_xl},'
+            f'H{i+fila_inicial_xl}-G{i+fila_inicial_xl})'
+            for i in range(len(filtered_df))
+        ]
+        filtered_df['Sobretiempos'] = [
+            build_sobretiempos_formula(lista_tipos, i, fila_inicial_xl)
+            if isinstance(lista_tipos, list) else ''
+            for i, lista_tipos in enumerate(filtered_df['Lista_tipos'], start=0)
+        ]
+
+        horasExtra_todos[person] = filtered_df[[
+            "Dia", "Fecha", "Extra_1", "Fin_1", "Extra_2", "Fin_2",
+            "Extra_3", "Fin_3", "Duracion", "Lista_Eventos", "Sobretiempos",
+        ]]
+
+    # 4. Get cuadrilla data from Google Sheets
+    df_datos_cuadrilla = gdrive.get_gsheet_df()
+
+    # 5. Generate Excel workbook
+    TEMPLATE_SHEET = "HORAS_EXTRA"
+    START_ROW = 6
+    START_COL = 2
+
+    shutil.copy2(template_path, output_path)
+    _wb = load_workbook(output_path)
+    template_ws = _wb[TEMPLATE_SHEET]
+
+    for key, df_pivot in horasExtra_todos.items():
+        _ws = _wb.copy_worksheet(template_ws)
+        _ws.title = str(key)
+
+        match = df_datos_cuadrilla[df_datos_cuadrilla['INICIALES'] == key]
+        if not match.empty:
+            _ws['H2'] = match['NOMBRE'].iloc[0]
+            _ws['H3'] = match['CUADRILLA_CORTO'].iloc[0]
+        else:
+            _ws['H2'] = "No registrado"
+            _ws['H3'] = "No registrado"
+
+        df_to_export = df_pivot.iloc[:, 1:]  # skip Dia column
+
+        eventos_col_idx = None
+        if 'Lista_Eventos' in df_to_export.columns:
+            eventos_col_idx = df_to_export.columns.get_loc('Lista_Eventos')
+
+        for row_idx, row_data in enumerate(df_to_export.itertuples(index=False), start=START_ROW):
+            for col_idx, value in enumerate(row_data, start=START_COL):
+                _ws.cell(row=row_idx, column=col_idx, value=value)
+
+            if eventos_col_idx is not None:
+                eventos_value = row_data[eventos_col_idx]
+                char_len = len(str(eventos_value)) if pd.notna(eventos_value) else 0
+                if char_len >= 430:
+                    _ws.row_dimensions[row_idx].height = 60
+                elif char_len >= 286:
+                    _ws.row_dimensions[row_idx].height = 40
+                elif char_len >= 151:
+                    _ws.row_dimensions[row_idx].height = 27
+
+        apply_he_informe(_ws)
+
+    _wb.save(output_path)
+    return list(horasExtra_todos.keys())

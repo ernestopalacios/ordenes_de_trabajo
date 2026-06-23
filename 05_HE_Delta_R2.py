@@ -584,6 +584,42 @@ def _(btn_sync_duck, con, consolidado_editado, date_picker, eerssa, mo):
     return
 
 
+@app.cell
+def paso_6_controles(mo):
+    btn_generar_informe = mo.ui.run_button(label="📄 Generar Informe Final", kind="danger")
+    mo.md(
+        f"## 6. Generar Informe Final\n"
+        f"Genera el reporte final con una hoja por persona.\n\n"
+        f"{btn_generar_informe}"
+    )
+    return (btn_generar_informe,)
+
+
+@app.cell
+def paso_6_generar(btn_generar_informe, con, date_picker, eerssa, mo):
+    mo.stop(
+        not btn_generar_informe.value,
+        mo.callout(mo.md("⏸️ Presione el botón para generar el informe."), kind="warn"),
+    )
+
+    _inicio, _fin = date_picker.value
+    _template = "models/plantilla_informe_he.xlsx"
+    _output = "reporte/00_Informe_HE_todos.xlsx"
+
+    personas = eerssa.he_helpers.generar_informe_he(
+        con, _inicio, _fin, _template, _output
+    )
+
+    mo.callout(
+        mo.md(
+            f"✅ **Informe generado:** `{_output}`<br>"
+            f"Personas: `{len(personas)}` — {', '.join(personas)}"
+        ),
+        kind="success",
+    )
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""

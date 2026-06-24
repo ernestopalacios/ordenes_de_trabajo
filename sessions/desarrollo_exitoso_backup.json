@@ -1,0 +1,80 @@
+{
+  "session": "desarrollo_exitoso",
+  "date": "2026-06-24",
+  "summary": "Refactorizacion de utils.py, creacion de he_helpers.py y excel_styles.py, implementacion del flujo completo de sincronizacion DuckDB desde Marimo, y generacion de informe final de Horas Extra.",
+  "files_created": [
+    "AGENTS.md",
+    "eerssa/he_helpers.py",
+    "eerssa/excel_styles.py",
+    "docs/milestone_checkpoint.md"
+  ],
+  "files_modified": [
+    "eerssa/utils.py",
+    "05_HE_Delta_R2.py"
+  ],
+  "key_decisions": [
+    "Separacion utils.py (3 funciones, pipeline 01/02/03) y he_helpers.py (todo lo demas, solo notebook)",
+    "Sin FK constraint en participaciones porque MotherDuck rompe UPDATEs con FK activas",
+    "Orphan deletion en dos loops para evitar constraint violations",
+    "sync_deltalake_to_duckdb ya no llama a enriquecer_desde_duckdb (sobreescribia cambios del usuario)",
+    "Flujo unico: siempre por Excel para editar Evento y Cuenta",
+    "Formato Cuenta round-trip: consolidado [dict] -> enrichment string -> Excel -> dict -> DuckDB MAP",
+    "items_key como columna derivada con UNIQUE INDEX para matching deterministico"
+  ],
+  "bugs_fixed": [
+    "NameError: modified_df no definido en btn_sync_duck (cambiado a consolidado)",
+    "FK constraint violation en UPDATE de actividades (tabla recreada sin FK)",
+    "ValueError: NumPy array truth value ambiguous en set(row['Colaboradores'] or [])",
+    "Evento y Cuenta no se actualizaban despues de editarlos en Excel (enriquecer_desde_duckdb sobrescribia)"
+  ],
+  "he_helpers_functions": [
+    "load_r2_credentials, get_festivos, soloFecha_SinTimezone (en utils.py)",
+    "elimina_timezone, ColocarTimezone, toDateObject, toTimeObject",
+    "calcular_minutos_transcurridos, natural_key",
+    "limpiar_items, limpiar_lista_eventos, limpiar_cuentas",
+    "cuenta_to_dict, dict_to_cuenta",
+    "ajustar_horario_inicio, ajustar_horario_fin",
+    "agregar_columnas_formulas, build_horas_extra_final",
+    "exportar_actividades_excel",
+    "agrupar_eventos, cargar_reglas_tipo, clasificar_tipo, etiquetar_tipo, dividir_almuerzo",
+    "formulas_duracion_excel, consolidar_horas_extra",
+    "parse_cuenta_consolidado, cuenta_consolidado_to_str, cuenta_str_to_map, map_to_cuenta_str",
+    "parse_items_consolidado, parse_colaboradores, _to_time_str, items_to_key",
+    "enriquecer_desde_duckdb, sincronizar_a_duckdb, sync_deltalake_to_duckdb",
+    "TIPO_MULTIPLIER, fetch_base_desde_duckdb, pivot_time_events, complete_date_range",
+    "build_sobretiempos_formula, generar_informe_he"
+  ],
+  "marimo_cells": [
+    "inicializacion (imports + paths)",
+    "base_de_datos (DeltaLake + DuckDB)",
+    "rango_fechas (date_picker)",
+    "refrescar (refresh button)",
+    "load_data (Delta Lake -> df)",
+    "actividades_excel (export individual activities)",
+    "recuperar_actividades (leer Excel - individual)",
+    "guardar_deltalake (merge back to Delta)",
+    "consolidado (consolidar_horas_extra)",
+    "paso_2_enriquecer (reactive: DuckDB -> consolidado_enriquecido)",
+    "paso_3_controles + paso_3_exportar (export consolidado Excel)",
+    "paso_3b_controles + paso_3b_leer (import consolidado editado)",
+    "btn_sync_duck + sync_action (sincronizar DuckDB)",
+    "paso_6_controles + paso_6_generar (generar informe final)"
+  ],
+  "sql_executed_manually": [
+    "CREATE SEQUENCE seq_actividad START 1",
+    "CREATE TABLE actividades (..., items_key VARCHAR, Duracion INTEGER)",
+    "CREATE TABLE participaciones (..., sin FK constraint)",
+    "CREATE UNIQUE INDEX idx_actividad_natural ON actividades(id_ot, items_key)"
+  ],
+  "todo_next_session": [
+    "Paso 5: ajustes individuales de tiempo por persona en Excel",
+    "Preservar tiempo_ajustado en participaciones durante diff de Colaboradores",
+    "Manejo de NaN/None en he_helpers.py",
+    "Limpiar funciones muertas (parse_cuenta_consolidado, build_horas_extra_final)",
+    "Desglose de stats en callout de sincronizacion",
+    "Recalcular Duracion despues de ajustar_horario_inicio/fin",
+    "Agregar fecha_modificacion para auditoria",
+    "Refactor excel_styles.py (referencias hardcodeadas)",
+    "Tests unitarios para he_helpers.py"
+  ]
+}

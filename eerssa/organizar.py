@@ -190,6 +190,82 @@ def get_nombre_corto_cuadrilla( cuadrilla:str, df = "vacio" ):
     return cuadrilla  # Can't calculate the short name
 
 
+def validar_iniciales(iniciales_list, gdrive_df):
+    """
+    Check which initials from a list are NOT present in the GDrive DataFrame.
+
+    Args:
+        iniciales_list: list of initials (str) from DuckDB participaciones
+        gdrive_df: pd.DataFrame with 'INICIALES' column
+
+    Returns:
+        list of initials NOT found in GDrive
+    """
+    if not isinstance(gdrive_df, pd.DataFrame) or 'INICIALES' not in gdrive_df.columns:
+        return list(iniciales_list)
+    gdrive_initials = set(gdrive_df['INICIALES'].dropna().unique())
+    return [i for i in iniciales_list if i not in gdrive_initials]
+
+
+def get_lista_cuadrillas_ordenadas(gdrive_df):
+    """
+    Return a sorted list of (cuadrilla_ot, nombre_corto) tuples,
+    ordered by ORDEN_CUADRILLA. Cuadrillas without an order number
+    are placed at the end.
+
+    Args:
+        gdrive_df: pd.DataFrame with CUADRILLA_OT column
+
+    Returns:
+        list of (cuadrilla_ot, nombre_corto) tuples
+    """
+    if not isinstance(gdrive_df, pd.DataFrame) or 'CUADRILLA_OT' not in gdrive_df.columns:
+        return []
+
+    cuadrillas = gdrive_df['CUADRILLA_OT'].dropna().unique()
+    result = []
+    for c in cuadrillas:
+        num = get_num_cuadrilla(c, gdrive_df)
+        corto = get_nombre_corto_cuadrilla(c, gdrive_df)
+        try:
+            order = int(num)
+        except (ValueError, TypeError):
+            order = 9999
+        result.append((c, corto, order))
+
+    result.sort(key=lambda x: x[2])
+    return [(c, corto) for c, corto, _ in result]
+
+
+def get_personal_cuadrilla(cuadrilla_corto, gdrive_df):
+    """
+    Return a sorted list of NOMBRE for the given cuadrilla,
+    ordered by ORDEN_RESPONSABLE. Matches on CUADRILLA_CORTO.
+
+    Args:
+        cuadrilla_corto: str, the short cuadrilla name
+        gdrive_df: pd.DataFrame with NOMBRE and CUADRILLA_CORTO columns
+
+    Returns:
+        list of str (full names)
+    """
+    if not isinstance(gdrive_df, pd.DataFrame):
+        return []
+        
+    required_cols = {'NOMBRE', 'CUADRILLA_CORTO', 'ORDEN_RESPONSABLE'}
+    if not required_cols.issubset(gdrive_df.columns):
+        return []
+
+    # Filter by cuadrilla
+    subset = gdrive_df[gdrive_df['CUADRILLA_CORTO'] == cuadrilla_corto].copy()
+    
+    # Force the order column to numeric, filling bad values with 9999
+    subset['ORDEN_RESPONSABLE'] = pd.to_numeric(subset['ORDEN_RESPONSABLE'], errors='coerce').fillna(9999)
+    
+    # Sort and return just the names as a list
+    return subset.sort_values('ORDEN_RESPONSABLE')['NOMBRE'].tolist() 
+
+
 def get_nombre_archivo( obj, df = "vacio" ):
   try:
 

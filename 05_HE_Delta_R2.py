@@ -403,7 +403,6 @@ def _(mo):
 def _(df, eerssa, t_xls_consol_path):
     reglas = eerssa.he_helpers.cargar_reglas_tipo(t_xls_consol_path)
     consolidado = eerssa.he_helpers.consolidar_horas_extra(df, reglas)
-
     return (consolidado,)
 
 
@@ -579,6 +578,212 @@ def _(btn_sync_duck, con, consolidado_editado, date_picker, eerssa, mo):
             f"✅ **DuckDB sincronizado**"
             f"<br>Actividades: `{n_act}` — Participaciones: `{n_part}`"
         ),
+        kind="success",
+    )
+    return
+
+
+@app.cell
+def paso_5b_gdrive_validacion(con, date_picker, mo):
+    import eerssa.organizar as gdrive
+
+    _inicio, _fin = date_picker.value
+
+    cuadrilla_df = gdrive.get_gsheet_df()
+
+    _initials = con.execute("""
+        SELECT DISTINCT p.Responsable
+        FROM participaciones p
+        JOIN actividades a ON a.id_actividad = p.id_actividad
+        WHERE a.Fecha BETWEEN $1 AND $2
+    """, [str(_inicio), str(_fin)]).df()
+
+    _initials_list = _initials['Responsable'].tolist() if not _initials.empty else []
+    _missing = gdrive.validar_iniciales(_initials_list, cuadrilla_df)
+
+    if _missing:
+        mo.callout(
+            mo.md(
+                f"⚠️ **Iniciales no encontradas en Google Drive:** {', '.join(_missing)}<br>"
+                f"Actualice el documento de Google Drive (`DB_calificar_ot`) para agregar estas personas."
+            ),
+            kind="warn",
+        )
+    return cuadrilla_df, gdrive
+
+
+@app.cell
+def paso_5b_cuadrilla_dropdown(cuadrilla_df, gdrive, mo):
+    _cuadrillas = gdrive.get_lista_cuadrillas_ordenadas(cuadrilla_df)
+
+    _opciones = {corto: corto for _ot, corto in _cuadrillas}
+    cuadrilla_select = mo.ui.dropdown(
+        options=_opciones,
+        label="Cuadrilla",
+        value=None,
+    )
+
+    mo.md(
+        f"## 5b. Ajustes individuales de tiempo\n"
+        f"Seleccione la Cuadrilla:\n\n"
+        f"{cuadrilla_select}"
+    )
+    return (cuadrilla_select,)
+
+
+@app.cell
+def paso_5b_persona_dropdown(cuadrilla_df, cuadrilla_select, gdrive, mo):
+    _selected_c = cuadrilla_select.value
+
+    if _selected_c is None:
+        mo.callout(mo.md("⏸️ Seleccione una Cuadrilla para ver el personal."), kind="warn")
+        persona_select = mo.ui.dropdown(options={}, label="Persona")
+    else:
+        _nombres = gdrive.get_personal_cuadrilla(_selected_c, cuadrilla_df)
+        persona_select = mo.ui.dropdown(
+            options={n: n for n in _nombres},
+            label="Persona",
+        )
+
+    mo.md(f"{persona_select}")
+    return (persona_select,)
+
+
+@app.cell
+def paso_5b_control(mo):
+    btn_revisar = mo.ui.run_button(label="🔍 Revisar")
+    mo.md(
+        f"Una vez seleccionada la persona:\n\n"
+        f"{btn_revisar}"
+    )
+    return (btn_revisar,)
+
+
+@app.cell
+def paso_5b_query(
+    btn_revisar,
+    con,
+    cuadrilla_df,
+    date_picker,
+    mo,
+    persona_select,
+):
+    mo.stop(
+        not btn_revisar.value,
+        mo.callout(mo.md("⏸️ Presione **Revisar** para consultar los tiempos de la persona."), kind="warn"),
+    )
+
+    _inicio, _fin = date_picker.value
+    _persona = persona_select.value
+
+    # 1. Use mo.stop instead of return
+    mo.stop(
+        _persona is None,
+        mo.callout(mo.md("⚠️ Seleccione una persona primero."), kind="warn")
+    )
+
+    _match = cuadrilla_df[cuadrilla_df['NOMBRE'] == _persona]
+
+    # 2. Use mo.stop instead of return
+    mo.stop(
+        _match.empty,
+        mo.callout(mo.md(f"⚠️ No se encontró `{_persona}` en Google Drive."), kind="warn")
+    )
+
+    iniciales_persona = _match['INICIALES'].iloc[0]
+
+    df_tiempos = con.execute("""
+        SELECT a.id_actividad,
+               p.Responsable,
+               a.Dia,
+               a.Fecha,
+               COALESCE(p.InicioEvento, a.InicioEvento) AS InicioEvento,
+               COALESCE(p.FinEvento, a.FinEvento) AS FinEvento,
+               a.Evento,
+               a.Duracion,
+               a.Cuenta,
+               a.id_ot,
+               a.Items,
+               a.Tipo,
+               a.Cuadrilla,
+               p.tiempo_ajustado
+        FROM actividades a
+        JOIN participaciones p ON a.id_actividad = p.id_actividad
+        WHERE a.Fecha BETWEEN $1 AND $2
+          AND p.Responsable = $3
+        ORDER BY a.Fecha, a.InicioEvento
+    """, [str(_inicio), str(_fin), iniciales_persona]).df()
+
+    mo.stop(
+        df_tiempos.empty,
+        mo.callout(
+            mo.md(f"ℹ️ No hay participaciones para `{_persona}` ({iniciales_persona}) en el rango seleccionado."),
+            kind="neutral",
+        )
+    )
+
+    df_tiempos['Fecha'] = df_tiempos['Fecha'].apply(lambda x: str(x)[:10])
+    df_tiempos['InicioEvento'] = df_tiempos['InicioEvento'].astype(str)
+    df_tiempos['FinEvento'] = df_tiempos['FinEvento'].astype(str)
+
+    _cols_mostrar = ['Responsable', 'Dia', 'Fecha', 'InicioEvento', 'FinEvento', 'Evento']
+    editable_df = mo.ui.data_editor(df_tiempos[_cols_mostrar])
+
+    mo.vstack([
+        mo.callout(
+            mo.md(f"**{iniciales_persona}** — {_persona} — {len(df_tiempos)} participaciones"),
+            kind="info",
+        ),
+        mo.md("✏️ **Haga doble clic en una celda para editar los tiempos:**"),
+        editable_df,
+    ])
+    return iniciales_persona, df_tiempos, editable_df
+
+
+@app.cell
+def paso_5b_guardar_button(mo):
+    btn_guardar_tiempos = mo.ui.run_button(label="💾 Guardar ajustes", kind="danger")
+    mo.md(
+        f"Una vez editados los tiempos:\n\n"
+        f"{btn_guardar_tiempos}"
+    )
+    return (btn_guardar_tiempos,)
+
+
+@app.cell
+def paso_5b_guardar_exec(
+    btn_guardar_tiempos,
+    con,
+    df_tiempos,
+    editable_df,
+    mo,
+):
+    mo.stop(
+        not btn_guardar_tiempos.value,
+        mo.callout(mo.md("⏸️ Presione **Guardar ajustes** para guardar los cambios en la base de datos."), kind="warn"),
+    )
+
+    _edited = editable_df.value
+
+    n_updated = 0
+    for i, _row in _edited.iterrows():
+        _original = df_tiempos.loc[i]
+        _nuevo_inicio = _row['InicioEvento']
+        _nuevo_fin = _row['FinEvento']
+
+        if _nuevo_inicio != _original['InicioEvento'] or _nuevo_fin != _original['FinEvento']:
+            _id_act = int(_original['id_actividad'])
+            con.execute("""
+                UPDATE participaciones SET
+                    InicioEvento = $1::TIME,
+                    FinEvento    = $2::TIME,
+                    tiempo_ajustado = TRUE
+                WHERE id_actividad = $3 AND Responsable = $4
+            """, [_nuevo_inicio, _nuevo_fin, _id_act, _original['Responsable']])
+            n_updated += 1
+
+    mo.callout(
+        mo.md(f"✅ **Ajustes guardados:** `{n_updated}` filas actualizadas en DuckDB."),
         kind="success",
     )
     return

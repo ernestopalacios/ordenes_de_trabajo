@@ -1327,6 +1327,21 @@ def generar_informe_he(con, fecha_inicio, fecha_fin, template_path, output_path)
 
     unique_colaboradores = base_div['Colaboradores'].explode().dropna().unique()
 
+    # 2b. Get cuadrilla data from Google Sheets for ordering
+    df_datos_cuadrilla = gdrive.get_gsheet_df()
+
+    _order_map = {}
+    for _, _r in df_datos_cuadrilla.iterrows():
+        try:
+            _order_map[_r['INICIALES']] = int(_r['ORDEN_RESPONSABLE'])
+        except (ValueError, TypeError, KeyError):
+            _order_map[_r['INICIALES']] = 9999
+
+    unique_colaboradores = sorted(
+        unique_colaboradores,
+        key=lambda x: _order_map.get(x, 9999),
+    )
+
     # 3. Build per-person DataFrames
     horasExtra_todos = {}
     for person in unique_colaboradores:
@@ -1360,10 +1375,7 @@ def generar_informe_he(con, fecha_inicio, fecha_fin, template_path, output_path)
             "Extra_3", "Fin_3", "Duracion", "Lista_Eventos", "Sobretiempos",
         ]]
 
-    # 4. Get cuadrilla data from Google Sheets
-    df_datos_cuadrilla = gdrive.get_gsheet_df()
-
-    # 5. Generate Excel workbook
+    # 4. Generate Excel workbook
     TEMPLATE_SHEET = "HORAS_EXTRA"
     START_ROW = 6
     START_COL = 2

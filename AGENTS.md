@@ -47,3 +47,18 @@ PDFs → 01_producer (Dask + watchdog) → Kafka(json_ot_v30)
 - Kafka: `docker-compose up` (Kafka + Zookeeper on `localhost:29092`).
 - Delta Lake table: `s3://delta-v30/delta_v30` on Cloudflare R2.
 - No CI/CD, no test framework — `tests/` is ad-hoc.
+
+## Metas
+
+### Mejoras Planificadas
+
+- Reubicar columnas: mover `Alimentador`, `Tipo`, `Primario`, `Desconexion`, `SIG` antes de la columna `Materiales`. Afecta desde el Producer.
+- Actividades `se_labora`: deben marcarse como `HorasExtra="Si"` para ser incluidas en el filtrado → consolidado.
+- Plantillas Excel: bloquear columnas como `id_ot` (gris, solo lectura), validar tipos de datos en celdas.
+- Corregir espacios en cuentas: error Producer → Consumer → Concat que causa `" REDES"`, `"MEDIDORES "`.
+
+### Largo Plazo
+
+- Refactorizar microservicios para usar Dependency Injection.
+- Migrar funciones sueltas a Clases en `utils.py` y `he_helpers.py`.
+- Librería personalizada para manejo de plantillas, estilos y colores con OpenPyXL.

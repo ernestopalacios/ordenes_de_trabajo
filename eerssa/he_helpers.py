@@ -360,8 +360,97 @@ def exportar_actividades_excel(
     wb.save(output_path)
     return len(excel)
 
-
 # ── Consolidación de Horas Extra ────────────────────────────────────────
+
+
+def _parse_iniciales(val) -> set:
+    """
+    Parse Iniciales column value into a set of individual initials.
+
+    Handles: "AO, LP" → {'AO', 'LP'}
+             ['AO', 'LP'] → {'AO', 'LP'}
+             NaN / empty → set()
+    """
+    if val is None or (isinstance(val, float) and pd.isna(val)):
+        return set()
+    if isinstance(val, list):
+        raw = val
+    else:
+        raw = str(val).split(',')
+    return {x.strip() for x in raw if x.strip()}
+
+
+def _split_consecutive(indices):
+    """
+    Split a sorted list of integers into sub-lists of consecutive integers.
+
+    [0, 2, 3, 5] → [[0], [2, 3], [5]]
+    """
+    if not indices:
+        return []
+    sorted_idx = sorted(indices)
+    groups = []
+    current = [sorted_idx[0]]
+    for i in range(1, len(sorted_idx)):
+        if sorted_idx[i] == sorted_idx[i - 1] + 1:
+            current.append(sorted_idx[i])
+        else:
+            groups.append(current)
+            current = [sorted_idx[i]]
+    groups.append(current)
+    return groups
+
+
+def desdoblar_grupo_por_iniciales(group_df):
+    """
+    Given a time-contiguous group of rows (same id_ot, same time block),
+    split into one or more sub-DataFrames based on which Iniciales
+    are full participants (present in all rows) vs partial (some rows).
+
+    Each returned DataFrame has its Iniciales column rewritten to contain
+    only the relevant initials for that sub-group. The caller should
+    aggregate each sub-DataFrame into a single consolidated row.
+
+    Returns a list of DataFrames ready for aggregation.
+    """
+    rows = group_df.sort_values('InicioEvento').reset_index(drop=True)
+    n = len(rows)
+
+    if n <= 1:
+        return [group_df]
+
+    initial_sets = [
+        _parse_iniciales(rows.iloc[i]['Iniciales']) for i in range(n)
+    ]
+
+    all_initials = set.union(*initial_sets) if initial_sets else set()
+    full_initials = set.intersection(*initial_sets) if initial_sets else set()
+    partials = all_initials - full_initials
+
+    if not partials:
+        return [group_df]
+
+    result = []
+
+    if full_initials:
+        full_rows = rows.copy()
+        full_rows['Iniciales'] = ', '.join(sorted(full_initials))
+        result.append(full_rows)
+
+    pattern_map = {}
+    for p in partials:
+        indices_key = tuple(i for i in range(n) if p in initial_sets[i])
+        pattern_map.setdefault(indices_key, set()).add(p)
+
+    for indices_key, initials in pattern_map.items():
+        init_str = ', '.join(sorted(initials))
+        for chunk in _split_consecutive(list(indices_key)):
+            sub_rows = rows.iloc[chunk].copy()
+            sub_rows['Iniciales'] = init_str
+            result.append(sub_rows)
+
+    return result
+
 
 def agrupar_eventos(df):
     """
@@ -405,6 +494,102 @@ def agrupar_eventos(df):
     he['group'] = new_group.cumsum()
 
     result = he.groupby('group').agg(
+        Cuadrilla     = ('Cuadrilla', 'first'),
+        Colaboradores = ('Iniciales', 'first'),
+        Dia           = ('Dia', 'first'),
+        Fecha         = ('Date', 'first'),
+        InicioEvento  = ('InicioEvento', 'min'),
+        FinEvento     = ('FinEvento', 'max'),
+        Duracion      = ('Duracion', 'sum'),
+        Evento        = ('Evento', list),
+        Cuenta        = ('Cuenta', list),
+        id_ot         = ('id_ot', 'first'),
+        Items         = ('Item', list),
+        Num_Filas     = ('Evento', 'count'),
+        Archivo       = ('Archivo', 'first'),
+    ).reset_index(drop=True)
+
+    result = result.query('Duracion != 0.0') \
+                   .sort_values(['Archivo', 'InicioEvento']) \
+                   .reset_index(drop=True)
+
+    result['Evento'] = result['Evento'].apply(limpiar_lista_eventos)
+    result['Cuenta'] = result['Cuenta'].apply(limpiar_cuentas)
+    result['Cuenta'] = result['Cuenta'].apply(cuenta_to_dict)
+    result['Items']  = result['Items'].apply(limpiar_items)
+
+    result['InicioEvento'] = result['InicioEvento'].dt.time
+    result['FinEvento']    = result['FinEvento'].dt.time
+
+    return result
+
+
+def agrupar_eventos_con_iniciales(df):
+    """
+    Groups consecutive events by id_ot + time continuity,
+    then further splits each time-group by Iniciales presence:
+    full participants (in every row) vs partial participants
+    (missing from some rows).
+
+    Partial participants get separate rows per contiguous
+    sub-block, each with distinct Items to avoid DuckDB key
+    collisions.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Raw event data (already filtered to HorasExtra == 'Si').
+
+    Returns
+    -------
+    pd.DataFrame
+        Consolidated activities, one row per
+        (continuous work block × full/partial colaboradores set).
+    """
+
+    from eerssa.utils import soloFecha_SinTimezone
+
+    he = df.copy()
+    he['Fecha'] = he['Fecha'].apply(lambda x: soloFecha_SinTimezone(x))
+    he['Date']  = he['Fecha'].apply(lambda x: toDateObject(x))
+
+    he = he[[
+        'Cuadrilla', 'Iniciales', 'Dia', 'Date', 'Item',
+        'InicioEvento', 'FinEvento', 'Duracion', 'Evento', 'Cuenta',
+        'id_ot', 'Archivo',
+    ]]
+
+    he['InicioEvento'] = pd.to_datetime(he['InicioEvento'])
+    he['FinEvento']    = pd.to_datetime(he['FinEvento'])
+    he['Inicio_min']   = he['InicioEvento'].dt.floor('min')
+    he['Fin_min']      = he['FinEvento'].dt.floor('min')
+
+    he = he.sort_values(['id_ot', 'InicioEvento']).reset_index(drop=True)
+
+    new_group = (
+        (he['id_ot'] != he['id_ot'].shift()) |
+        (he['Inicio_min'] != he['Fin_min'].shift())
+    )
+    he['group'] = new_group.cumsum()
+
+    all_sub_groups = []
+    new_gid = 0
+    for _gid, gdf in he.groupby('group', sort=False):
+        for sub_df in desdoblar_grupo_por_iniciales(gdf):
+            sub_df['group'] = new_gid
+            new_gid += 1
+            all_sub_groups.append(sub_df)
+
+    if not all_sub_groups:
+        return pd.DataFrame(columns=[
+            'Cuadrilla', 'Colaboradores', 'Dia', 'Fecha',
+            'InicioEvento', 'FinEvento', 'Duracion', 'Evento',
+            'Cuenta', 'id_ot', 'Items', 'Num_Filas', 'Archivo',
+        ])
+
+    combined = pd.concat(all_sub_groups, ignore_index=True)
+
+    result = combined.groupby('group').agg(
         Cuadrilla     = ('Cuadrilla', 'first'),
         Colaboradores = ('Iniciales', 'first'),
         Dia           = ('Dia', 'first'),
@@ -570,7 +755,7 @@ def consolidar_horas_extra(df, reglas):
         Consolidated, classified, lunch-split overtime records.
     """
     he = df[df['HorasExtra'] == 'Si'].copy()
-    result = agrupar_eventos(he)
+    result = agrupar_eventos_con_iniciales(he)
     result = etiquetar_tipo(result, reglas)
     result['InicioEvento'] = result.apply(ajustar_horario_inicio, axis=1)
     result['FinEvento']    = result.apply(ajustar_horario_fin, axis=1)

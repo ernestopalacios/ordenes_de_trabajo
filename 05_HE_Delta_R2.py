@@ -42,7 +42,7 @@ def inicializacion():
 
     from natsort import order_by_index, index_natsorted
     from deltalake import DeltaTable, write_deltalake
-    from datetime import datetime, time
+    from datetime import datetime, time, timedelta
     from datetime import date as toDate
     import calendar
     import locale
@@ -91,6 +91,7 @@ def inicializacion():
         shutil,
         t_xls_activ_path,
         t_xls_consol_path,
+        timedelta,
         toDate,
     )
 
@@ -149,11 +150,12 @@ def base_de_datos(DeltaTable, duckdb, load_r2_credentials, mo):
 
 
 @app.cell(hide_code=True)
-def rango_fechas(calendar, mo, toDate):
+def rango_fechas(calendar, mo, timedelta, toDate):
 
     # Defaults: first and last day of current month
     _today = toDate.today()
     _first_day = _today.replace(day=1)
+    _prev_month_first = (_first_day - timedelta(days=1)).replace(day=1)
     _last_day = _today.replace(day=calendar.monthrange(_today.year, _today.month)[1])
 
     date_picker = mo.ui.date_range(
@@ -737,7 +739,7 @@ def paso_5b_query(
         mo.md("✏️ **Haga doble clic en una celda para editar los tiempos:**"),
         editable_df,
     ])
-    return iniciales_persona, df_tiempos, editable_df
+    return df_tiempos, editable_df
 
 
 @app.cell

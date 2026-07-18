@@ -103,7 +103,7 @@ def _(mo):
     return get_refresh, set_refresh
 
 
-@app.cell(hide_code=True)
+@app.cell
 def base_de_datos(DeltaTable, duckdb, load_r2_credentials, mo):
     # Conectar con DELTA LAKE TABLE (Cloudflare R2)
     # DELTA_TABLE_PATH_ON_HOST

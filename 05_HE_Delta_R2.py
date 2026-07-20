@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.23.9"
+__generated_with = "0.23.10"
 app = marimo.App(width="medium")
 
 
@@ -37,6 +37,7 @@ def inicializacion():
 
     import pandas as pd
     import numpy as np
+    import pyarrow as pa
     import re
     import duckdb
 
@@ -44,6 +45,7 @@ def inicializacion():
     from deltalake import DeltaTable, write_deltalake
     from datetime import datetime, time, timedelta
     from datetime import date as toDate
+
     import calendar
     import locale
 
@@ -176,22 +178,14 @@ def _(mo):
     mo.callout(
         mo.md(f" ❗ Si ha agregado nuevas órdenes de trabajo, por favor refresque los datos:\n\n{refrescar}"),kind="info",
     )
-    return (refrescar,)
+    return
 
 
 @app.cell(hide_code=True)
-def _(
-    DeltaTable,
-    date_picker,
-    get_refresh,
-    mo,
-    refrescar,
-    storage_options,
-    table_path,
-):
+def _(DeltaTable, date_picker, mo, storage_options, table_path):
     # Cell: load data (re-runs on date change OR button click)
-    get_refresh()  # dependency — re-runs when state changes
-    refrescar.value  # dependency — triggers re-run when clicked
+    #get_refresh()  # dependency — re-runs when state changes
+    #refrescar.value  # dependency — triggers re-run when clicked
 
     reporte_inicia, reporte_finaliza = date_picker.value
     _inicio = f"{reporte_inicia}T00:00:00-05:00"

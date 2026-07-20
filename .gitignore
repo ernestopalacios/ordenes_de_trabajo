@@ -9,15 +9,17 @@ marimo/
 pycache/
 __marimo__/
 
-reporte_code.typ
-
 # Virtual environments
 .venv
 test
 state
-LOGS
+LOGS/
+
 # Private Keys
 eerssa/secret.py
 reporte_code.typ
-reporte/.~lock*
+reporte.typ
+reporte/
 models/.~lock*
+
+layouts

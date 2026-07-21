@@ -3,6 +3,7 @@ import json
 import logging
 import sys
 import time
+import pyarrow as pa
 from datetime import datetime
 
 
@@ -139,6 +140,13 @@ def enrich_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     df["Iniciales"] = "."
     return df
 
+def force_string_columns(table: pa.Table, columns: list[str]) -> pa.Table:
+    schema = table.schema
+    for col in columns:
+        idx = schema.get_field_index(col)
+        schema = schema.set(idx, pa.field(col, pa.string()))
+    return table.cast(schema)
+
 
 def process_batch(window_values):
     if not window_values:
@@ -245,6 +253,12 @@ def process_batch(window_values):
                 # The predicate must uniquely identify each row. For activities, this is
                 # the combination of the work order ID and the item number.
                 unique_key_predicate = "target.id_ot = source.id_ot AND target.Item = source.Item"
+
+                # --- Force Fecha to plain pa.string() before merge ---
+                new_activities_df["Fecha"] = new_activities_df["Fecha"].astype(str)
+                source_table = pa.Table.from_pandas(new_activities_df, preserve_index=False)
+                source_table = force_string_columns(source_table, ["Fecha"])
+                # ------------------------------------------------------
 
                 # This merge operation will atomically update the activities for a given OT
                 dt = DeltaTable(table_path, storage_options=storage_options)

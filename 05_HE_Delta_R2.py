@@ -89,6 +89,7 @@ def inicializacion():
         load_workbook,
         mo,
         os,
+        pa,
         pd,
         shutil,
         t_xls_activ_path,
@@ -153,7 +154,6 @@ def base_de_datos(DeltaTable, duckdb, load_r2_credentials, mo):
 
 @app.cell(hide_code=True)
 def rango_fechas(calendar, mo, timedelta, toDate):
-
     # Defaults: first and last day of current month
     _today = toDate.today()
     _first_day = _today.replace(day=1)
@@ -178,14 +178,22 @@ def _(mo):
     mo.callout(
         mo.md(f" ❗ Si ha agregado nuevas órdenes de trabajo, por favor refresque los datos:\n\n{refrescar}"),kind="info",
     )
-    return
+    return (refrescar,)
 
 
 @app.cell(hide_code=True)
-def _(DeltaTable, date_picker, mo, storage_options, table_path):
+def _(
+    DeltaTable,
+    date_picker,
+    get_refresh,
+    mo,
+    refrescar,
+    storage_options,
+    table_path,
+):
     # Cell: load data (re-runs on date change OR button click)
-    #get_refresh()  # dependency — re-runs when state changes
-    #refrescar.value  # dependency — triggers re-run when clicked
+    get_refresh()  # dependency — re-runs when state changes
+    refrescar.value  # dependency — triggers re-run when clicked
 
     reporte_inicia, reporte_finaliza = date_picker.value
     _inicio = f"{reporte_inicia}T00:00:00-05:00"
@@ -288,7 +296,7 @@ def _(mo):
     return (btn_leer_excel,)
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _(actividades_path, btn_leer_excel, df, eerssa, mo, pd):
     # 1. Load the modified Excel file: ACTIVIDADES_2026XXXXXX
 
@@ -304,24 +312,23 @@ def _(actividades_path, btn_leer_excel, df, eerssa, mo, pd):
     # 2. Se vuelva a colocar el String de TimeZone en la Fecha
     modified_df['Fecha'] = modified_df['Fecha'].apply(lambda x: eerssa.he_helpers.ColocarTimezone( x ))
 
-    # 3. Convertir de String a TimeObject y se vuelve a calcular la duración en minutos
-    modified_df['Ini'] = pd.to_datetime(modified_df['InicioEvento'], errors='coerce')
-    modified_df['Fin'] = pd.to_datetime(modified_df['FinEvento'], errors='coerce')
-
-    modified_df['Duracion'] = eerssa.he_helpers.calcular_minutos_transcurridos(
-        modified_df['Ini'],
-        modified_df['Fin']
-    )
 
     #4. Convert everything to datetime objects first, then format them all as uniform strings
     modified_df['InicioEvento'] = pd.to_datetime(modified_df['InicioEvento'], errors='coerce').dt.strftime('%Y-%m-%d %H:%M:%S')
     modified_df['FinEvento'] = pd.to_datetime(modified_df['FinEvento'], errors='coerce').dt.strftime('%Y-%m-%d %H:%M:%S')
 
+    modified_df['Duracion'] = eerssa.he_helpers.calcular_minutos_transcurridos(
+        modified_df['InicioEvento'],
+        modified_df['FinEvento']
+    )
+
+    modified_df['Duracion'] = ( pd.to_datetime(modified_df['FinEvento']) - pd.to_datetime(modified_df['InicioEvento']) ).dt.total_seconds()/60
+
+
     # 5. Ensure Schema Consistency
     # Excel often introduces new columns (like empty comments) or reorders them.
     # We force the modified_df to have the same columns as the original df.
 
-    modified_df = modified_df.drop(columns=['Ini', 'Fin'])
     modified_df = modified_df[list(df.columns)]
 
     # Visualize the changes
@@ -341,8 +348,8 @@ def _(mo, modified_df):
     return (btn_guardar,)
 
 
-@app.cell(hide_code=True)
-def _(btn_guardar, dt, get_refresh, mo, modified_df, set_refresh):
+@app.cell
+def _(btn_guardar, dt, get_refresh, mo, modified_df, pa, set_refresh):
     # Con el archivo modificado en Excel, se actualizan las filas en DeltaLake
     mo.stop(not btn_guardar.value, mo.callout(mo.md("⏸️ Revise los datos antes de guardar."), kind="warn"))
     # ... your merge code ...
@@ -361,6 +368,14 @@ def _(btn_guardar, dt, get_refresh, mo, modified_df, set_refresh):
 
         # The unique key for matching rows remains the same.
         unique_key_predicate = "target.id_ot = source.id_ot AND target.Item = source.Item"
+
+        # --- Force Fecha (and any other string cols) to plain pa.string() ---
+        modified_df["Fecha"] = modified_df["Fecha"].astype(str)
+        source_table = pa.Table.from_pandas(modified_df, preserve_index=False)
+
+        fecha_idx = source_table.schema.get_field_index("Fecha")
+        new_schema = source_table.schema.set(fecha_idx, pa.field("Fecha", pa.string()))
+        source_table = source_table.cast(new_schema)
 
         (dt.merge(
                 source=modified_df,

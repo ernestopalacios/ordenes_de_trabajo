@@ -12,8 +12,8 @@ from quixstreams.models import StringDeserializer
 from confluent_kafka import Message
 
 from eerssa.secret import Keys
-from eerssa import gestionOT as OrdenTrabajo            
-from eerssa import procesarActividades as Actividades  
+from eerssa import gestionOT as OrdenTrabajo
+from eerssa import procesarActividades as Actividades
 
 import pymongo
 from pymongo.errors import ConnectionFailure
@@ -157,7 +157,7 @@ def process_batch(window_values):
     new_data_frames = []     # Aqui van las nuevas filas para incluir a DataLake
     reload_data_frames = []  # Aqui van las ot repetidas para acutalizar Mongo y Delta
     for i, value in enumerate(window_values.get('value'),1):
-        
+
         try:
             # Parse the JSON string
             json_data = json.loads(value)
@@ -166,12 +166,12 @@ def process_batch(window_values):
             if json_data.get('type') == 'heartbeat':
                 logger.debug(f"  <3 Heartbeat : {value}")
                 continue
-            
-            
+
+
             # --- CLASIFICA MENSAJES  NUEVOS | REEMPLAZO  ---
             is_replacement = json_data.get('is_replacement')
             logger.info(f"  - Item {i}: <| {value} |> REPLACEMENT: {is_replacement}")
-            
+
             if not is_replacement: # Se trata de una OT nueva en el servidor MongoDB
                 id_ot_value = json_data.get('id_ot')
                 if id_ot_value is None:
@@ -182,13 +182,13 @@ def process_batch(window_values):
                 if not json_ot:
                     logger.warning(f"No se pudo encontrar la OT con id_ot '{id_ot_value}' en MongoDB. Saltando.")
                     continue
-                
+
                 obj_ot = OrdenTrabajo.GestionOt.from_v30(json_ot)
                 new_data_frames.append(Actividades.ConvertirOT_a_ActividadesCSV(obj_ot))
             else:
                 # Replacement OT are treated later down the pipe
                 reload_data_frames.append(json_data.get('id_ot'))
-        
+
 
         except json.JSONDecodeError as e:
             logger.error(f"Fallo al parsear JSON del item {value}. Error: {e}")
@@ -206,7 +206,7 @@ def process_batch(window_values):
             logger.info(f" [ EXITO ] DELTA LAKE Se han añadido {len(new_df)} filas a la tabla Delta en '{table_path}'.")
         except Exception as e:
             logger.error(f"Fallo al escribir en la tabla Delta: {e}")
-    
+
     # ---- Actualizar los nuevos cambios a DELTA LAKE y a MONGODB  ----
     if reload_data_frames:
         for i, value in enumerate(reload_data_frames,1):
@@ -263,7 +263,7 @@ def process_batch(window_values):
                 # This merge operation will atomically update the activities for a given OT
                 dt = DeltaTable(table_path, storage_options=storage_options)
                 (dt.merge(
-                    source=new_activities_df,
+                    source=source_table,
                     predicate=unique_key_predicate,
                     source_alias="source",
                     target_alias="target"

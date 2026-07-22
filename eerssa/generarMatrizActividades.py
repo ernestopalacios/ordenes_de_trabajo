@@ -9,19 +9,19 @@ from .constants import Chars
 """
 VERSION 3
 
-Convertimos el Dataframe multidimensional a un formato de Matriz (2D) Filas-Columnas, 
-durante la transformación se ejecutan correcciones más frecuentes, fechas, horas, 
-con la intención de que la matriz sea lo más correcta posible. 
+Convertimos el Dataframe multidimensional a un formato de Matriz (2D) Filas-Columnas,
+durante la transformación se ejecutan correcciones más frecuentes, fechas, horas,
+con la intención de que la matriz sea lo más correcta posible.
 
 Los cambios realizados serán registrados en la sección de LOG.txt.
 
 Se transforma el texto expandiendo las abreviaciones y errores comunes de escritura.
 
-A partir de esta matriz se generará los Informes y se podra Exportar/Importar a Excel 
+A partir de esta matriz se generará los Informes y se podra Exportar/Importar a Excel
 para la revisión manual y actualización de OT.
 """
 
-DEFAULT_EMPTY_CHAR = Chars.DEFAULT_EMPTY_CHAR.value 
+DEFAULT_EMPTY_CHAR = Chars.DEFAULT_EMPTY_CHAR.value
 
 
 def limpiar_texto_actividad( actividad ):
@@ -60,7 +60,7 @@ def limpiar_texto_actividad( actividad ):
 
 def replace_words(text, replacements_dict):
   for word, replacement in replacements_dict.items():
-      text = re.sub(r'\b{}\b'.format(word), replacement, text) 
+      text = re.sub(r'\b{}\b'.format(word), replacement, text)
   return text
 
 
@@ -88,16 +88,16 @@ def get_estimated_cuenta( actividad ):
       respuesta = "?"
 
     conversiones = {
-      "511.03.001"       : "SUBESTACION",        
-      "511.03.003"       : "SUBTRANSMISION",        
-      "511.04.001"       : "REDES",             
-      "511.04.002"       : "ALUMBRADO",             
-      "511.05.001"       : "ACOMETIDAS",            
-      "511.05.002"       : "MEDIDORES",             
-      "521.01.001"       : "Servicios_Ocasionales", 
-      "511.06.002"       : "PLANILLAS",             
-      "OT-01-2022-GECOM" : "Nuevos_Servicios",      
-      "OT-07-2022-GECOM" : "Restituciones"         
+      "511.03.001"       : "SUBESTACION",
+      "511.03.003"       : "SUBTRANSMISION",
+      "511.04.001"       : "REDES",
+      "511.04.002"       : "ALUMBRADO",
+      "511.05.001"       : "ACOMETIDAS",
+      "511.05.002"       : "MEDIDORES",
+      "521.01.001"       : "Servicio_Ocasional",
+      "511.06.002"       : "PLANILLAS",
+      "OT-01-2022-GECOM" : "Nuevo_Servicio",
+      "OT-07-2022-GECOM" : "Restituciones"
     }
 
     respuesta = replace_words( respuesta, conversiones )
@@ -129,7 +129,7 @@ def calcular_minutos_transcurridos( fecha_inicio, fecha_fin ):
     # Se elimina el componente de Zona Horaria
     fecha_inicio = fecha_inicio.strip().replace('T', ' ').split()
     fecha_inicio = fecha_inicio[0]+' '+fecha_inicio[-1]
-    
+
     fecha_fin = fecha_fin.strip().replace('T', ' ').split()
     fecha_fin = fecha_fin[0]+' '+fecha_fin[-1]
 
@@ -160,7 +160,7 @@ def organizarActividades( data_dict ):
 
   ot_df = data_dict
   actividades = pd.DataFrame( ot_df['actividades'] )
-  
+
   if len(actividades) == 0:
     return actividades
 
@@ -176,7 +176,7 @@ def organizarActividades( data_dict ):
 
     fInicio = actividades[['Item','InicioEvento','FinEvento']].dropna()
     fInicio['solofechaI'] = fInicio['InicioEvento'].apply( lambda x: re.findall( '\d{4}-\d{2}-\d{2}', x)[0])
-    
+
     fechaModa = fInicio.solofechaI.mode().values[0] # fecha 'moda' en el arreglo la fecha mas común usada en actividades
 
 
@@ -188,7 +188,7 @@ def organizarActividades( data_dict ):
         obj_ot.Log2Ot("ERROR", "No coinciden las fechas", "La fecha en Hoja 1 no es la misma que en Actividades")
     except:
       fecha_hoja1 = fechaModa
-  
+
 
   except:
     # En aquellas OT solo informativas, que no tienen puesto una fecha en las
@@ -197,11 +197,11 @@ def organizarActividades( data_dict ):
     if( ot_df['fecha'] != "·" ):
       fechaModa = ot_df['fecha'].split(' ')[0]
       obj_ot.Log2Ot("INFO", "Desde >> Obtener fechaModa. No se encontro fecha en las actividades", "Se utiliza como fechaModa la fecha de Inicio en la Hoja 1")
-    
+
     elif( ot_df['fechaFinal'] != "·" ):
       obj_ot.Log2Ot("REVISAR", "Desde >> Obtener fechaModa. No se encontro fecha en la Hoja 1", "Se utiliza como fechaModa la fecha final en la Hoja 2")
-      fechaModa = ot_df['fechaFinal'].split()[0] 
-    
+      fechaModa = ot_df['fechaFinal'].split()[0]
+
     else:
       fechaModa = '16/09/1988' # no es posible obtener una fecha.
       obj_ot.Log2Ot("FATAL", "No se encontro fecha en la ot", "No se ha podido determinar ninguna fecha en la OT")
@@ -248,7 +248,7 @@ def organizarActividades( data_dict ):
   indexIni = 0
 
   # ¿Es el primer Item Informativo. ej DIA FESTIVO?.
-  if( pd.isna(actividades['InicioEvento'][0]) 
+  if( pd.isna(actividades['InicioEvento'][0])
           and   pd.isna(actividades['FinEvento'][0]) ):
 
     actividades.at[indexIni,'Actividad'] = 'INFO'
@@ -266,7 +266,7 @@ def organizarActividades( data_dict ):
 
   #   | -- | o  |  =>   |  o  |  o  |
   #   caso especial, primera fila sin Hora Inicial. Se duplica y dt = 0
-  if( pd.isna(actividades['InicioEvento'][0]) 
+  if( pd.isna(actividades['InicioEvento'][0])
           and not pd.isna(actividades['FinEvento'][0])  ):
       actividades.at['InicioEvento'][0] = actividades.at['FinEvento'][0]
       obj_ot.Log2Ot("REVISAR", "Falta llenar una hora", "Falta llenar la hora final de la Primera Actividad")
@@ -281,7 +281,7 @@ def organizarActividades( data_dict ):
   for fila in actividades.index:
 
     # | o | o |   Ambas fechas correctas
-    if( not pd.isna(actividades['InicioEvento'][fila]) 
+    if( not pd.isna(actividades['InicioEvento'][fila])
         and not pd.isna(actividades['FinEvento'][fila]) ):
 
       ulitmaFechaCorrecta = actividades['FinEvento'][fila]
@@ -297,7 +297,7 @@ def organizarActividades( data_dict ):
         fechaQueFalta = None
 
     # | - | o |
-    if( pd.isna(actividades['InicioEvento'][fila]) 
+    if( pd.isna(actividades['InicioEvento'][fila])
         and not pd.isna(actividades['FinEvento'][fila]) ):
 
       ulitmaFechaCorrecta = actividades['FinEvento'][fila]
@@ -314,7 +314,7 @@ def organizarActividades( data_dict ):
         fechaQueFalta = None
 
     # | o | - |
-    if( pd.isna(actividades['InicioEvento'][fila]) 
+    if( pd.isna(actividades['InicioEvento'][fila])
         and pd.isna(actividades['FinEvento'][fila]) ):
 
       ulitmaFechaCorrecta = actividades['InicioEvento'][fila]
@@ -347,7 +347,7 @@ def organizarActividades( data_dict ):
           actividades.at[ actividades.index[fila-1],'Evento' ] = data + '\r' + actividades.at[ actividades.index[fila],'Evento' ]
           actividades = actividades.drop(actividades.index[fila])
           fila = totalIdx
-        
+
         fila = fila + 1
 
         """ Lo programo de esta manera ya que al hacer el Drop no se actualizan los indices
@@ -373,13 +373,13 @@ def organizarActividades( data_dict ):
     actividades['corregir_fechaFin'] = actividades[ 'FinEvento' ].apply(lambda x: x.split()[0] == fechaModa )
     actividades.loc[ actividades['corregir_fechaInicio'] == False, 'InicioEvento' ] = actividades.loc[actividades['corregir_fechaInicio'] == False, 'InicioEvento'].apply(lambda x: " ".join([ fechaModa, x.split()[1] ]) if isinstance(x, str) and len(x.split()) > 1 else x )
     actividades.loc[ actividades['corregir_fechaFin'] == False, 'FinEvento' ] = actividades.loc[actividades['corregir_fechaFin'] == False, 'FinEvento'].apply(lambda x: " ".join([ fechaModa, x.split()[1] ]) if isinstance(x, str) and len(x.split()) > 1 else x )
-  
+
     if ( not actividades['corregir_fechaInicio'].all() ) : # at leas one error
       obj_ot.Log2Ot("REVISAR", "Se detectaron fechas inconsistentes", "En actividades, revisar las fechas de inicio actividad")
 
     if ( not actividades['corregir_fechaFin'].all() ) : # at leas one error
       obj_ot.Log2Ot("REVISAR", "Se detectaron fechas inconsistentes", "En actividades, revisar las fechas de fin de actividad")
-  
+
   except:
     actividades = backup
     obj_ot.Log2Ot("ERROR", "No pudo corregir las fechas erroneas", "Ocurrio un error al corregir fechas mal digitadas. Desde >> corregir_fechaInicio/Fin")
@@ -434,7 +434,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   if obj_ot.valido == False:
     return None
 
-  ot_df = obj_ot.data 
+  ot_df = obj_ot.data
 
 
   # Si no fue posible extraer las actividades en un paso previo
@@ -446,7 +446,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
     print(f"Desde ConvertirOT_a_ActividadesCSV. No tiene actividades el archivo: {obj_ot.link}")
     obj_ot.Log2Ot("ERROR","Desde ConvertirOT_a_ActividadesCSV. No tiene actividades el archivo: {obj_ot.link}","Error de excepcion" )
     return None
-      
+
 
   # Extraigo desde el objeto la información generica en todos los eventos
   # campos generales a cada una de las Actividad
@@ -505,20 +505,20 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   actividades.loc[ actividades['Tipo'] == "EXPANSIAS", 'Tipo'  ] = "EXPANSION"
   actividades.loc[ actividades['Tipo'] == "ALIMENTACI", 'Tipo' ] = "LUNCH"
 
-  
+
   actividades.loc[(actividades['Alimentador'].isnull()) & (actividades['Cuenta'] == "·" ), 'Cuenta'] = "informativa"
   actividades.loc[ :,'Evento'] = actividades[ 'Evento' ].apply( lambda x:limpiar_texto_actividad(x) )
   actividades.loc[ actividades['Cuenta'] == "·" , 'Cuenta' ] = actividades.loc[actividades['Cuenta'] == "·" , 'Evento'].apply(lambda x:get_estimated_cuenta(x) )
-  
+
   # ==========================================
   #           IDENTIFICACIÓN DE HORAS EXTRA
   # ==========================================
-  
 
-  
+
+
   actividades['inicio'] = actividades['InicioEvento'].apply( lambda x: convert_to_time(x) )
   actividades ['fin'] = actividades['FinEvento'].apply( lambda x: convert_to_time(x) )
-  
+
   corte_he_inicio = convert_to_time("h 07:55:00")
   corte_he_fin    = convert_to_time("h 17:55:00")
 
@@ -528,10 +528,10 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
     actividades.insert( 6, 'HorasExtra'    , 'Si' )
   else:
     actividades.insert( 6, 'HorasExtra'    , 'No' )
-    actividades.loc[ actividades['inicio'] < corte_he_inicio, 'HorasExtra' ] = 'Si' 
-    actividades.loc[ actividades['fin'] > corte_he_fin, 'HorasExtra' ] = 'Si' 
-     
-  
+    actividades.loc[ actividades['inicio'] < corte_he_inicio, 'HorasExtra' ] = 'Si'
+    actividades.loc[ actividades['fin'] > corte_he_fin, 'HorasExtra' ] = 'Si'
+
+
 
 
 
@@ -562,7 +562,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   for col, value in datos_comunes.items():
     actividades[col] = value
 
-  
+
 
   """
     Se reorganizan las columanas
@@ -570,12 +570,12 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
 
   actividades = actividades[
     ['Item',        'Cuenta',
-     'Evento',      'Actividad', 
+     'Evento',      'Actividad',
      'Alimentador', 'Primario',    'Desconexion', 'SIG',
      'Tipo',        'Materiales',   'Cuadrilla',
      'Dia',  'Fecha', 'InicioEvento', 'FinEvento', 'Duracion',
      'Responsable', 'Colaboradores',
-     'HorasExtra',   
+     'HorasExtra',
      'Vehiculo',    'Sitio',
      'id_ot',       'Archivo'
      ]]
@@ -583,6 +583,6 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
 
   # Guardo la respuesta en el objeto
   obj_ot.matriz = actividades.fillna("·").copy()
-  
-  # Lo regreso al programa principal 
+
+  # Lo regreso al programa principal
   return( actividades )

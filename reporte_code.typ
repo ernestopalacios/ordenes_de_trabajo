@@ -6,27 +6,37 @@
     author: "
 TERMINADO",
     abstract: "
-      Personal de GEICO 
+      Zamora (Agencia) 
 
-      jueves, 21 de mayo del 2026 
+      sábado, 12 de febrero del 2022 
 
-      MARQUEZ APOLO JHONNY FABIAN 
+      MACAS CURIPOMA RAMIRO HOMERO 
 
-      id_ot: 177396",
+      id_ot: 81013",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2026-06-02 11:09:49")[
+#informativo("Informativo - 2026-07-22 09:19:43")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#revisar("Revisar - 2026-06-02 11:09:51")[
-  Se detectaron fechas inconsistentes
+#error("ERROR - 2026-07-22 09:19:43")[
+  No coinciden las fechas en la HOJA UNO
   $
-    "En actividades, revisar las fechas de fin de actividad"
+    "Fecha de la OT: 2022-02-11T00:00:00-05:00 Fecha Mitad:
+2022-02-12T00:00:00-05:00 Fecha String: sábado, 12 de febrero del
+2022"
+  $
+]
+
+#informativo("Informativo - 2026-07-22 09:19:43")[
+  Desde \>\> Obtener fechaModa. No se encontro fecha en las
+actividades
+  $
+    "Se utiliza como fechaModa la fecha de Inicio en la Hoja 1"
   $
 ]

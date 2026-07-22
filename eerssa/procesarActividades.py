@@ -10,7 +10,7 @@ from pprint import pprint
 
 from .constants import Chars
 
-DEFAULT_EMPTY_CHAR = Chars.DEFAULT_EMPTY_CHAR.value 
+DEFAULT_EMPTY_CHAR = Chars.DEFAULT_EMPTY_CHAR.value
 CUADRILLA_AP_4 = "Zamora Z1 (Cuadrilla. AP Nro. 4)"
 
 #TODO:  Verificar el procesamiento de actividades en YQ ot
@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 # Obtener listas de dias festivos y jornadas nocturnas
 dict_festivos = None
-try:    
+try:
   dict_festivos = eerssa.utils.get_festivos()
 except:
   logger.error( f"\n[ FESTIVOS ] Error: al intentar Obtener los dias festivos desde utils.py\n")
@@ -38,7 +38,7 @@ def he_festivo(row):
 
     if dict_festivos == None:
       return he_actual
-    
+
     if(fecha,cuadrilla) in dict_festivos['ESPECIFICOS']:
       #logger.info(f"\n  >>>> Debuger: Se aplica la hora Extra: 'Si' a la fecha: {fecha} para la cuadrilla: {cuadrilla}")
       return 'Si'
@@ -48,21 +48,21 @@ def he_festivo(row):
     else:
       #logger.info(f"\n  >>>> Debuger: No se aplica la hora Extra a la fecha: {fecha}")
       return he_actual
-    
+
   except:
     logger.error( f"\n[ MATRIZ ] Error: al intentar asignar la etiqueta de Horas extra: FECHA ES: {row['Fecha']}\n")
 
 
 """
-Convertimos el Dataframe multidimensional a un formato de Matriz (2D) Filas-Columnas, 
-durante la transformación se ejecutan correcciones más frecuentes, fechas, horas, 
-con la intención de que la matriz sea lo más correcta posible. 
+Convertimos el Dataframe multidimensional a un formato de Matriz (2D) Filas-Columnas,
+durante la transformación se ejecutan correcciones más frecuentes, fechas, horas,
+con la intención de que la matriz sea lo más correcta posible.
 
 Los cambios realizados serán registrados en la sección de LOG.txt.
 
 Se transforma el texto expandiendo las abreviaciones y errores comunes de escritura.
 
-A partir de esta matriz se generará los Informes y se podra Exportar/Importar a Excel 
+A partir de esta matriz se generará los Informes y se podra Exportar/Importar a Excel
 para la revisión manual y actualización de OT.
 """
 
@@ -118,7 +118,7 @@ def limpiar_texto_actividad( actividad ):
 
 def replace_words(text, replacements_dict):
   for word, replacement in replacements_dict.items():
-      text = re.sub(r'\b{}\b'.format(word), replacement, text) 
+      text = re.sub(r'\b{}\b'.format(word), replacement, text)
   return text
 
 
@@ -145,16 +145,16 @@ def get_estimated_cuenta( actividad ):
       respuesta = "?"
 
     conversiones = {
-      "511.03.001"       : "SUBESTACION",        
-      "511.03.003"       : "SUBTRANSMISION",        
-      "511.04.001"       : "REDES",             
-      "511.04.002"       : "ALUMBRADO",             
-      "511.05.001"       : "ACOMETIDAS",            
-      "511.05.002"       : "MEDIDORES",             
-      "521.01.001"       : "Servicios_Ocasionales", 
-      "511.06.002"       : "PLANILLAS",             
-      "OT-01-2022-GECOM" : "Nuevos_Servicios",      
-      "OT-07-2022-GECOM" : "Restituciones"         
+      "511.03.001"       : "SUBESTACION",
+      "511.03.003"       : "SUBTRANSMISION",
+      "511.04.001"       : "REDES",
+      "511.04.002"       : "ALUMBRADO",
+      "511.05.001"       : "ACOMETIDAS",
+      "511.05.002"       : "MEDIDORES",
+      "521.01.001"       : "Servicio_Ocasional",
+      "511.06.002"       : "PLANILLAS",
+      "OT-01-2022-GECOM" : "Nuevo_Servicio",
+      "OT-07-2022-GECOM" : "Restituciones"
     }
 
     respuesta = replace_words( respuesta, conversiones )
@@ -186,7 +186,7 @@ def calcular_minutos_transcurridos( fecha_inicio, fecha_fin ):
     # Se elimina el componente de Zona Horaria
     fecha_inicio = fecha_inicio.replace('T', ' ').split()
     fecha_inicio = fecha_inicio[0]+' '+fecha_inicio[-1]
-    
+
     fecha_fin = fecha_fin.replace('T', ' ').split()
     fecha_fin = fecha_fin[0]+' '+fecha_fin[-1]
 
@@ -218,12 +218,12 @@ def organizarActividades( obj_ot ):
   ot_df = obj_ot.data
 
   actividades = pd.DataFrame( obj_ot.data['actividades'] )
-  
+
   if len(actividades) == 0:
     return actividades
-  
+
   # Volver a convertir de DEFAULT_EMPTY_CHAR a NaN
-  actividades.replace( DEFAULT_EMPTY_CHAR, pd.NA, inplace=True )  
+  actividades.replace( DEFAULT_EMPTY_CHAR, pd.NA, inplace=True )
   actividades = actividades[actividades.Evento.notnull()]
   actividades = actividades.reset_index()
 
@@ -241,12 +241,12 @@ def organizarActividades( obj_ot ):
   try:
 
     fInicio = actividades[['Item','InicioEvento','FinEvento']].dropna().copy()
-    
+
     # Use .loc to create the new 'solofechaI' column safely
     fInicio.loc[:, 'solofechaI'] = fInicio['InicioEvento'].apply(
         lambda x: re.findall(r'\d{4}-\d{2}-\d{2}', str(x))[0] if re.findall(r'\d{4}-\d{2}-\d{2}', str(x)) else None
     )
-        
+
     fechaModa = fInicio.solofechaI.mode().values[0] # fecha 'moda' en el arreglo la fecha mas común usada en actividades
 
 
@@ -258,7 +258,7 @@ def organizarActividades( obj_ot ):
         obj_ot.Log2Ot("ERROR", "No coinciden las fechas", "La fecha en Hoja 1 no es la misma que en Actividades")
     except:
       fecha_hoja1 = fechaModa
-  
+
 
   except:
     # En aquellas OT solo informativas, que no tienen puesto una fecha en las
@@ -268,11 +268,11 @@ def organizarActividades( obj_ot ):
       fechaModa = ot_df['fecha'].split(' ')[0]
       fechaModa = eerssa.utils.soloFecha_SinTimezone(fechaModa)
       obj_ot.Log2Ot("INFO", "Desde >> Obtener fechaModa. No se encontro fecha en las actividades", "Se utiliza como fechaModa la fecha de Inicio en la Hoja 1")
-    
+
     elif( ot_df['fechaFinal'] != DEFAULT_EMPTY_CHAR ):
       obj_ot.Log2Ot("REVISAR", "Desde >> Obtener fechaModa. No se encontro fecha en la Hoja 1", "Se utiliza como fechaModa la fecha final en la Hoja 2")
-      fechaModa = ot_df['fechaFinal'].split()[0] 
-    
+      fechaModa = ot_df['fechaFinal'].split()[0]
+
     else:
       fechaModa = '16/09/1988' # no es posible obtener una fecha.
       obj_ot.Log2Ot("FATAL", "No se encontro fecha en la ot", "No se ha podido determinar ninguna fecha en la OT")
@@ -328,7 +328,7 @@ def organizarActividades( obj_ot ):
   indexIni = 0
 
   # ¿Es el primer Item Informativo. ej DIA FESTIVO?.
-  if( pd.isna(actividades['InicioEvento'][0]) 
+  if( pd.isna(actividades['InicioEvento'][0])
           and   pd.isna(actividades['FinEvento'][0]) ):
 
     actividades.at[indexIni,'Actividad'] = 'INFO'
@@ -346,7 +346,7 @@ def organizarActividades( obj_ot ):
 
   #   | -- | o  |  =>   |  o  |  o  |
   #   caso especial, primera fila sin Hora Inicial. Se duplica y dt = 0
-  if( pd.isna(actividades['InicioEvento'][0]) 
+  if( pd.isna(actividades['InicioEvento'][0])
           and not pd.isna(actividades['FinEvento'][0])  ):
       actividades.at['InicioEvento'][0] = actividades.at['FinEvento'][0]
       obj_ot.Log2Ot("REVISAR", "Falta llenar una hora", "Falta llenar la hora final de la Primera Actividad")
@@ -361,7 +361,7 @@ def organizarActividades( obj_ot ):
   for fila in actividades.index:
 
     # | o | o |   Ambas fechas correctas
-    if( not pd.isna(actividades['InicioEvento'][fila]) 
+    if( not pd.isna(actividades['InicioEvento'][fila])
         and not pd.isna(actividades['FinEvento'][fila]) ):
 
       ulitmaFechaCorrecta = actividades['FinEvento'][fila]
@@ -377,7 +377,7 @@ def organizarActividades( obj_ot ):
         fechaQueFalta = None
 
     # | - | o |
-    if( pd.isna(actividades['InicioEvento'][fila]) 
+    if( pd.isna(actividades['InicioEvento'][fila])
         and not pd.isna(actividades['FinEvento'][fila]) ):
 
       ulitmaFechaCorrecta = actividades['FinEvento'][fila]
@@ -394,7 +394,7 @@ def organizarActividades( obj_ot ):
         fechaQueFalta = None
 
     # | o | - |
-    if( pd.isna(actividades['InicioEvento'][fila]) 
+    if( pd.isna(actividades['InicioEvento'][fila])
         and pd.isna(actividades['FinEvento'][fila]) ):
 
       ulitmaFechaCorrecta = actividades['InicioEvento'][fila]
@@ -427,13 +427,13 @@ def organizarActividades( obj_ot ):
           actividades.at[ actividades.index[fila-1],'Evento' ] = data + '\r' + actividades.at[ actividades.index[fila],'Evento' ]
           actividades = actividades.drop(actividades.index[fila])
           fila = totalIdx
-        
+
         fila = fila + 1
 
         # Lo programo de esta manera ya que al hacer el Drop no se actualizan los indices
         #  si uso un lazo FOR. Al hacerlo de esta manera cada vez leo los indices tomando
         #  en cuenta aquellos que ya elimine. y funciona.
-        
+
 
     actividades.Item = actividades.Item.astype(int)
     actividades.insert( 3, 'Cuenta'     ,  DEFAULT_EMPTY_CHAR )
@@ -453,17 +453,17 @@ def organizarActividades( obj_ot ):
     actividades['corregir_fechaFin'] = actividades[ 'FinEvento' ].apply(lambda x: x.split()[0] == fechaModa )
     actividades.loc[ actividades['corregir_fechaInicio'] == False, 'InicioEvento' ] = actividades.loc[actividades['corregir_fechaInicio'] == False, 'InicioEvento'].apply(lambda x: " ".join([ fechaModa, x.split()[1] ]) if isinstance(x, str) and len(x.split()) > 1 else x )
     actividades.loc[ actividades['corregir_fechaFin'] == False, 'FinEvento' ] = actividades.loc[actividades['corregir_fechaFin'] == False, 'FinEvento'].apply(lambda x: " ".join([ fechaModa, x.split()[1] ]) if isinstance(x, str) and len(x.split()) > 1 else x )
-  
+
     if ( not actividades['corregir_fechaInicio'].all() ) : # at leas one error
       obj_ot.Log2Ot("REVISAR", "Se detectaron fechas inconsistentes", "En actividades, revisar las fechas de inicio actividad")
 
     if ( not actividades['corregir_fechaFin'].all() ) : # at leas one error
       obj_ot.Log2Ot("REVISAR", "Se detectaron fechas inconsistentes", "En actividades, revisar las fechas de fin de actividad")
-  
+
   except:
     actividades = backup.copy()
     obj_ot.Log2Ot("ERROR", "No pudo corregir las fechas erroneas", "Ocurrio un error al corregir fechas mal digitadas. Desde >> corregir_fechaInicio/Fin")
-  
+
   return actividades
 
 
@@ -505,7 +505,7 @@ def convert_to_time(time_string):
 
 def ConvertirOT_a_ActividadesCSV( obj_ot ):
 
-  """ 
+  """
     Convierte una fila del Dataframe que contiene las OTs y
     devuelve un nuevo dataframe exponienda cada una de las
     actividades de acuerdo al formato descrito.
@@ -516,7 +516,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   if obj_ot.valido == False:
     return None
 
-  ot_df = obj_ot.data 
+  ot_df = obj_ot.data
 
 
   # Si no fue posible extraer las actividades en un paso previo
@@ -528,7 +528,7 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
     print(f"Desde ConvertirOT_a_ActividadesCSV. No tiene actividades el archivo: {obj_ot.link}")
     obj_ot.Log2Ot("ERROR","Desde ConvertirOT_a_ActividadesCSV. No tiene actividades el archivo: {obj_ot.link}","Error de excepcion" )
     return None
-      
+
 
   # Extraigo desde el objeto la información generica en todos los eventos
   # campos generales a cada una de las Actividad
@@ -565,10 +565,10 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   if len(actividades) == 0:
     obj_ot.Log2Ot("FATAL", "No se encontraron actividades", "Fallo al intentar obtener la matriz de actividades")
     return
-  
+
   if isinstance(actividades, list):
     actividades = pd.DataFrame(actividades)
-  
+
 
   # Calcular los minutos transcurridos en cada actividad.
   actividades['Duracion'] = actividades.apply( lambda x: calcular_minutos_transcurridos( x['InicioEvento'], x['FinEvento'] ), axis=1 )
@@ -590,32 +590,32 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   actividades.loc[ actividades['Tipo'] == "EXPANSIAS", 'Tipo'  ] = "EXPANSION"
   actividades.loc[ actividades['Tipo'] == "ALIMENTACI", 'Tipo' ] = "LUNCH"
 
-  
+
   actividades.loc[(actividades['Alimentador'].isnull()) & (actividades['Cuenta'] == DEFAULT_EMPTY_CHAR ), 'Cuenta'] = "informativa"
   actividades.loc[ :,'Evento'] = actividades[ 'Evento' ].apply( lambda x:limpiar_texto_actividad(x) )
   actividades.loc[ actividades['Cuenta'] == DEFAULT_EMPTY_CHAR , 'Cuenta' ] = actividades.loc[actividades['Cuenta'] == DEFAULT_EMPTY_CHAR , 'Evento'].apply(lambda x:get_estimated_cuenta(x) )
-  
+
   # ==========================================
   #           IDENTIFICACIÓN DE HORAS EXTRA
   # ==========================================
-  
 
-  
+
+
   actividades['inicio'] = actividades['InicioEvento'].apply( lambda x: convert_to_time(x) )
   actividades ['fin'] = actividades['FinEvento'].apply( lambda x: convert_to_time(x) )
-  
+
   corte_he_inicio = convert_to_time("h 07:55:00")
   corte_he_fin    = convert_to_time("h 17:45:00")
 
-  
+
   # Fin de semana
   if dia == "sábado" or dia == "domingo":
     actividades.insert( 6, 'HorasExtra'    , 'Si' )
   else:
     actividades.insert( 6, 'HorasExtra'    , 'No' )
-    actividades.loc[ actividades['inicio'] < corte_he_inicio, 'HorasExtra' ] = 'Si' 
-    actividades.loc[ actividades['fin'] > corte_he_fin, 'HorasExtra' ] = 'Si' 
-  
+    actividades.loc[ actividades['inicio'] < corte_he_inicio, 'HorasExtra' ] = 'Si'
+    actividades.loc[ actividades['fin'] > corte_he_fin, 'HorasExtra' ] = 'Si'
+
 
 
   """
@@ -641,15 +641,15 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
     'Materiales' : materiales,
     'Archivo' : archivo
   }
- 
+
   for col, value in datos_comunes.items():
     actividades[col] = value
 
-     
+
   # Dias Festivos: coloca 'Si' en los días festivos y cantonales
   actividades['HorasExtra'] = actividades.apply( he_festivo, axis=1 )
 
-  
+
 
   """
     Se reorganizan las columanas
@@ -657,12 +657,12 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
 
   actividades = actividades[
     ['Item',        'Cuenta',
-     'Evento',      'Actividad', 
+     'Evento',      'Actividad',
      'Alimentador', 'Primario',    'Desconexion', 'SIG',
      'Tipo',        'Materiales',   'Cuadrilla',
      'Dia',  'Fecha', 'InicioEvento', 'FinEvento', 'Duracion',
      'Responsable', 'Colaboradores',
-     'HorasExtra',   
+     'HorasExtra',
      'Vehiculo',    'Sitio',
      'id_ot',       'Archivo'
      ]]
@@ -671,5 +671,5 @@ def ConvertirOT_a_ActividadesCSV( obj_ot ):
   # Guardo la respuesta en el objeto
   actividades = actividades.fillna(DEFAULT_EMPTY_CHAR)
   obj_ot.matriz = actividades.copy()
-  # Lo regreso al programa principal 
+  # Lo regreso al programa principal
   return( actividades )

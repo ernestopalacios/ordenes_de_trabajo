@@ -6,37 +6,29 @@
     author: "
 TERMINADO",
     abstract: "
-      Zamora (Agencia) 
+      Gualaquiza (Agencia) 
 
-      sábado, 12 de febrero del 2022 
+      miércoles, 29 de julio del 2026 
 
-      MACAS CURIPOMA RAMIRO HOMERO 
+      BUELE UYAGUARI CESAR CRISTIAN 
 
-      id_ot: 81013",
+      id_ot: 181742",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2026-07-22 09:19:43")[
+#informativo("Informativo - 2026-07-31 10:46:14")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#error("ERROR - 2026-07-22 09:19:43")[
+#error("ERROR - 2026-07-31 10:46:14")[
   No coinciden las fechas en la HOJA UNO
   $
-    "Fecha de la OT: 2022-02-11T00:00:00-05:00 Fecha Mitad:
-2022-02-12T00:00:00-05:00 Fecha String: sábado, 12 de febrero del
-2022"
-  $
-]
-
-#informativo("Informativo - 2026-07-22 09:19:43")[
-  Desde \>\> Obtener fechaModa. No se encontro fecha en las
-actividades
-  $
-    "Se utiliza como fechaModa la fecha de Inicio en la Hoja 1"
+    "Fecha de la OT: 2026-07-30T00:00:00-05:00 Fecha Mitad:
+2026-07-29T00:00:00-05:00 Fecha String: miércoles, 29 de julio del
+2026"
   $
 ]

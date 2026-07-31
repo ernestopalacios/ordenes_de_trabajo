@@ -15,6 +15,9 @@ test
 state
 LOGS/
 
+# No trackear los reportes
+reporte/
+
 # Private Keys
 eerssa/secret.py
 reporte_code.typ

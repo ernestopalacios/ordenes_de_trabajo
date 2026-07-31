@@ -74,12 +74,15 @@ def inicializacion():
     new_actividades_file = f"actividades_{today}.xlsx"
     new_base_he_file  = f"base_HE_{today}.xlsx"
 
+    consolidado_excel = os.path.join('reporte', f"consolidado_he_{today}.xlsx")
+
     actividades_path = os.path.join('reporte', new_actividades_file)
     base_he_path   = os.path.join('reporte', new_base_he_file )
     return (
         DeltaTable,
         actividades_path,
         calendar,
+        consolidado_excel,
         dataframe_to_rows,
         datetime,
         duckdb,
@@ -88,7 +91,6 @@ def inicializacion():
         load_r2_credentials,
         load_workbook,
         mo,
-        os,
         pa,
         pd,
         shutil,
@@ -462,12 +464,12 @@ def paso_3_controles(mo):
 def paso_3_exportar(
     btn_exportar_consol,
     consolidado_enriquecido,
+    consolidado_excel,
     dataframe_to_rows,
     datetime,
     excel_styles,
     load_workbook,
     mo,
-    os,
     shutil,
     t_xls_consol_path,
 ):
@@ -477,7 +479,7 @@ def paso_3_exportar(
     )
 
     _today = datetime.today().strftime('%Y%m%d')
-    _path = os.path.join('reporte', f"consolidado_he_{_today}.xlsx")
+    _path =  consolidado_excel # definido en la primera celda
 
     shutil.copyfile(t_xls_consol_path, _path)
 
@@ -520,14 +522,22 @@ def paso_3b_controles(mo):
 
 
 @app.cell
-def paso_3b_leer(btn_leer_consol, datetime, eerssa, load_workbook, mo, os, pd):
+def paso_3b_leer(
+    btn_leer_consol,
+    consolidado_excel,
+    datetime,
+    eerssa,
+    load_workbook,
+    mo,
+    pd,
+):
     mo.stop(
         not btn_leer_consol.value,
         mo.callout(mo.md("⏸️ Presione el botón para cargar el Excel editado."), kind="warn"),
     )
 
     _today = datetime.today().strftime('%Y%m%d')
-    _path = os.path.join('reporte', f"consolidado_he_{_today}.xlsx")
+    _path  = consolidado_excel # definido en la primera celda
 
     _wb = load_workbook(_path, data_only=False)
     _ws = _wb["result"]

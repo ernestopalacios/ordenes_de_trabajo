@@ -17,6 +17,7 @@ LOGS/
 
 # No trackear los reportes
 reporte/
+reporte_code.typ
 
 # Private Keys
 eerssa/secret.py

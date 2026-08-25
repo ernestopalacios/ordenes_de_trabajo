@@ -13,7 +13,7 @@ CUADRILLA_AP_4 = "Zamora Z1 (Cuadrilla. AP Nro. 4)"
 # ── String / Timezone helpers ──────────────────────────────────────────────────
 
 def elimina_timezone(fecha: str) -> str:
-    """Elimina el componente TimeZone de una fecha. 
+    """Elimina el componente TimeZone de una fecha.
 
     Args:
         fecha (str): Fecha en formato ISO 'YYYY-MM-DDTHH:MM:SS±HH:MM'.
@@ -461,7 +461,7 @@ def agrupar_eventos(df):
     ----------
     df : pd.DataFrame
         Raw event data (already filtered to HorasExtra == 'Si').
-    
+
     Returns
     -------
     pd.DataFrame
@@ -771,7 +771,7 @@ def consolidar_horas_extra(df, reglas):
 
 # ==================================================================================
 #
-#      DUCK DB horas extra database 
+#      DUCK DB horas extra database
 #
 # ==================================================================================
 
@@ -925,18 +925,18 @@ def _to_time_str(val):
 def items_to_key(items_val) -> str:
     """
     Normalize any Items representation into a canonical sort key.
-    
+
     Handles:
       - Python list:        ['1', '2', '4']
       - List-as-string:     "['1', '2', '4']"
       - Comma-separated:    "1, 2"
       - Single int/string:  4 or "4"
-    
+
     Returns: "1,2,4" (numerically sorted, no spaces)
     """
     if items_val is None or (isinstance(items_val, float) and str(items_val) == 'nan'):
         return ""
-    
+
     if isinstance(items_val, list):
         raw = items_val
     else:
@@ -946,14 +946,14 @@ def items_to_key(items_val) -> str:
             raw = parsed if isinstance(parsed, list) else [parsed]
         except (ValueError, SyntaxError):
             raw = [x.strip().strip("'\"") for x in s.split(',') if x.strip()]
-    
+
     nums = []
     for x in raw:
         try:
             nums.append(int(str(x).strip().strip("'\"")))
         except ValueError:
             nums.append(str(x).strip())
-    
+
     nums.sort(key=lambda x: (isinstance(x, str), x))
     return ",".join(str(n) for n in nums)
 
@@ -965,34 +965,34 @@ def enriquecer_desde_duckdb(con, consolidado, fecha_inicio, fecha_fin):
     Step 2: For each row in consolidado, check DuckDB for match on (id_ot, items_key).
     If match found: overwrite Evento and Cuenta with DuckDB values (preserving user edits).
     If no match: keep auto-generated values.
-    
+
     Parameters
     ----------
     con : duckdb.DuckDBPyConnection
     consolidado : pd.DataFrame
         Fresh output of consolidar_horas_extra()
     fecha_inicio, fecha_fin : date
-    
+
     Returns
     -------
     pd.DataFrame — consolidado with Evento/Cuenta enriched from DuckDB
     int          — count of matches found
     """
     result = consolidado.copy()
-    
+
     result['items_key'] = result['Items'].apply(items_to_key)
-    
+
     duck_df = con.execute("""
         SELECT id_ot, items_key, Evento, Cuenta
         FROM actividades
         WHERE Fecha BETWEEN $1 AND $2
     """, [str(fecha_inicio), str(fecha_fin)]).df()
-    
+
     if duck_df.empty:
         result['Cuenta'] = result['Cuenta'].apply(cuenta_consolidado_to_str)
         result.drop(columns='items_key', inplace=True)
         return result, 0
-    
+
     duck_lookup = {}
     for _, row in duck_df.iterrows():
         key = (int(row['id_ot']), row['items_key'])
@@ -1000,7 +1000,7 @@ def enriquecer_desde_duckdb(con, consolidado, fecha_inicio, fecha_fin):
             'Evento': row['Evento'],
             'Cuenta': row['Cuenta'],
         }
-    
+
     n_matches = 0
     for idx, row in result.iterrows():
         key = (int(row['id_ot']), row['items_key'])
@@ -1010,7 +1010,7 @@ def enriquecer_desde_duckdb(con, consolidado, fecha_inicio, fecha_fin):
             n_matches += 1
         else:
             result.at[idx, 'Cuenta'] = cuenta_consolidado_to_str(row['Cuenta'])
-    
+
     result.drop(columns='items_key', inplace=True)
     return result, n_matches
 
@@ -1020,50 +1020,50 @@ def enriquecer_desde_duckdb(con, consolidado, fecha_inicio, fecha_fin):
 def sincronizar_a_duckdb(con, consolidado_editado, fecha_inicio, fecha_fin):
     """
     Step 4: Upsert edited consolidado back to DuckDB.
-    
+
     - UPDATE existing rows (match on id_ot + items_key)
       - Diff Colaboradores → add/remove participaciones
       - Preserves tiempo_ajustado on surviving participaciones
-    - INSERT new rows + their participaciones  
+    - INSERT new rows + their participaciones
     - DELETE orphaned actividades in date range (no longer in consolidado)
       - Cascades to participaciones
-    
+
     Returns
     -------
     dict with counts: {updated, inserted, deleted, part_added, part_removed}
     """
     stats = {'updated': 0, 'inserted': 0, 'deleted': 0,
              'part_added': 0, 'part_removed': 0}
-    
+
     consolidado_editado = consolidado_editado.copy()
     consolidado_editado['items_key'] = consolidado_editado['Items'].apply(items_to_key)
-    
+
     existing = con.execute("""
         SELECT id_actividad, id_ot, items_key, Colaboradores
         FROM actividades
         WHERE Fecha BETWEEN $1 AND $2
     """, [str(fecha_inicio), str(fecha_fin)]).df()
-    
+
     existing_lookup = {}
     for _, row in existing.iterrows():
         key = (int(row['id_ot']), row['items_key'])
-        
+
         # Safely extract the array
         colabs_raw = row['Colaboradores']
-        
+
         # If it's a valid list or NumPy array, make it a set. Otherwise, empty set.
         if isinstance(colabs_raw, (list, np.ndarray)):
             colabs_set = set(colabs_raw)
         else:
             colabs_set = set()
-            
+
         existing_lookup[key] = {
             'id_actividad': int(row['id_actividad']),
             'Colaboradores': colabs_set,
-        }   
-    
+        }
+
     touched_ids = set()
-    
+
     for _, row in consolidado_editado.iterrows():
         key = (int(row['id_ot']), row['items_key'])
         new_colabs = parse_colaboradores(row['Colaboradores'])
@@ -1073,12 +1073,12 @@ def sincronizar_a_duckdb(con, consolidado_editado, fecha_inicio, fecha_fin):
         inicio = _to_time_str(row['InicioEvento'])
         fin = _to_time_str(row['FinEvento'])
         items_list = parse_items_consolidado(row['Items'])
-        
+
         if key in existing_lookup:
             info = existing_lookup[key]
             id_act = info['id_actividad']
             touched_ids.add(id_act)
-            
+
             con.execute("""
                 UPDATE actividades SET
                     Evento        = $1,
@@ -1100,9 +1100,9 @@ def sincronizar_a_duckdb(con, consolidado_editado, fecha_inicio, fecha_fin):
                 int(row.get('Duracion', 0)), id_act,
             ])
             stats['updated'] += 1
-            
+
             old_colabs = info['Colaboradores']
-            
+
             removed = old_colabs - new_colabs_set
             if removed:
                 for persona in removed:
@@ -1111,7 +1111,7 @@ def sincronizar_a_duckdb(con, consolidado_editado, fecha_inicio, fecha_fin):
                         WHERE id_actividad = $1 AND Responsable = $2
                     """, [id_act, persona])
                     stats['part_removed'] += 1
-            
+
             added = new_colabs_set - old_colabs
             if added:
                 for persona in added:
@@ -1120,7 +1120,7 @@ def sincronizar_a_duckdb(con, consolidado_editado, fecha_inicio, fecha_fin):
                         VALUES ($1, $2)
                     """, [id_act, persona])
                     stats['part_added'] += 1
-        
+
         else:
             result = con.execute("""
                 INSERT INTO actividades
@@ -1135,21 +1135,21 @@ def sincronizar_a_duckdb(con, consolidado_editado, fecha_inicio, fecha_fin):
                 row['Evento'], cuenta, items_list, row['items_key'],
                 int(row['Num_Filas']), row['Archivo'], row['Tipo'], row['Dia'],
             ])
-            
+
             id_act = result.fetchone()[0]
             touched_ids.add(id_act)
             stats['inserted'] += 1
-            
+
             for persona in new_colabs:
                 con.execute("""
                     INSERT INTO participaciones (id_actividad, Responsable)
                     VALUES ($1, $2)
                 """, [id_act, persona])
                 stats['part_added'] += 1
-    
+
     all_existing_ids = {info['id_actividad'] for info in existing_lookup.values()}
     orphan_ids = all_existing_ids - touched_ids
-    
+
     for oid in orphan_ids:
         con.execute("DELETE FROM participaciones WHERE id_actividad = $1", [oid])
         con.execute("DELETE FROM actividades WHERE id_actividad = $1", [oid])
@@ -1180,7 +1180,7 @@ def sync_deltalake_to_duckdb(con, consolidado, fecha_inicio, fecha_fin):
     n_act = stats['updated'] + stats['inserted'] + stats['deleted']
     n_part = stats['part_added'] + stats['part_removed']
 
-    
+
     return n_act, n_part
 
 
@@ -1409,12 +1409,18 @@ def generar_informe_he(con, fecha_inicio, fecha_fin, template_path, output_path)
             if eventos_col_idx is not None:
                 eventos_value = row_data[eventos_col_idx]
                 char_len = len(str(eventos_value)) if pd.notna(eventos_value) else 0
-                if char_len >= 430:
-                    _ws.row_dimensions[row_idx].height = 60
-                elif char_len >= 286:
+                if char_len >= 581:
+                    _ws.row_dimensions[row_idx].height = 62
+                elif char_len >= 453:
+                    _ws.row_dimensions[row_idx].height = 52
+                elif char_len >= 290:
                     _ws.row_dimensions[row_idx].height = 40
                 elif char_len >= 151:
                     _ws.row_dimensions[row_idx].height = 27
+                elif char_len >= 1:
+                    _ws.row_dimensions[row_idx].height = 13
+                else:
+                    _ws.row_dimensions[row_idx].height = 11
 
         apply_he_informe(_ws)
 

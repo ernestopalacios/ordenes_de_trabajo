@@ -61,6 +61,11 @@ style_purple = DifferentialStyle(
     fill=PatternFill(bgColor="FF8D8DB3"),
 )
 
+style_light_purple = DifferentialStyle(
+    font=Font(color="000000", bold=True),
+    fill=PatternFill(bgColor="E1D5F7"),
+)
+
 style_gray = DifferentialStyle(
     font=Font(color="FFFFFF"),
     fill=PatternFill(bgColor="808080"),
@@ -70,6 +75,9 @@ style_bottom_border = DifferentialStyle(
     border=Border(bottom=Side(style="thick", color="000000")),
 )
 
+style_gray_font = DifferentialStyle(
+    font=Font(color="A0A0A0"),
+)
 
 # ============================================================
 # CONDITIONAL FORMATTING RULES
@@ -77,18 +85,28 @@ style_bottom_border = DifferentialStyle(
 
 rules_informe_he = [
     {
-        "formula": '=OR(WEEKDAY($B6, 2) > 5, ISNUMBER(SEARCH("FESTIVO", $J6)))',
+        "formula": "=WEEKDAY($B6, 2) > 5",
         "style": style_purple,
         "range": "A6:J36",
     },
     {
         "formula": '=ISNUMBER(SEARCH("FESTIVO", $J6))',
-        "style": style_bold,
-        "range": "A6:I36",
+        "style": style_light_purple,
+        "range": "A6:J36",
     },
-]
+    {
+        "formula": "=$I6=0",
+        "style": style_gray_font,
+        "range": "I6:I36",
+    },
+    ]
 
 rules = [
+    {
+        "formula": "=$A1<>$A2",
+        "style": style_bottom_border,
+        "range": "A1:N5000",
+    },
     {
         "formula": '=COUNTIF(Revisar_primero!$B$2:$B$14,$D1)>0',
         "style": style_festivo,
@@ -142,11 +160,6 @@ rules = [
     {
         "formula": '=AND($A1="Zamora Z1 (Cuadrilla. AP Nro. 4)",COUNTIF(Revisar_primero!$D$2:$D$114,$D1)>0)',
         "style": style_blue,
-        "range": "A1:N5000",
-    },
-    {
-        "formula": "=$A1<>$A2",
-        "style": style_bottom_border,
         "range": "A1:N5000",
     },
     {

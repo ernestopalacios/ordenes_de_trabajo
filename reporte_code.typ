@@ -6,29 +6,34 @@
     author: "
 TERMINADO",
     abstract: "
-      Gualaquiza (Agencia) 
+      Yantzaza Z1 (Cuadrilla. Nro. 5) 
 
-      miércoles, 29 de julio del 2026 
+      sábado, 22 de agosto del 2026 
 
-      BUELE UYAGUARI CESAR CRISTIAN 
+      BARRAZUETA GONZAGA SERVIO GUILLERMO 
 
-      id_ot: 181742",
+      id_ot: 183165",
   )
 
 = Novedades encontradas
 
-#informativo("Informativo - 2026-07-31 10:46:14")[
+#informativo("Informativo - 2026-08-24 09:16:41")[
   CREACION DE LA OT, se encuentra un archivo PDF valido
   $
     "Archivo PDF es reconocido como Orden de Trabajo"
   $
 ]
 
-#error("ERROR - 2026-07-31 10:46:14")[
-  No coinciden las fechas en la HOJA UNO
+#revisar("Revisar - 2026-08-24 09:16:43")[
+  Se detectaron fechas inconsistentes
   $
-    "Fecha de la OT: 2026-07-30T00:00:00-05:00 Fecha Mitad:
-2026-07-29T00:00:00-05:00 Fecha String: miércoles, 29 de julio del
-2026"
+    "En actividades, revisar las fechas de inicio actividad"
+  $
+]
+
+#revisar("Revisar - 2026-08-24 09:16:43")[
+  Se detectaron fechas inconsistentes
+  $
+    "En actividades, revisar las fechas de fin de actividad"
   $
 ]
